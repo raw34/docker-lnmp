@@ -12,9 +12,7 @@ MAINTAINER raw34 "raw34@sina.com"
 ENV REFRESHED_AT 2015-04-29
 
 # Install.
-RUN export DEBIAN_FRONTEND=noninteractive \
-
-RUN \
+RUN export DEBIAN_FRONTEND=noninteractive && \
   sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
   apt-get update && \
   apt-get -y upgrade && \
