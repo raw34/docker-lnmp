@@ -1,0 +1,6 @@
+.DS_Store
+nohup.out
+*.swp
+cscope.*
+ncscope.*
+tags

@@ -5,7 +5,7 @@
 #
 
 # Pull base image.
-FROM ubuntu
+FROM debian:jessie
 
 MAINTAINER raw34 "raw34@sina.com"
 
