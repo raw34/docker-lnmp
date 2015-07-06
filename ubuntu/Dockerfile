@@ -26,9 +26,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 #COPY revaliases /etc/ssmtp/
 
 # Add files.
-ADD root/.bashrc /root/.bashrc
-ADD root/.gitconfig /root/.gitconfig
-ADD root/.scripts /root/.scripts
+# ADD root/.bashrc /root/.bashrc
+# ADD root/.gitconfig /root/.gitconfig
+# ADD root/.scripts /root/.scripts
 
 # Set environment variables.
 ENV HOME /root
