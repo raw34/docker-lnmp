@@ -22,10 +22,12 @@ RUN \
   rm -f /tmp/config
 
 # Define mountable directories.
-VOLUME ["/etc/mysql", "/var/lib/mysql"]
+# VOLUME ["/etc/mysql", "/var/lib/mysql"]
+VOLUME ["/opt/wwwetc/mysql", "/opt/wwwdata/mysql"]
 
 # Define working directory.
-WORKDIR /data
+# WORKDIR /data
+WORKDIR /opt/wwwdata
 
 # Define default command.
 CMD ["mysqld_safe"]

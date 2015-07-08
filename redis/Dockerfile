@@ -26,10 +26,12 @@ RUN \
   sed -i 's/^\(logfile .*\)$/# \1/' /etc/redis/redis.conf
 
 # Define mountable directories.
-VOLUME ["/data"]
+# VOLUME ["/data"]
+VOLUME ["/opt/wwwdata/redis"]
 
 # Define working directory.
-WORKDIR /data
+# WORKDIR /data
+WORKDIR /opt/wwwdata
 
 # Define default command.
 CMD ["redis-server", "/etc/redis/redis.conf"]
