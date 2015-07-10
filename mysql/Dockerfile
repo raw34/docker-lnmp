@@ -23,11 +23,9 @@ RUN \
 
 # Define mountable directories.
 # VOLUME ["/etc/mysql", "/var/lib/mysql"]
-VOLUME ["/opt/wwwetc/mysql", "/opt/wwwdata/mysql"]
 
 # Define working directory.
 # WORKDIR /data
-WORKDIR /opt/wwwdata
 
 # Define default command.
 CMD ["mysqld_safe"]

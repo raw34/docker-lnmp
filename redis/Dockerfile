@@ -27,11 +27,9 @@ RUN \
 
 # Define mountable directories.
 # VOLUME ["/data"]
-VOLUME ["/opt/wwwdata/redis"]
 
 # Define working directory.
 # WORKDIR /data
-WORKDIR /opt/wwwdata
 
 # Define default command.
 CMD ["redis-server", "/etc/redis/redis.conf"]
