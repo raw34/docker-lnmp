@@ -23,6 +23,8 @@ RUN \
 # Define working directory.
 # WORKDIR /etc/nginx
 
+COPY *.conf /etc/nginx/sites-enabled/
+
 # Define default command.
 CMD ["nginx"]
 
