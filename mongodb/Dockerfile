@@ -8,6 +8,8 @@
 # FROM dockerfile/ubuntu
 FROM raw34/ubuntu
 
+MAINTAINER raw34 <raw34@sina.com>
+
 # Install MongoDB.
 RUN \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \

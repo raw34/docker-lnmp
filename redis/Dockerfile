@@ -8,6 +8,8 @@
 # FROM dockerfile/ubuntu
 FROM raw34/ubuntu
 
+MAINTAINER raw34 <raw34@sina.com>
+
 # Install Redis.
 RUN \
   cd /tmp && \

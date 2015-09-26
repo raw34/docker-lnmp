@@ -8,6 +8,8 @@
 # FROM dockerfile/python
 FROM raw34/python
 
+MAINTAINER raw34 <raw34@sina.com>
+
 # Install Node.js
 RUN \
   cd /tmp && \
