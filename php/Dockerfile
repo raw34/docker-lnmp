@@ -9,8 +9,8 @@ MAINTAINER raw34 <raw34@sina.com>
 
 # Install PHP-FPM and popular/laravel required extensions
 RUN \
+    export DEBIAN_FRONTEND=noninteractive && \
     apt-get update -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server && \
     apt-get install -y \
     php5-fpm \
     php5-bcmath \
