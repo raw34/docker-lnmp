@@ -26,13 +26,13 @@ docker run -idt -P --name wwwroot -v /src/wwwroot:/opt/wwwroot raw34/ubuntu /bin
 # docker run -idt -P --name wwwroot -v /Users/randy/wwwroot:/opt/wwwroot raw34/ubuntu /bin/bash
 
 #run mysql
-docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot --name mysql_1 raw34/mysql /bin/bash
+docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot --name mysql_1 raw34/mysql
 
 #run redis
-docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot --name redis_1 raw34/redis /bin/bash
+docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot --name redis_1 raw34/redis
 
 #run nginx
-docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot --name nginx_1 raw34/nginx /bin/bash
+docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot -p 80:80 -p 443:443 --name nginx_1 raw34/nginx
 
 #run php
-docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot --name php_1 raw34/php /bin/bash
+docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot --name php_1 raw34/php
