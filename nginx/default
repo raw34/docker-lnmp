@@ -16,7 +16,8 @@ server {
     sendfile off;
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        # fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_pass 192.168.59.103:9000;
         fastcgi_index index.php;
         include fastcgi.conf;
     }
