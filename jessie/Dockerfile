@@ -17,7 +17,7 @@ RUN \
     apt-get -y upgrade && \
     apt-get install -y build-essential && \
     apt-get install -y software-properties-common && \
-    apt-get install -y byobu curl git htop man unzip vim wget lrzsz iftop nethogs iotop sysstat ssmtp && \
+    apt-get install -y byobu curl git htop man unzip vim wget lrzsz iftop nethogs iotop sysstat ssmtp lsof && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     rm -rf /var/lib/apt/lists/*
 
@@ -30,10 +30,10 @@ RUN \
 # ADD root/.scripts /root/.scripts
 
 # Set environment variables.
-ENV HOME /root
+# ENV HOME /root
 
 # Define working directory.
-WORKDIR /root
+# WORKDIR /root
 
 # Define default command.
 CMD ["bash"]

@@ -1,3 +1,6 @@
+# build jessie
+docker build -t raw34/jessie ./jessie
+
 # build ubuntu
 docker build -t raw34/ubuntu ./ubuntu
 
@@ -6,6 +9,9 @@ docker build -t raw34/mysql ./mysql
 
 # build redis
 docker build -t raw34/redis ./redis
+
+# build mongodb
+docker build -t raw34/mongodb ./mongodb
 
 # build nginx
 docker build -t raw34/nginx ./nginx
