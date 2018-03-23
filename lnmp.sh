@@ -47,3 +47,6 @@ cp ./nginx/default /src/wwwetc/nginx/sites-available
 # cp ./nginx/default /Users/randy/wwwetc/nginx/sites-available
 docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot -v /src/wwwetc/nginx/sites-available:/etc/nginx/sites-available -p 80:80 -p 443:443 --link php:php --name lnmp raw34/nginx
 # docker run -idt --volumes-from wwwlogs --volumes-from wwwdata --volumes-from wwwroot -v /Users/randy/wwwetc/nginx/sites-available:/etc/nginx/sites-available -p 80:80 -p 443:443 --link php:php --name lnmp raw34/nginx
+
+docker run -idt --name myfpm5 -v ~/wwwroot/repo:/www php:5.6-fpm
+docker run -idt -p 80:80 -p 433:433 --name mynginx -v ~/wwwetc/nginx/nginx.conf:/etc/nginx/nginx.conf -v ~/wwwetc/nginx/sites-available:/etc/nginx/sites-available --link myfpm5:myfpm5 nginx
