@@ -27,7 +27,9 @@ services:
         build: ./php/php5
         volumes:
             - ~/wwwroot/repo:/www
-
+        links:
+            - mysql
+            - redis
 
 ### php-fpm7
     php-fpm7:
@@ -35,6 +37,9 @@ services:
         build: ./php/php7
         volumes:
             - ~/wwwroot/repo:/www
+        links:
+            - mysql
+            - redis
 
 ### nginx
     nginx:
