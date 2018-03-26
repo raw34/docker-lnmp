@@ -23,14 +23,16 @@ services:
 
 ### php-fpm5
     php-fpm5:
-        image: php:5.6-fpm
+        # image: php:5.6-fpm
+        build: ./php/php5
         volumes:
             - ~/wwwroot/repo:/www
 
 
 ### php-fpm7
     php-fpm7:
-        image: php:fpm
+        # image: php:fpm
+        build: ./php/php7
         volumes:
             - ~/wwwroot/repo:/www
 
