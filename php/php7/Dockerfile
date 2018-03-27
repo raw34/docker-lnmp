@@ -21,6 +21,8 @@ RUN \
     make \
     gcc \
     g++ \
+    git \
+    openssh \
 	libc-dev \
 	autoconf \
 	freetype-dev \
@@ -37,6 +39,10 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install pdo_mysql
     # && pecl install mcrypt-1.0.1 \
     # && docker-php-ext-enable mcrypt
+
+# Install php-composer
+RUN \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Compile phalcon
 ENV PHALCON_VERSION=3.2.4

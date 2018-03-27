@@ -27,6 +27,7 @@ services:
         build: ./php/php5
         volumes:
             - ~/wwwroot/repo:/www
+            - ~/.ssh:/root/.ssh
         links:
             - mysql
             - redis
@@ -37,6 +38,7 @@ services:
         build: ./php/php7
         volumes:
             - ~/wwwroot/repo:/www
+            - ~/.ssh:/root/.ssh
         links:
             - mysql
             - redis

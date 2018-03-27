@@ -7,6 +7,9 @@ FROM php:5.6-fpm-alpine
 
 MAINTAINER raw34 <raw34@sina.com>
 
+RUN \
+    mkdir /root/.ssh
+
 # Install PHP-FPM extensions
 RUN \
     mv /etc/apk/repositories /etc/apk/repositories.bak \
@@ -21,6 +24,8 @@ RUN \
     make \
     gcc \
     g++ \
+    git \
+    openssh \
 	libc-dev \
 	autoconf \
 	freetype-dev \
@@ -36,6 +41,10 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install mysqli \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql
+
+# Install php-composer
+RUN \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Compile phalcon
 ENV PHALCON_VERSION=2.0.13
