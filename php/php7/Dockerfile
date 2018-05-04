@@ -80,9 +80,11 @@ RUN \
     && rm -rf v${LIBRDKAFKA_VERSION}.tar.gz librdkafka-${LIBRDKAFKA_VERSION} ${PHP_RDKAFKA_VERSION}.tar.gz php-rdkafka-${PHP_RDKAFKA_VERSION}
 
 # Install phpunit
+ENV PHPUNIT_VERSION=7.1.5
+
 RUN \
     cd /tmp \
-    && wget https://phar.phpunit.de/phpunit.phar \
+    && wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar \
     && chmod +x phpunit.phar \
     && mv phpunit.phar /usr/local/bin/phpunit
 
