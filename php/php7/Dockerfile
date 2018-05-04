@@ -85,8 +85,8 @@ ENV PHPUNIT_VERSION=7.1.5
 RUN \
     cd /tmp \
     && wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar \
-    && chmod +x phpunit.phar \
-    && mv phpunit.phar /usr/local/bin/phpunit
+    && chmod +x phpunit-${PHPUNIT_VERSION}.phar \
+    && mv phpunit-${PHPUNIT_VERSION}.phar /usr/local/bin/phpunit
 
 # Configure PHP-FPM
 
