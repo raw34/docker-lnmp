@@ -90,6 +90,13 @@ RUN \
     && chmod +x phpunit-${PHPUNIT_VERSION}.phar \
     && mv phpunit-${PHPUNIT_VERSION}.phar /usr/local/bin/phpunit
 
+# Install phpunit-skelgen
+RUN \
+    cd /tmp \
+    && wget https://phar.phpunit.de/phpunit-skelgen.phar \
+    && chmod +x phpunit-skelgen.phar \
+    && mv phpunit-skelgen.phar /usr/local/bin/phpunit-skelgen
+
 # Configure PHP-FPM
 
 EXPOSE 9000
