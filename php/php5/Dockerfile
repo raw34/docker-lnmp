@@ -58,6 +58,17 @@ RUN cd /tmp \
     && cd ../.. \
     && rm -rf phalcon-v${PHALCON_VERSION}.tar.gz cphalcon-phalcon-v${PHALCON_VERSION}
 
+# Install phalcon-devtools
+RUN cd /tmp \
+    && wget https://github.com/phalcon/phalcon-devtools/archive/v${PHALCON_VERSION}.tar.gz \
+    && tar xzf v${PHALCON_VERSION}.tar.gz \
+    && cd phalcon-devtools-${PHALCON_VERSION} \
+    && sh ./phalcon.sh \
+    && ln -s /tmp/phalcon-devtools-${PHALCON_VERSION}/phalcon.php /usr/bin/phalcon \
+    && chmod ugo+x /usr/bin/phalcon \
+    && cd ../ \
+    && rm -rf v${PHALCON_VERSION}.tar.gz
+
 # Compile librdkafka && php-rdkafka
 ENV LIBRDKAFKA_VERSION=0.9.5
 ENV PHP_RDKAFKA_VERSION=1.0.0
