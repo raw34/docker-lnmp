@@ -32,6 +32,7 @@ RUN \
     libjpeg-turbo-dev \
     libpng-dev \
     libmcrypt-dev \
+    supervisor \
     && rm -rf /var/cache/apk/*
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
