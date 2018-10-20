@@ -17,7 +17,7 @@ services:
 
 ### redis
     redis:
-        image: redis
+        image: redis:alpine
         volumes:
             - ~/wwwdata/redis:/data
 
@@ -49,7 +49,7 @@ services:
 
 ### nginx
     nginx:
-        image: nginx
+        image: nginx:alpine
         ports:
             - "80:80"
             - "433:433"
@@ -60,3 +60,12 @@ services:
         links:
             - php-fpm5
             - php-fpm7
+
+### golang
+    golang:
+        image: golang:alpine
+        # build: ./golang
+        # volumes:
+            # - ~/wwwlogs/golang:/var/log/golang
+            # - ~/wwwroot/repo:/go/src
+            # - ~/.ssh:/root/.ssh
