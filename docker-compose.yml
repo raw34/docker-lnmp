@@ -63,9 +63,11 @@ services:
 
 ### golang
     golang:
-        image: golang:alpine
-        # build: ./golang
-        # volumes:
+        # image: golang:alpine
+        build: ./golang
+        stdin_open: true
+        tty: true
+        volumes:
             # - ~/wwwlogs/golang:/var/log/golang
-            # - ~/wwwroot/repo:/go/src
-            # - ~/.ssh:/root/.ssh
+            - ~/wwwroot/repo/gopath:/www
+            - ~/.ssh:/root/.ssh
