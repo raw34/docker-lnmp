@@ -69,5 +69,5 @@ services:
         tty: true
         volumes:
             # - ~/wwwlogs/golang:/var/log/golang
-            - ~/wwwroot/repo/gopath:/www
+            - ~/wwwroot/repo/gopath:/go
             - ~/.ssh:/root/.ssh
