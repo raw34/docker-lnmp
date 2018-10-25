@@ -63,8 +63,8 @@ services:
 
 ### golang
     golang:
-        # image: golang:alpine
-        build: ./golang
+        image: golang:alpine
+        # build: ./golang
         stdin_open: true
         tty: true
         command: /bin/ash
@@ -83,3 +83,5 @@ services:
 ### tomcat-8
     tomcat-8:
         image: tomcat:8-alpine
+        volumes:
+            - ~/.ssh:/root/.ssh
