@@ -67,7 +67,19 @@ services:
         build: ./golang
         stdin_open: true
         tty: true
+        command: /bin/ash
         volumes:
             # - ~/wwwlogs/golang:/var/log/golang
             - ~/wwwroot/repo/gopath:/go
             - ~/.ssh:/root/.ssh
+
+### java-8
+    java-8:
+        image: java:8-alpine
+        stdin_open: true
+        tty: true
+        command: /bin/ash
+
+### tomcat-8
+    tomcat-8:
+        image: tomcat:8-alpine
