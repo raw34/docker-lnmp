@@ -17,6 +17,7 @@ RUN \
 RUN \
     apk add --update \
     bash \
+    busybox-extras \
     python \
     make \
     gcc \

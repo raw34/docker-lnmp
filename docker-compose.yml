@@ -5,6 +5,8 @@ services:
 ### mysql
     mysql:
         image: mysql:5.6
+        container_name:
+            docker_mysql_1
         ports:
             - "3306:3306"
         environment:
@@ -18,13 +20,43 @@ services:
 ### redis
     redis:
         image: redis:alpine
+        container_name:
+            docker_redis_1
         volumes:
             - ~/wwwdata/redis:/data
+
+### rabbitmq
+    rabbitmq:
+        image: rabbitmq:alpine
+        container_name:
+            docker_rabbitmq_1
+        ports:
+            - "25672:25672"
+        volumes:
+            - ~/wwwdata/rabbitmq:/var/lib/rabbitmq
+
+### elasticsearch
+    elasticsearch:
+        image: elasticsearch:5-alpine
+        container_name:
+            docker_elastic_1
+        ports:
+            - "9200:9200"
+        environment:
+            http.host: 0.0.0.0
+            transport.host: 0.0.0.0
+            ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+        volumes:
+            - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+            - ~/wwwdata/elasticsearch:/usr/share/elasticsearch/data
+            - ~/wwwlogs/elasticsearch:/usr/share/elasticsearch/logs
 
 ### php-fpm5
     php-fpm5:
         # image: php:5.6-fpm
         build: ./php/php5
+        container_name:
+            docker_php-fpm5_1
         volumes:
             - ./php/php5/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
@@ -33,11 +65,15 @@ services:
         links:
             - mysql
             - redis
+            - rabbitmq
+            - elasticsearch
 
 ### php-fpm7
     php-fpm7:
         # image: php:fpm
         build: ./php/php7
+        container_name:
+            docker_php-fpm7_1
         volumes:
             - ./php/php7/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
@@ -46,10 +82,14 @@ services:
         links:
             - mysql
             - redis
+            - rabbitmq
+            - elasticsearch
 
 ### nginx
     nginx:
         image: nginx:alpine
+        container_name:
+            docker_nginx_1
         ports:
             - "80:80"
             - "433:433"
@@ -61,27 +101,33 @@ services:
             - php-fpm5
             - php-fpm7
 
-### golang
-    golang:
-        image: golang:alpine
-        # build: ./golang
-        stdin_open: true
-        tty: true
-        command: /bin/ash
-        volumes:
+# ### golang
+    # golang:
+        # image: golang:alpine
+        # container_name:
+            # docker_golang_1
+        # # build: ./golang
+        # volumes:
             # - ~/wwwlogs/golang:/var/log/golang
-            - ~/wwwroot/repo/gopath:/go
-            - ~/.ssh:/root/.ssh
+            # - ~/wwwroot/repo/gopath:/go
+            # - ~/.ssh:/root/.ssh
+        # stdin_open: true
+        # tty: true
+        # command: /bin/ash
 
-### java-8
-    java-8:
-        image: java:8-alpine
-        stdin_open: true
-        tty: true
-        command: /bin/ash
+# ### java-8
+    # java-8:
+        # image: java:8-alpine
+        # container_name:
+            # docker_java-8_1
+        # stdin_open: true
+        # tty: true
+        # command: /bin/ash
 
-### tomcat-8
-    tomcat-8:
-        image: tomcat:8-alpine
-        volumes:
-            - ~/.ssh:/root/.ssh
+# ### tomcat-8
+    # tomcat-8:
+        # image: tomcat:8-alpine
+        # container_name:
+            # docker_tomcat-8_1
+        # volumes:
+            # - ~/.ssh:/root/.ssh
