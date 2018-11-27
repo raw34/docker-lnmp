@@ -16,6 +16,7 @@ RUN \
 
 RUN \
     apk add --update \
+    autoconf \
     bash \
     busybox-extras \
     python \
@@ -25,7 +26,6 @@ RUN \
     git \
     openssh \
     libc-dev \
-    autoconf \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
@@ -44,7 +44,10 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
 
 # Install php-composer
 RUN \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    cd /tmp \
+    && wget https://getcomposer.org/composer.phar \
+    && chmod +x composer.phar \
+    && mv composer.phar /usr/local/bin/composer
 
 # Compile phalcon
 ENV PHALCON_VERSION=3.2.4
