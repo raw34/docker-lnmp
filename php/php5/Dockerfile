@@ -45,10 +45,12 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install pdo_mysql
 
 # Install php-composer
+ENV COMPOSER_VERSION=1.7.3
+
 RUN \
     cd /tmp \
-    && wget https://getcomposer.org/composer.phar \
-    && chmod +x composer.phar \
+    && wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/download/${COMPOSER_VERSION}/composer.phar \
+    && chmod 777 composer.phar \
     && mv composer.phar /usr/local/bin/composer
 
 # Compile phalcon
