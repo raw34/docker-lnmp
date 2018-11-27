@@ -95,6 +95,8 @@ services:
             - "433:433"
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/php5-localhost.conf:/etc/nginx/sites-available/php5-localhost.conf
+            - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
             - ~/wwwetc/nginx/sites-available:/etc/nginx/sites-available
             - ~/wwwlogs/nginx:/var/log/nginx
         links:
