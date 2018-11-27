@@ -51,7 +51,8 @@ RUN \
     cd /tmp \
     && wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/download/${COMPOSER_VERSION}/composer.phar \
     && chmod 777 composer.phar \
-    && mv composer.phar /usr/local/bin/composer
+    && mv composer.phar /usr/local/bin/composer \
+    && echo "{}" > ~/.composer/composer.json
 
 # Compile phalcon
 ENV PHALCON_VERSION=2.0.13
