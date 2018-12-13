@@ -3,7 +3,7 @@
 #
 #
 
-FROM php:fpm-alpine
+FROM php:7.2-fpm-alpine
 
 MAINTAINER raw34 <raw34@sina.com>
 
