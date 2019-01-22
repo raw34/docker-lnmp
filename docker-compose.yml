@@ -27,11 +27,11 @@ services:
 
 ### rabbitmq
     rabbitmq:
-        image: rabbitmq:alpine
+        image: rabbitmq:management-alpine
         container_name:
             docker_rabbitmq_1
         ports:
-            - "25672:25672"
+            - "15672:15672"
         volumes:
             - ~/wwwdata/rabbitmq:/var/lib/rabbitmq
 
