@@ -4,3 +4,4 @@ nohup.out
 cscope.*
 ncscope.*
 tags
+.idea/

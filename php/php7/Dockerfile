@@ -7,6 +7,8 @@ FROM php:7.2-fpm-alpine
 
 MAINTAINER raw34 <raw34@sina.com>
 
+WORKDIR /www
+
 # Install PHP-FPM extensions
 RUN \
     mv /etc/apk/repositories /etc/apk/repositories.bak \

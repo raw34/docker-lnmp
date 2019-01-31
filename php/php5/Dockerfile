@@ -7,6 +7,8 @@ FROM php:5.6-fpm-alpine
 
 MAINTAINER raw34 <raw34@sina.com>
 
+WORKDIR /www
+
 RUN \
     mkdir /root/.ssh
 

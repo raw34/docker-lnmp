@@ -103,33 +103,41 @@ services:
             - php-fpm5
             - php-fpm7
 
-# ### golang
-    # golang:
-        # image: golang:alpine
-        # container_name:
-            # docker_golang_1
-        # # build: ./golang
-        # volumes:
-            # - ~/wwwlogs/golang:/var/log/golang
-            # - ~/wwwroot/repo/gopath:/go
-            # - ~/.ssh:/root/.ssh
-        # stdin_open: true
-        # tty: true
-        # command: /bin/ash
-
-# ### java-8
-    # java-8:
-        # image: java:8-alpine
-        # container_name:
-            # docker_java-8_1
-        # stdin_open: true
-        # tty: true
-        # command: /bin/ash
-
-# ### tomcat-8
-    # tomcat-8:
-        # image: tomcat:8-alpine
-        # container_name:
-            # docker_tomcat-8_1
-        # volumes:
-            # - ~/.ssh:/root/.ssh
+#### golang
+#    golang:
+#        image: golang:alpine
+#        container_name:
+#            docker_golang_1
+#        volumes:
+#            - ~/wwwlogs/golang:/var/log/golang
+#            - ~/wwwroot/repo/gopath:/go
+#            - ~/.ssh:/root/.ssh
+#        stdin_open: true
+#        tty: true
+#        command: /bin/ash
+#
+#### java-8
+#    java-8:
+#        image: java:8-alpine
+#        container_name:
+#            docker_java-8_1
+#        stdin_open: true
+#        tty: true
+#        command: /bin/ash
+#
+#### tomcat-8
+#    tomcat-8:
+#        image: tomcat:8-alpine
+#        container_name:
+#            docker_tomcat-8_1
+#        volumes:
+#            - ~/.ssh:/root/.ssh
+#
+#### node
+#    node:
+#        image: node:alpine
+#        container_name:
+#            docker_node_1
+#        stdin_open: true
+#        tty: true
+#        command: /bin/ash
