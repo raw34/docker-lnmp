@@ -117,7 +117,8 @@ RUN \
     && make \
     && make install \
     && echo 'extension=xhprof.so' >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
-    && echo 'xhprof.output_dir=/tmp' >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini
+    && echo 'xhprof.output_dir=/tmp' >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
+    && rm -rf xhprof-${PHP_XHPROF_VERSION}.tgz
 
 # Install phpunit
 ENV PHPUNIT_VERSION=5.7.27
