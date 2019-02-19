@@ -104,7 +104,7 @@ RUN \
     && make \
     && make install \
     && echo 'extension=mongodb.so' >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini \
-    && rm -rf mongodb-${PHP_MONGODB_VERSION}.tar.gz mongodb-${PHP_MONGODB_VERSION}
+    && rm -rf mongodb-${PHP_MONGODB_VERSION}.tgz mongodb-${PHP_MONGODB_VERSION}
 
 # Compile php-xhprof
 ENV PHP_XHPROF_VERSION=4.1.7
