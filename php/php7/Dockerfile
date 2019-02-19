@@ -102,6 +102,21 @@ RUN \
     && cd ../.. \
     && rm -rf v${LIBRDKAFKA_VERSION}.tar.gz librdkafka-${LIBRDKAFKA_VERSION} ${PHP_RDKAFKA_VERSION}.tar.gz php-rdkafka-${PHP_RDKAFKA_VERSION}
 
+# Compile php-xhprof
+ENV PHP_XHPROF_VERSION=2.0.5
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/longxinH/xhprof/archive/v${PHP_XHPROF_VERSION}.tar.gz \
+    && tar xzf v${PHP_XHPROF_VERSION}.tar.gz \
+    && cd xhprof-${PHP_XHPROF_VERSION}/extension \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && echo 'extension=xhprof.so' >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
+    && echo 'xhprof.output_dir=/tmp' >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini
+
 # Install phpunit
 ENV PHPUNIT_VERSION=7.1.5
 
