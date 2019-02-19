@@ -31,7 +31,7 @@ services:
 
 ### mongo-express
     mongo-express:
-        image: mongo-express
+        image: mongo-express:latest
         container_name:
             docker_mongo-express_1
         ports:
