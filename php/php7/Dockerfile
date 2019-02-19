@@ -45,17 +45,6 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     # && pecl install mcrypt-1.0.1 \
     # && docker-php-ext-enable mcrypt
 
-# Install php-composer
-ENV COMPOSER_VERSION=1.7.3
-
-RUN \
-    cd /tmp \
-    && wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/download/${COMPOSER_VERSION}/composer.phar \
-    && chmod 777 composer.phar \
-    && mv composer.phar /usr/local/bin/composer \
-    && mkdir /root/.composer \
-    && echo "{}" > /root/.composer/composer.json
-
 # Compile phalcon
 ENV PHALCON_VERSION=3.2.4
 
@@ -102,21 +91,48 @@ RUN \
     && cd ../.. \
     && rm -rf v${LIBRDKAFKA_VERSION}.tar.gz librdkafka-${LIBRDKAFKA_VERSION} ${PHP_RDKAFKA_VERSION}.tar.gz php-rdkafka-${PHP_RDKAFKA_VERSION}
 
-# Compile php-xhprof
-ENV PHP_XHPROF_VERSION=2.0.5
+# Compile mongodb
+ENV PHP_MONGODB_VERSION=1.5.3
 
 RUN \
     cd /tmp \
-    && wget https://github.com/longxinH/xhprof/archive/v${PHP_XHPROF_VERSION}.tar.gz \
-    && tar xzf v${PHP_XHPROF_VERSION}.tar.gz \
-    && cd xhprof-${PHP_XHPROF_VERSION}/extension \
+    && wget https://pecl.php.net/get/mongodb-${PHP_MONGODB_VERSION}.tgz \
+    && tar xzf mongodb-${PHP_MONGODB_VERSION}.tgz \
+    && cd mongodb-${PHP_MONGODB_VERSION} \
     && phpize \
     && ./configure \
     && make \
     && make install \
-    && echo 'extension=xhprof.so' >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
-    && echo 'xhprof.output_dir=/tmp' >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
-    && rm -rf v${PHP_XHPROF_VERSION}.tar.gz
+    && echo 'extension=mongodb.so' >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini \
+    && rm -rf mongodb-${PHP_MONGODB_VERSION}.tar.gz mongodb-${PHP_MONGODB_VERSION}
+
+# Compile php-xhprof
+ENV PHP_XHPROF_VERSION=4.1.7
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/tideways/php-xhprof-extension/archive/v${PHP_XHPROF_VERSION}.tar.gz \
+    && tar xzf v${PHP_XHPROF_VERSION}.tar.gz \
+    && cd php-xhprof-extension-${PHP_XHPROF_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && echo 'extension=tideways.so' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
+    && echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
+    && echo 'tideways.sample_rate=100' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
+    && rm -rf v${PHP_XHPROF_VERSION}.tar.gz php-xhprof-extension-${PHP_XHPROF_VERSION}
+
+# Install php-composer
+ENV COMPOSER_VERSION=1.7.3
+
+RUN \
+    cd /tmp \
+    && wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/download/${COMPOSER_VERSION}/composer.phar \
+    && chmod 777 composer.phar \
+    && mv composer.phar /usr/local/bin/composer \
+    && mkdir /root/.composer \
+    && echo "{}" > /root/.composer/composer.json
 
 # Install phpunit
 ENV PHPUNIT_VERSION=7.1.5
