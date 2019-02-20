@@ -127,6 +127,7 @@ services:
             - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
             - ~/wwwetc/nginx/sites-available:/etc/nginx/sites-available
             - ~/wwwlogs/nginx:/var/log/nginx
+            - ~/wwwroot/repo:/www
         links:
             - php-fpm5
             - php-fpm7
