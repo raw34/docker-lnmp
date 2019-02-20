@@ -30,6 +30,7 @@ RUN \
     g++ \
     git \
     openssh \
+    openssl-dev \
     libc-dev \
     freetype-dev \
     libjpeg-turbo-dev \
