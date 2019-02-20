@@ -42,7 +42,9 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install mysqli \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install zip
+    && docker-php-ext-install zip \
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb
     # && pecl install mcrypt-1.0.1 \
     # && docker-php-ext-enable mcrypt
 
@@ -88,23 +90,22 @@ RUN \
     && make all -j 5 \
     && make install \
     && docker-php-ext-enable rdkafka \
-    && cd ../.. \
     && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION} /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
 
 # Compile mongodb
-ENV PHP_MONGODB_VERSION=1.5.3
-
-RUN \
-    cd /tmp \
-    && wget https://pecl.php.net/get/mongodb-${PHP_MONGODB_VERSION}.tgz \
-    && tar xzf mongodb-${PHP_MONGODB_VERSION}.tgz \
-    && cd mongodb-${PHP_MONGODB_VERSION} \
-    && phpize \
-    && ./configure \
-    && make \
-    && make install \
-    && echo 'extension=mongodb.so' >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini \
-    && rm -rf /tmp/mongodb-${PHP_MONGODB_VERSION}.tgz /tmp/mongodb-${PHP_MONGODB_VERSION}
+#ENV PHP_MONGODB_VERSION=1.5.3
+#
+#RUN \
+#    cd /tmp \
+#    && wget https://pecl.php.net/get/mongodb-${PHP_MONGODB_VERSION}.tgz \
+#    && tar xzf mongodb-${PHP_MONGODB_VERSION}.tgz \
+#    && cd mongodb-${PHP_MONGODB_VERSION} \
+#    && phpize \
+#    && ./configure \
+#    && make \
+#    && make install \
+#    && echo 'extension=mongodb.so' >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini \
+#    && rm -rf /tmp/mongodb-${PHP_MONGODB_VERSION}.tgz /tmp/mongodb-${PHP_MONGODB_VERSION}
 
 # Compile php-xhprof
 ENV PHP_XHPROF_VERSION=4.1.7
