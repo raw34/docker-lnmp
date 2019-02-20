@@ -47,8 +47,8 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip \
-    && pecl install mongodb \
-    && docker-php-ext-enable mongodb
+    && pecl install mongo \
+    && docker-php-ext-enable mongo
 
 # Compile phalcon
 ENV PHALCON_VERSION=2.0.13
