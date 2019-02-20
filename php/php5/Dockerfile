@@ -56,8 +56,7 @@ RUN cd /tmp \
     && cd cphalcon-phalcon-v${PHALCON_VERSION}/build \
     && sh install \
     && docker-php-ext-enable phalcon \
-    && cd ../.. \
-    && rm -rf phalcon-v${PHALCON_VERSION}.tar.gz cphalcon-phalcon-v${PHALCON_VERSION}
+    && rm -rf /tmp/phalcon-v${PHALCON_VERSION}.tar.gz /tmp/cphalcon-phalcon-v${PHALCON_VERSION}
 
 # Install phalcon-devtools
 RUN cd /tmp \
@@ -67,8 +66,7 @@ RUN cd /tmp \
     && sh ./phalcon.sh \
     && ln -s /tmp/phalcon-devtools-${PHALCON_VERSION}/phalcon.php /usr/bin/phalcon \
     && chmod ugo+x /usr/bin/phalcon \
-    && cd ../ \
-    && rm -rf v${PHALCON_VERSION}.tar.gz
+    && rm -rf /tmp/v${PHALCON_VERSION}.tar.gz
 
 # Compile librdkafka && php-rdkafka
 ENV LIBRDKAFKA_VERSION=0.9.5
@@ -82,6 +80,7 @@ RUN \
     && ./configure \
     && make \
     && make install \
+    && cd /tmp \
     && wget https://github.com/arnaud-lb/php-rdkafka/archive/${PHP_RDKAFKA_VERSION}.tar.gz \
     && tar xzf ${PHP_RDKAFKA_VERSION}.tar.gz \
     && cd php-rdkafka-${PHP_RDKAFKA_VERSION} \
@@ -90,8 +89,7 @@ RUN \
     && make all -j 5 \
     && make install \
     && docker-php-ext-enable rdkafka \
-    && cd ../.. \
-    && rm -rf v${LIBRDKAFKA_VERSION}.tar.gz librdkafka-${LIBRDKAFKA_VERSION} ${PHP_RDKAFKA_VERSION}.tar.gz php-rdkafka-${PHP_RDKAFKA_VERSION}
+    && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION} /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
 
 # Compile mongodb
 ENV PHP_MONGODB_VERSION=1.5.3
@@ -106,7 +104,7 @@ RUN \
     && make \
     && make install \
     && echo 'extension=mongodb.so' >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini \
-    && rm -rf mongodb-${PHP_MONGODB_VERSION}.tgz mongodb-${PHP_MONGODB_VERSION}
+    && rm -rf /tmp/mongodb-${PHP_MONGODB_VERSION}.tgz /tmp/mongodb-${PHP_MONGODB_VERSION}
 
 # Compile php-xhprof
 ENV PHP_XHPROF_VERSION=4.0.3
@@ -123,7 +121,7 @@ RUN \
     && echo 'extension=tideways.so' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
     && echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
     && echo 'tideways.sample_rate=100' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
-    && rm -rf v${PHP_XHPROF_VERSION}.tar.gz php-xhprof-extension-${PHP_XHPROF_VERSION}
+    && rm -rf /tmp/v${PHP_XHPROF_VERSION}.tar.gz /tmp/php-xhprof-extension-${PHP_XHPROF_VERSION}
 
 # Install php-composer
 ENV COMPOSER_VERSION=1.7.3
