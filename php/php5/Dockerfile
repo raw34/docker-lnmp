@@ -47,8 +47,8 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip \
-    && pecl install mongo \
-    && docker-php-ext-enable mongo
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb
 
 # Compile phalcon
 ENV PHALCON_VERSION=2.0.13
@@ -93,21 +93,6 @@ RUN \
     && make install \
     && docker-php-ext-enable rdkafka \
     && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION} /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
-
-# Compile mongodb
-#ENV PHP_MONGODB_VERSION=1.5.3
-#
-#RUN \
-#    cd /tmp \
-#    && wget https://pecl.php.net/get/mongodb-${PHP_MONGODB_VERSION}.tgz \
-#    && tar xzf mongodb-${PHP_MONGODB_VERSION}.tgz \
-#    && cd mongodb-${PHP_MONGODB_VERSION} \
-#    && phpize \
-#    && ./configure \
-#    && make \
-#    && make install \
-#    && echo 'extension=mongodb.so' >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini \
-#    && rm -rf /tmp/mongodb-${PHP_MONGODB_VERSION}.tgz /tmp/mongodb-${PHP_MONGODB_VERSION}
 
 # Compile php-xhprof
 ENV PHP_XHPROF_VERSION=4.0.3
