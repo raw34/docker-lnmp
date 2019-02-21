@@ -159,20 +159,20 @@ RUN \
 ENV XGUI_VERSION=1.0.4
 
 RUN \
-    mkdir /data \
-    && cd /data \
+    mkdir /data-php5 \
+    && cd /data-php5 \
     && wget https://github.com/raw34/xhgui-branch/archive/v${XGUI_VERSION}.tar.gz \
     && tar xzf v${XGUI_VERSION}.tar.gz \
     && mv xhgui-branch-${XGUI_VERSION} xhgui \
     && cd xhgui \
-    && cp /data/xhgui/config/config.default.php /data/xhgui/config/config.php \
-    && sed -i "s|127\.0\.0\.1|mongo|g" /data/xhgui/config/config.php \
-    && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data/xhgui/config/config.php \
-    && chmod -R 777 /data/xhgui/cache \
+    && cp /data-php5/xhgui/config/config.default.php /data-php5/xhgui/config/config.php \
+    && sed -i "s|127\.0\.0\.1|mongo|g" /data-php5/xhgui/config/config.php \
+    && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data-php5/xhgui/config/config.php \
+    && chmod -R 777 /data-php5/xhgui/cache \
     && composer install --no-dev \
-    && rm -rf /data/v${XGUI_VERSION}.tar.gz
+    && rm -rf /data-php5/v${XGUI_VERSION}.tar.gz
 
-VOLUME /data
+VOLUME /data-php5
 
 # Configure PHP-FPM
 
