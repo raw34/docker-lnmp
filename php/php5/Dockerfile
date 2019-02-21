@@ -50,12 +50,6 @@ RUN \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip
 
-# Install PHP-FPM extensions by pecl
-RUN \
-    pecl install mongo \
-    && docker-php-ext-enable mongo \
-    && rm -rf /tmp/pear
-
 # Compile phalcon
 ENV PHALCON_VERSION=2.0.13
 
@@ -101,6 +95,21 @@ RUN \
     && make install \
     && docker-php-ext-enable rdkafka \
     && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION} /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
+
+# Compile mongo
+ENV PHP_MONGO_VERSION=1.6.16
+
+RUN \
+    cd /tmp \
+    && wget https://pecl.php.net/get/mongo-${PHP_MONGO_VERSION}.tgz \
+    && tar xzf ${PHP_MONGO_VERSION}.tgz \
+    && cd mongo-${PHP_MONGO_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && echo 'extension=mongo.so' >> /usr/local/etc/php/conf.d/docker-php-ext-mongo.ini \
+    && rm -rf /tmp/v${PHP_MONGO_VERSION}.tar.gz /tmp/mongo-${PHP_MONGO_VERSION}
 
 # Compile php-xhprof
 ENV PHP_XHPROF_VERSION=4.0.3
