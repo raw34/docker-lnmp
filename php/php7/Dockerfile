@@ -37,23 +37,28 @@ RUN \
     supervisor \
     && rm -rf /var/cache/apk/*
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN \
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install zip \
-    && pecl install mongodb \
-    && docker-php-ext-enable mongodb \
+    && docker-php-ext-install zip
     # && pecl install mcrypt-1.0.1 \
-    # && docker-php-ext-enable mcrypt \
+    # && docker-php-ext-enable mcrypt
+
+# Install PHP-FPM extensions by pecl
+RUN \
+    pecl install mongodb \
+    && docker-php-ext-enable mongodb \
     && rm -rf /tmp/pear
 
 # Compile phalcon
 ENV PHALCON_VERSION=3.4.0
 
-RUN cd /tmp \
+RUN \
+    cd /tmp \
     && wget https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz \
     && tar xzf v${PHALCON_VERSION}.tar.gz \
     && cd cphalcon-${PHALCON_VERSION}/build \
@@ -62,7 +67,8 @@ RUN cd /tmp \
     && rm -rf /tmp/v${PHALCON_VERSION}.tar.gz /tmp/cphalcon-${PHALCON_VERSION}
 
 # Install phalcon-devtools
-RUN cd /tmp \
+RUN \
+    cd /tmp \
     && wget https://github.com/phalcon/phalcon-devtools/archive/v${PHALCON_VERSION}.tar.gz \
     && tar xzf v${PHALCON_VERSION}.tar.gz \
     && cd phalcon-devtools-${PHALCON_VERSION} \

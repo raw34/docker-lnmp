@@ -40,22 +40,27 @@ RUN \
     supervisor \
     && rm -rf /var/cache/apk/*
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN \
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-install mcrypt \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install zip \
-    && pecl install mongo \
+    && docker-php-ext-install zip
+
+# Install PHP-FPM extensions by pecl
+RUN \
+    pecl install mongo \
     && docker-php-ext-enable mongo \
     && rm -rf /tmp/pear
 
 # Compile phalcon
 ENV PHALCON_VERSION=2.0.13
 
-RUN cd /tmp \
+RUN \
+    cd /tmp \
     && wget https://github.com/phalcon/cphalcon/archive/phalcon-v${PHALCON_VERSION}.tar.gz \
     && tar xzf phalcon-v${PHALCON_VERSION}.tar.gz \
     && cd cphalcon-phalcon-v${PHALCON_VERSION}/build \
@@ -64,7 +69,8 @@ RUN cd /tmp \
     && rm -rf /tmp/phalcon-v${PHALCON_VERSION}.tar.gz /tmp/cphalcon-phalcon-v${PHALCON_VERSION}
 
 # Install phalcon-devtools
-RUN cd /tmp \
+RUN \
+    cd /tmp \
     && wget https://github.com/phalcon/phalcon-devtools/archive/v${PHALCON_VERSION}.tar.gz \
     && tar xzf v${PHALCON_VERSION}.tar.gz \
     && cd phalcon-devtools-${PHALCON_VERSION} \
