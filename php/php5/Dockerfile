@@ -137,7 +137,7 @@ RUN \
     && chmod 777 composer.phar \
     && mv composer.phar /usr/local/bin/composer \
     && mkdir /root/.composer \
-    && echo '{"repositories": {"packagist": {"type": "composer", "url": "https://packagist.phpcomposer.com"}}}' > /root/.composer/composer.json
+    && echo '{}' > /root/.composer/composer.json
 
 # Install phpunit
 ENV PHPUNIT_VERSION=5.7.27
@@ -168,6 +168,8 @@ RUN \
     && cp /data-php5/xhgui/config/config.default.php /data-php5/xhgui/config/config.php \
     && sed -i "s|127\.0\.0\.1|mongo|g" /data-php5/xhgui/config/config.php \
     && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data-php5/xhgui/config/config.php \
+    && sed -i 's|"phpunit/phpunit": "3.7.x-dev",||g' /data-php7/xhgui/composer.json \
+    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://packagist.phpcomposer.com"}}, "suggest"|g' /data-php7/xhgui/composer.json \
     && chmod -R 777 /data-php5/xhgui/cache \
     && composer install --no-dev \
     && rm -rf /data-php5/v${XGUI_VERSION}.tar.gz
