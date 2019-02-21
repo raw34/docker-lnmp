@@ -121,22 +121,6 @@ RUN \
     && mkdir /root/.composer \
     && echo '{"repositories": {"packagist": {"type": "composer", "url": "https://packagist.phpcomposer.com"}}}' > /root/.composer/composer.json
 
-# Install xhgui
-ENV XGUI_VERSION=1.0.4
-
-RUN \
-    cd /tmp \
-    && wget https://github.com/raw34/xhgui-branch/archive/v${XGUI_VERSION}.tar.gz \
-    && tar xzf v${XGUI_VERSION}.tar.gz \
-    && mv xhgui-branch-${XGUI_VERSION} xhgui \
-    && cd xhgui \
-    && cp /tmp/xhgui/config/config.default.php /tmp/xhgui/config/config.php \
-    && sed -i "s|127\.0\.0\.1|mongo|g" /tmp/xhgui/config/config.php \
-    && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /tmp/xhgui/config/config.php \
-    && chmod -R 777 /tmp/xhgui/cache \
-    && composer install \
-    && rm -rf /tmp/v${XGUI_VERSION}.tar.gz
-
 # Install phpunit
 ENV PHPUNIT_VERSION=7.1.5
 
@@ -152,6 +136,24 @@ RUN \
     && wget https://phar.phpunit.de/phpunit-skelgen.phar \
     && chmod +x phpunit-skelgen.phar \
     && mv phpunit-skelgen.phar /usr/local/bin/phpunit-skelgen
+
+# Install xhgui
+ENV XGUI_VERSION=1.0.4
+
+VOLUME /data
+
+RUN \
+    cd /data \
+    && wget https://github.com/raw34/xhgui-branch/archive/v${XGUI_VERSION}.tar.gz \
+    && tar xzf v${XGUI_VERSION}.tar.gz \
+    && mv xhgui-branch-${XGUI_VERSION} xhgui \
+    && cd xhgui \
+    && cp /data/xhgui/config/config.default.php /data/xhgui/config/config.php \
+    && sed -i "s|127\.0\.0\.1|mongo|g" /data/xhgui/config/config.php \
+    && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data/xhgui/config/config.php \
+    && chmod -R 777 /data/xhgui/cache \
+    && composer install \
+    && rm -rf /data/v${XGUI_VERSION}.tar.gz
 
 # Configure PHP-FPM
 

@@ -129,7 +129,9 @@ services:
             - ./nginx/php7-xhgui.conf:/etc/nginx/sites-available/php7-xhgui.conf
             - ~/wwwetc/nginx/sites-available:/etc/nginx/sites-available
             - ~/wwwlogs/nginx:/var/log/nginx
-            - ~/wwwroot/repo:/www
+        volumes_from:
+            - php-fpm5
+            - php-fpm7
         links:
             - php-fpm5
             - php-fpm7
