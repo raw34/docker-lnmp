@@ -100,14 +100,14 @@ ENV PHP_MONGO_VERSION=1.5.3
 RUN \
     cd /tmp \
     && wget https://pecl.php.net/get/mongodb-${PHP_MONGO_VERSION}.tgz \
-    && tar xzf ${PHP_MONGO_VERSION}.tgz \
+    && tar xzf mongodb-${PHP_MONGO_VERSION}.tgz \
     && cd mongodb-${PHP_MONGO_VERSION} \
     && phpize \
     && ./configure \
     && make \
     && make install \
     && echo 'extension=mongodb.so' >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini \
-    && rm -rf /tmp/v${PHP_MONGO_VERSION}.tar.gz /tmp/mongodb-${PHP_MONGO_VERSION}
+    && rm -rf /tmp/mongodb-${PHP_MONGO_VERSION}.tgz /tmp/mongodb-${PHP_MONGO_VERSION}
 
 # Compile php-xhprof
 ENV PHP_XHPROF_VERSION=4.1.7

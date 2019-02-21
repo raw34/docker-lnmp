@@ -102,14 +102,14 @@ ENV PHP_MONGO_VERSION=1.6.16
 RUN \
     cd /tmp \
     && wget https://pecl.php.net/get/mongo-${PHP_MONGO_VERSION}.tgz \
-    && tar xzf ${PHP_MONGO_VERSION}.tgz \
+    && tar xzf mongo-${PHP_MONGO_VERSION}.tgz \
     && cd mongo-${PHP_MONGO_VERSION} \
     && phpize \
     && ./configure \
     && make \
     && make install \
     && echo 'extension=mongo.so' >> /usr/local/etc/php/conf.d/docker-php-ext-mongo.ini \
-    && rm -rf /tmp/v${PHP_MONGO_VERSION}.tar.gz /tmp/mongo-${PHP_MONGO_VERSION}
+    && rm -rf /tmp/mongo-${PHP_MONGO_VERSION}.tgz /tmp/mongo-${PHP_MONGO_VERSION}
 
 # Compile php-xhprof
 ENV PHP_XHPROF_VERSION=4.0.3
