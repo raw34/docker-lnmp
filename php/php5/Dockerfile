@@ -120,7 +120,23 @@ RUN \
     && chmod 777 composer.phar \
     && mv composer.phar /usr/local/bin/composer \
     && mkdir /root/.composer \
-    && echo "{}" > /root/.composer/composer.json
+    && echo '{"repositories": {"packagist": {"type": "composer", "url": "https://packagist.phpcomposer.com"}}}' > /root/.composer/composer.json
+
+# Install xhgui
+ENV XGUI_VERSION=1.0.4
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/raw34/xhgui-branch/archive/v${XGUI_VERSION}.tar.gz \
+    && tar xzf v${XGUI_VERSION}.tar.gz \
+    && mv xhgui-branch-${XGUI_VERSION} xhgui \
+    && cd xhgui \
+    && cp /tmp/xhgui/config/config.default.php /tmp/xhgui/config/config.php \
+    && sed -i "s|127\.0\.0\.1|mongo|g" /tmp/xhgui/config/config.php \
+    && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /tmp/xhgui/config/config.php \
+    && chmod -R 777 /tmp/xhgui/cache \
+#    && composer install \
+    && rm -rf /tmp/v${XGUI_VERSION}.tar.gz
 
 # Install phpunit
 ENV PHPUNIT_VERSION=5.7.27

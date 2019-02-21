@@ -125,6 +125,8 @@ services:
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./nginx/php5-localhost.conf:/etc/nginx/sites-available/php5-localhost.conf
             - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
+            - ./nginx/php5-xhgui.conf:/etc/nginx/sites-available/php5-xhgui.conf
+            - ./nginx/php7-xhgui.conf:/etc/nginx/sites-available/php7-xhgui.conf
             - ~/wwwetc/nginx/sites-available:/etc/nginx/sites-available
             - ~/wwwlogs/nginx:/var/log/nginx
             - ~/wwwroot/repo:/www
