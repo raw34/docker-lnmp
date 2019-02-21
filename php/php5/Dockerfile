@@ -36,6 +36,7 @@ RUN \
     libjpeg-turbo-dev \
     libpng-dev \
     libmcrypt-dev \
+    re2c \
     supervisor \
     && rm -rf /var/cache/apk/*
 
@@ -142,10 +143,9 @@ RUN \
 # Install xhgui
 ENV XGUI_VERSION=1.0.4
 
-VOLUME /data
-
 RUN \
-    cd /data \
+    mkdir /data \
+    && cd /data \
     && wget https://github.com/raw34/xhgui-branch/archive/v${XGUI_VERSION}.tar.gz \
     && tar xzf v${XGUI_VERSION}.tar.gz \
     && mv xhgui-branch-${XGUI_VERSION} xhgui \
@@ -156,6 +156,8 @@ RUN \
     && chmod -R 777 /data/xhgui/cache \
     && composer install --no-dev \
     && rm -rf /data/v${XGUI_VERSION}.tar.gz
+
+VOLUME /data
 
 # Configure PHP-FPM
 

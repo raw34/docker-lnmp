@@ -33,6 +33,7 @@ RUN \
     libjpeg-turbo-dev \
     libpng-dev \
     libmcrypt-dev \
+    re2c \
     supervisor \
     && rm -rf /var/cache/apk/*
 
@@ -50,7 +51,7 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && rm -rf /tmp/pear
 
 # Compile phalcon
-ENV PHALCON_VERSION=3.2.4
+ENV PHALCON_VERSION=3.4.0
 
 RUN cd /tmp \
     && wget https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz \
@@ -140,10 +141,9 @@ RUN \
 # Install xhgui
 ENV XGUI_VERSION=1.0.4
 
-VOLUME /data
-
 RUN \
-    cd /data \
+    mkdir /data \
+    && cd /data \
     && wget https://github.com/raw34/xhgui-branch/archive/v${XGUI_VERSION}.tar.gz \
     && tar xzf v${XGUI_VERSION}.tar.gz \
     && mv xhgui-branch-${XGUI_VERSION} xhgui \
@@ -154,6 +154,8 @@ RUN \
     && chmod -R 777 /data/xhgui/cache \
     && composer install \
     && rm -rf /data/v${XGUI_VERSION}.tar.gz
+
+VOLUME /data
 
 # Configure PHP-FPM
 
