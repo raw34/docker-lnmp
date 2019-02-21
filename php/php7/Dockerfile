@@ -170,7 +170,7 @@ RUN \
     && sed -i "s|127\.0\.0\.1|mongo|g" /data-php7/xhgui/config/config.php \
     && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data-php7/xhgui/config/config.php \
     && chmod -R 777 /data-php7/xhgui/cache \
-    && composer install --no-dev \
+    && composer install \
     && rm -rf /data-php7/v${XGUI_VERSION}.tar.gz
 
 VOLUME /data-php7
