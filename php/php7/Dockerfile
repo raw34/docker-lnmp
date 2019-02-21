@@ -44,9 +44,10 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip \
     && pecl install mongodb \
-    && docker-php-ext-enable mongodb
+    && docker-php-ext-enable mongodb \
     # && pecl install mcrypt-1.0.1 \
-    # && docker-php-ext-enable mcrypt
+    # && docker-php-ext-enable mcrypt \
+    && rm -rf /tmp/pear
 
 # Compile phalcon
 ENV PHALCON_VERSION=3.2.4

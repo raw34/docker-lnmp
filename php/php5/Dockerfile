@@ -48,7 +48,8 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip \
     && pecl install mongo \
-    && docker-php-ext-enable mongo
+    && docker-php-ext-enable mongo \
+    && rm -rf /tmp/pear
 
 # Compile phalcon
 ENV PHALCON_VERSION=2.0.13
@@ -135,7 +136,7 @@ RUN \
     && sed -i "s|127\.0\.0\.1|mongo|g" /tmp/xhgui/config/config.php \
     && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /tmp/xhgui/config/config.php \
     && chmod -R 777 /tmp/xhgui/cache \
-#    && composer install \
+    && composer install --no-dev \
     && rm -rf /tmp/v${XGUI_VERSION}.tar.gz
 
 # Install phpunit
