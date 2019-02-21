@@ -166,10 +166,11 @@ RUN \
     && mv xhgui-branch-${XGUI_VERSION} xhgui \
     && cd xhgui \
     && cp /data-php5/xhgui/config/config.default.php /data-php5/xhgui/config/config.php \
+    && sed -i "s|'extension' => 'xhprof'|'extension' => 'tideways'|g" /data-php5/xhgui/config/config.php \
     && sed -i "s|127\.0\.0\.1|mongo|g" /data-php5/xhgui/config/config.php \
     && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data-php5/xhgui/config/config.php \
-    && sed -i 's|"phpunit/phpunit": "3.7.x-dev",||g' /data-php7/xhgui/composer.json \
-    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://packagist.phpcomposer.com"}}, "suggest"|g' /data-php7/xhgui/composer.json \
+    && sed -i 's|"phpunit/phpunit": "3.7.x-dev",||g' /data-php5/xhgui/composer.json \
+    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://packagist.phpcomposer.com"}}, "suggest"|g' /data-php5/xhgui/composer.json \
     && chmod -R 777 /data-php5/xhgui/cache \
     && composer install --no-dev \
     && rm -rf /data-php5/v${XGUI_VERSION}.tar.gz

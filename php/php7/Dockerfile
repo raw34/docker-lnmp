@@ -167,6 +167,7 @@ RUN \
     && mv xhgui-branch-${XGUI_VERSION} xhgui \
     && cd xhgui \
     && cp /data-php7/xhgui/config/config.default.php /data-php7/xhgui/config/config.php \
+    && sed -i "s|'extension' => 'xhprof'|'extension' => 'tideways'|g" /data-php7/xhgui/config/config.php \
     && sed -i "s|127\.0\.0\.1|mongo|g" /data-php7/xhgui/config/config.php \
     && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data-php7/xhgui/config/config.php \
     && sed -i 's|"pimple/pimple"|"alcaeus/mongo-php-adapter": "^1.0", "pimple/pimple"|g' /data-php7/xhgui/composer.json \
