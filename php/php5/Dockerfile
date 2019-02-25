@@ -23,6 +23,7 @@ RUN \
     apk add --update \
     autoconf \
     bash \
+    boost \
     busybox-extras \
     python \
     make \
@@ -176,6 +177,33 @@ RUN \
     && rm -rf /data-php5/v${XGUI_VERSION}.tar.gz
 
 VOLUME /data-php5
+
+# Install thrift
+ENV THRIFT_VERSION=0.11.0
+
+RUN \
+    cd /tmp \
+    && wget http://apache.fayea.com/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz \
+    && tar xzf thrift-${THRIFT_VERSION}.tar.gz \
+    && cd thrift-${THRIFT_VERSION} \
+    && ./configure CXXFLAGS="-DFORCE_BOOST_SMART_PTR" --with-cpp --with-php=no --with-python=no --with-ruby=no --with-nodejs=no --with-qt4=no --with-java=no  \
+    && make \
+    && make install \
+    && rm -rf /tmp/thrift-${THRIFT_VERSION}.tar.gz /tmp/thrift-${THRIFT_VERSION}
+
+# Install pinpoint
+#ENV PINPONINT_AGENT_VERSION=0.1.1
+#
+#RUN \
+#    cd /tmp \
+#    && wget https://github.com/naver/pinpoint-c-agent/archive/v${PINPONINT_AGENT_VERSION}.tar.gz \
+#    && tar xzf v${PINPONINT_AGENT_VERSION}.tar.gz \
+#    && cd pinpoint-c-agent-${PINPONINT_AGENT_VERSION} \
+#    && phpize \
+#    && ./configure \
+#    && make \
+#    && make install \
+#    && rm -rf /tmp/v${PINPONINT_AGENT_VERSION}.tar.gz pinpoint-c-agent-${PINPONINT_AGENT_VERSION}
 
 # Configure PHP-FPM
 
