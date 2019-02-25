@@ -183,7 +183,7 @@ ENV THRIFT_VERSION=0.11.0
 
 RUN \
     cd /tmp \
-    && wget http://apache.fayea.com/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz \
+    && wget http://mirrors.tuna.tsinghua.edu.cn/apache/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz \
     && tar xzf thrift-${THRIFT_VERSION}.tar.gz \
     && cd thrift-${THRIFT_VERSION} \
     && ./configure CXXFLAGS="-DFORCE_BOOST_SMART_PTR" --with-cpp --with-php=no --with-python=no --with-ruby=no --with-nodejs=no --with-qt4=no --with-java=no  \
@@ -196,7 +196,7 @@ RUN \
 #
 #RUN \
 #    cd /tmp \
-#    && wget https://github.com/naver/pinpoint-c-agent/archive/v${PINPONINT_AGENT_VERSION}.tar.gz \
+#    && wget http://github.com/naver/pinpoint-c-agent/archive/v${PINPONINT_AGENT_VERSION}.tar.gz \
 #    && tar xzf v${PINPONINT_AGENT_VERSION}.tar.gz \
 #    && cd pinpoint-c-agent-${PINPONINT_AGENT_VERSION} \
 #    && phpize \
