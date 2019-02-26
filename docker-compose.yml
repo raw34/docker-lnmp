@@ -75,6 +75,14 @@ services:
             - ~/wwwdata/elasticsearch:/usr/share/elasticsearch/data
             - ~/wwwlogs/elasticsearch:/usr/share/elasticsearch/logs
 
+### elasticsearch-head
+    elasticsearch-head:
+        image: mobz/elasticsearch-head:5-alpine
+        container_name:
+            docker_elastic-head_1
+        ports:
+        - "9100:9100"
+
 ### php5-fpm
     php5-fpm:
         image: raw34/php5-fpm

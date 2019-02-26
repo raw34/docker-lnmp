@@ -1,7 +1,7 @@
 # Uncomment the following lines for a production cluster deployment
 # discovery.zen.minimum_master_nodes: 1
 
-cluster.name: "docker-cluster"
+cluster.name: "es-cluster"
 node.name: "docker-single-node"
 network.host: 0.0.0.0
 
