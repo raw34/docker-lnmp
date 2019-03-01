@@ -91,7 +91,7 @@ services:
         container_name:
             docker_php5-fpm_1
         volumes:
-            - ./php/php5/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
+            - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
             - ~/wwwroot/repo:/www
             - ~/.ssh:/root/.ssh
@@ -110,7 +110,7 @@ services:
         container_name:
             docker_php7-fpm_1
         volumes:
-            - ./php/php7/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
+            - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
             - ~/wwwroot/repo:/www
             - ~/.ssh:/root/.ssh
