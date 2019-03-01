@@ -23,8 +23,9 @@ RUN \
     apk add --update \
     autoconf \
     bash \
-    boost \
     busybox-extras \
+    clang \
+    curl-dev \
     python \
     make \
     gcc \
@@ -37,6 +38,7 @@ RUN \
     libjpeg-turbo-dev \
     libpng-dev \
     libmcrypt-dev \
+    libuuid \
     re2c \
     supervisor \
     && rm -rf /var/cache/apk/*
@@ -182,17 +184,17 @@ RUN \
 VOLUME /data-php7
 
 # Install thrift
-ENV THRIFT_VERSION=0.11.0
-
-RUN \
-    cd /tmp \
-    && wget http://mirrors.tuna.tsinghua.edu.cn/apache/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz \
-    && tar xzf thrift-${THRIFT_VERSION}.tar.gz \
-    && cd thrift-${THRIFT_VERSION} \
-    && ./configure CXXFLAGS="-DFORCE_BOOST_SMART_PTR" --with-cpp --with-php=no --with-python=no --with-ruby=no --with-nodejs=no --with-qt4=no --with-java=no  \
-    && make \
-    && make install \
-    && rm -rf /tmp/thrift-${THRIFT_VERSION}.tar.gz /tmp/thrift-${THRIFT_VERSION}
+#ENV THRIFT_VERSION=0.11.0
+#
+#RUN \
+#    cd /tmp \
+#    && wget http://mirrors.tuna.tsinghua.edu.cn/apache/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz \
+#    && tar xzf thrift-${THRIFT_VERSION}.tar.gz \
+#    && cd thrift-${THRIFT_VERSION} \
+#    && ./configure CXXFLAGS="-DFORCE_BOOST_SMART_PTR" --with-cpp --with-php=no --with-python=no --with-ruby=no --with-nodejs=no --with-qt4=no --with-java=no  \
+#    && make \
+#    && make install \
+#    && rm -rf /tmp/thrift-${THRIFT_VERSION}.tar.gz /tmp/thrift-${THRIFT_VERSION}
 
 # Install pinpoint
 #ENV PINPONINT_AGENT_VERSION=0.1.1
@@ -207,6 +209,56 @@ RUN \
 #    && make \
 #    && make install \
 #    && rm -rf /tmp/v${PINPONINT_AGENT_VERSION}.tar.gz pinpoint-c-agent-${PINPONINT_AGENT_VERSION}
+
+
+# Install protobuf
+#ENV PROTOBUF_VERSION=3.6.0
+#
+#RUN \
+#    cd /tmp \
+#    && wget https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-php-${PROTOBUF_VERSION}.tar.gz \
+#    && tar zxf protobuf-php-${PROTOBUF_VERSION}.tar.gz \
+#    && cd protobuf-${PROTOBUF_VERSION} \
+#    && ./configure \
+#    && make \
+#    && make install \
+#    && cd php/ext/google/protobuf/ \
+#    && phpize \
+#    && ./configure \
+#    && make \
+#    && make install \
+#    && docker-php-ext-enable protobuf \
+#    && rm -rf /tmp/protobuf-${PROTOBUF_VERSION}.tgz /tmp/protobuf-${PROTOBUF_VERSION}
+
+# Install grpc
+#ENV GRPC_VERSION=1.19.0
+#ENV CARES_VERSION=1_15_0
+#
+#RUN \
+#    cd /tmp \
+#    && wget https://pecl.php.net/get/grpc-${GRPC_VERSION}.tgz \
+#    && tar zxf grpc-${GRPC_VERSION}.tgz \
+#    && cd grpc-${GRPC_VERSION} \
+#    && phpize \
+#    && ./configure \
+#    && make \
+#    && make install \
+#    && docker-php-ext-enable grpc \
+#    && rm -rf /tmp/grpc-${GRPC_VERSION}.tgz /tmp/grpc-${GRPC_VERSION}
+
+# Install skywalking
+#ENV SKYWALKING_VERSION=2.0.0
+#
+#RUN \
+#    cd /tmp \
+#    && wget https://github.com/SkyAPM/SkyAPM-php-sdk/archive/${SKYWALKING_VERSION}.tar.gz \
+#    && tar zxf ${SKYWALKING_VERSION}.tar.gz \
+#    && cd SkyAPM-php-sdk-${SKYWALKING_VERSION} \
+#    && phpize \
+#    && ./configure \
+#    && make \
+#    && make install \
+#    && rm -rf ${SKYWALKING_VERSION}.tar.gz SkyAPM-php-sdk-${SKYWALKING_VERSION}
 
 # Configure PHP-FPM
 
