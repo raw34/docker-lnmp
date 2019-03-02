@@ -247,6 +247,7 @@ RUN \
     && ./configure \
     && make \
     && make install \
+    && docker-php-ext-enable skywalking \
     && rm -rf ${SKYWALKING_VERSION}.tar.gz v${SKYWALKING_PROTOS_VERSION}.tar.gz SkyAPM-php-sdk-${SKYWALKING_VERSION}
 
 
