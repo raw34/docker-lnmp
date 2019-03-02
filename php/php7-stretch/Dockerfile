@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     xz-utils \
     --no-install-recommends \
-	&& rm -r /var/lib/apt/lists/*
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -229,6 +229,25 @@ RUN \
 
 RUN \
     rm -rf /tmp/v${GRPC_VERSION}.tar.gz /tmp/cares-${CARES_VERSION}.tar.gz /tmp/v${PROTOBUF_VERSION}.tar.gz /tmp/grpc-${GRPC_VERSION} /tmp/grpc-${GRPC_VERSION}.tgz
+
+# Install skywalking
+ENV SKYWALKING_VERSION=2.0.0
+ENV SKYWALKING_PROTOS_VERSION=1.1.1
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/SkyAPM/SkyAPM-php-sdk/archive/${SKYWALKING_VERSION}.tar.gz \
+    && tar zxf ${SKYWALKING_VERSION}.tar.gz \
+    && wget https://github.com/apache/incubator-skywalking-data-collect-protocol/archive/v${SKYWALKING_PROTOS_VERSION}.tar.gz \
+    && tar zxf v${SKYWALKING_PROTOS_VERSION}.tar.gz \
+    && rm -rf SkyAPM-php-sdk-${SKYWALKING_VERSION}/src/protos \
+    && mv incubator-skywalking-data-collect-protocol-${SKYWALKING_PROTOS_VERSION} SkyAPM-php-sdk-${SKYWALKING_VERSION}/src/protos \
+    && cd SkyAPM-php-sdk-${SKYWALKING_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -rf ${SKYWALKING_VERSION}.tar.gz v${SKYWALKING_PROTOS_VERSION}.tar.gz SkyAPM-php-sdk-${SKYWALKING_VERSION}
 
 
 EXPOSE 9000
