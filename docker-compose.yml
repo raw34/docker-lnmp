@@ -105,6 +105,7 @@ services:
 ### php7-fpm
     php7-fpm:
         image: raw34/php7-fpm
+#        image: raw34/php7-fpm-stretch
         # build: ./php/php7
         # image: php:fpm
         container_name:

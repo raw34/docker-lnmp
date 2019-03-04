@@ -230,7 +230,8 @@ RUN \
     && docker-php-ext-enable grpc
 
 RUN \
-    rm -rf /tmp/v${GRPC_VERSION}.tar.gz /tmp/cares-${CARES_VERSION}.tar.gz /tmp/v${PROTOBUF_VERSION}.tar.gz /tmp/grpc-${GRPC_VERSION} /tmp/grpc-${GRPC_VERSION}.tgz
+    rm -rf /tmp/v${GRPC_VERSION}.tar.gz /tmp/cares-${CARES_VERSION}.tar.gz /tmp/v${PROTOBUF_VERSION}.tar.gz /tmp/grpc-${GRPC_VERSION}.tgz
+#     /tmp/grpc-${GRPC_VERSION}
 
 # Install skywalking
 ENV SKYWALKING_VERSION=2.0.0
@@ -250,8 +251,15 @@ RUN \
     && make \
     && make install \
     && docker-php-ext-enable skywalking \
-    && rm -rf ${SKYWALKING_VERSION}.tar.gz v${SKYWALKING_PROTOS_VERSION}.tar.gz SkyAPM-php-sdk-${SKYWALKING_VERSION}
-
+    && echo 'skywalking.enable=1' >> /usr/local/etc/php/conf.d/docker-php-ext-skywalking.ini \
+    && echo 'skywalking.version=6' >> /usr/local/etc/php/conf.d/docker-php-ext-skywalking.ini \
+    && echo 'skywalking.grpc=172.17.0.1:11800' >> /usr/local/etc/php/conf.d/docker-php-ext-skywalking.ini \
+    && echo 'skywalking.log_path=/tmp' >> /usr/local/etc/php/conf.d/docker-php-ext-skywalking.ini \
+#    && cd src/report \
+#    && make \
+#    && cp report_client /usr/bin \
+    && rm -rf /tmp/${SKYWALKING_VERSION}.tar.gz /tmp/v${SKYWALKING_PROTOS_VERSION}.tar.gz
+#    /tmp/SkyAPM-php-sdk-${SKYWALKING_VERSION}
 
 EXPOSE 9000
 
