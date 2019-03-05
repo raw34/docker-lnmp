@@ -24,7 +24,9 @@ RUN \
 RUN apt-get update && apt-get install -y \
     automake \
     ca-certificates \
+    bison \
     curl \
+    flex \
     git \
     libcurl4-openssl-dev \
     libfreetype6-dev \
@@ -261,21 +263,49 @@ RUN \
     && rm -rf /tmp/${SKYWALKING_VERSION}.tar.gz /tmp/v${SKYWALKING_PROTOS_VERSION}.tar.gz
 #    /tmp/SkyAPM-php-sdk-${SKYWALKING_VERSION}
 
+# Install thrift
+ENV BOOST_VERSION_1=1.69.0
+ENV BOOST_VERSION_2=1_69_0
+ENV THRIFT_VERSION=0.11.0
+
+RUN \
+    cd /tmp \
+    && wget https://dl.bintray.com/boostorg/release/${BOOST_VERSION_1}/source/boost_${BOOST_VERSION_2}.tar.gz \
+    && tar xzf boost_${BOOST_VERSION_2}.tar.gz
+
+RUN \
+    cd /tmp/boost_${BOOST_VERSION_2} \
+    && ./bootstrap.sh \
+    && ./b2 install --prefix=/usr/local/lib/ \
+    && rm -rf /tmp/boost_${BOOST_VERSION_2}.tar.gz /tmp/boost_${BOOST_VERSION_2}
+
+RUN \
+    cd /tmp \
+    && wget http://mirrors.tuna.tsinghua.edu.cn/apache/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz \
+    && tar xzf thrift-${THRIFT_VERSION}.tar.gz
+
+RUN \
+    cd /tmp/thrift-${THRIFT_VERSION} \
+    && ./configure CXXFLAGS="-DFORCE_BOOST_SMART_PTR" --with-cpp --with-php=no --with-python=no --with-ruby=no --with-nodejs=no --with-qt4=no --with-java=no -with-boost=/usr/local/lib/ \
+    && make \
+    && make install \
+    && rm -rf /tmp/thrift-${THRIFT_VERSION}.tar.gz /tmp/thrift-${THRIFT_VERSION}
+
 # Install pinpoint
-#ENV PINPONINT_AGENT_VERSION=0.1.1
-#
-#RUN \
-#    cd /tmp \
-#    && wget http://github.com/naver/pinpoint-c-agent/archive/v${PINPONINT_AGENT_VERSION}.tar.gz \
-#    && tar xzf v${PINPONINT_AGENT_VERSION}.tar.gz \
-#    && cd pinpoint-c-agent-${PINPONINT_AGENT_VERSION} \
-#    && ./Build.sh \
-#    && export LD_LIBRARY_PATH=$PWD/../thirdlibray/var/:$LD_LIBRARY_PATH
-#    && phpize \
-#    && ./configure \
-#    && make \
-#    && make install \
-#    && rm -rf /tmp/v${PINPONINT_AGENT_VERSION}.tar.gz pinpoint-c-agent-${PINPONINT_AGENT_VERSION}
+ENV PINPONINT_AGENT_VERSION=0.1.1
+
+RUN \
+    cd /tmp \
+    && wget http://github.com/naver/pinpoint-c-agent/archive/v${PINPONINT_AGENT_VERSION}.tar.gz \
+    && tar xzf v${PINPONINT_AGENT_VERSION}.tar.gz \
+    && export WITH_BOOST_PATH=/user/local/lib/ \
+    && export WITH_THRIFT_PATH=/user/local/lib/ \
+    && export LD_LIBRARY_PATH=$PWD/../thirdlibray/var/:$LD_LIBRARY_PATH \
+    && cd pinpoint-c-agent-${PINPONINT_AGENT_VERSION}/pinpoint_php \
+    && phpize \
+    && ./Build.sh \
+    && make install \
+    && rm -rf /tmp/v${PINPONINT_AGENT_VERSION}.tar.gz pinpoint-c-agent-${PINPONINT_AGENT_VERSION}
 
 EXPOSE 9000
 
