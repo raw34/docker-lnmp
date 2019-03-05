@@ -34,8 +34,8 @@ RUN \
     libjpeg-turbo-dev \
     libmcrypt-dev \
     libpng-dev \
+    linux-headers \
     make \
-    musl-dev \
     re2c \
     supervisor \
     && rm -rf /var/cache/apk/*
