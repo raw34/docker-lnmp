@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     flex \
     git \
+    libboost-all-dev \
     libcurl4-openssl-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -240,25 +241,23 @@ ENV BOOST_VERSION_1=1.69.0
 ENV BOOST_VERSION_2=1_69_0
 ENV THRIFT_VERSION=0.11.0
 
-RUN \
-    cd /tmp \
-    && wget https://dl.bintray.com/boostorg/release/${BOOST_VERSION_1}/source/boost_${BOOST_VERSION_2}.tar.gz \
-    && tar xzf boost_${BOOST_VERSION_2}.tar.gz
-
-RUN \
-    cd /tmp/boost_${BOOST_VERSION_2} \
-    && ./bootstrap.sh \
-    && ./b2 install --prefix=/usr/local/lib/ \
-    && rm -rf /tmp/boost_${BOOST_VERSION_2}.tar.gz /tmp/boost_${BOOST_VERSION_2}
+#RUN \
+#    cd /tmp \
+#    && wget https://dl.bintray.com/boostorg/release/${BOOST_VERSION_1}/source/boost_${BOOST_VERSION_2}.tar.gz \
+#    && tar xzf boost_${BOOST_VERSION_2}.tar.gz
+#
+#RUN \
+#    cd /tmp/boost_${BOOST_VERSION_2} \
+#    && ./bootstrap.sh \
+#    && ./b2 install --prefix=/usr/local/ \
+#    && rm -rf /tmp/boost_${BOOST_VERSION_2}.tar.gz /tmp/boost_${BOOST_VERSION_2}
 
 RUN \
     cd /tmp \
     && wget http://mirrors.tuna.tsinghua.edu.cn/apache/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz \
-    && tar xzf thrift-${THRIFT_VERSION}.tar.gz
-
-RUN \
-    cd /tmp/thrift-${THRIFT_VERSION} \
-    && ./configure CXXFLAGS="-DFORCE_BOOST_SMART_PTR" --with-cpp --with-php=no --with-python=no --with-ruby=no --with-nodejs=no --with-qt4=no --with-java=no -with-boost=/usr/local/lib/ \
+    && tar xzf thrift-${THRIFT_VERSION}.tar.gz \
+    && cd /tmp/thrift-${THRIFT_VERSION} \
+    && ./configure CXXFLAGS="-DFORCE_BOOST_SMART_PTR" --with-cpp --with-php=no --with-python=no --with-ruby=no --with-nodejs=no --with-qt4=no --with-java=no -with-boost=/usr/include/ \
     && make \
     && make install \
     && rm -rf /tmp/thrift-${THRIFT_VERSION}.tar.gz /tmp/thrift-${THRIFT_VERSION}
@@ -294,18 +293,24 @@ RUN \
 # Install pinpoint
 ENV PINPONINT_AGENT_VERSION=0.1.1
 
-RUN \
-    cd /tmp \
-    && wget http://github.com/naver/pinpoint-c-agent/archive/v${PINPONINT_AGENT_VERSION}.tar.gz \
-    && tar xzf v${PINPONINT_AGENT_VERSION}.tar.gz \
-    && export WITH_BOOST_PATH=/user/local/lib/ \
-    && export WITH_THRIFT_PATH=/user/local/lib/ \
-    && export LD_LIBRARY_PATH=$PWD/../thirdlibray/var/:$LD_LIBRARY_PATH \
-    && cd pinpoint-c-agent-${PINPONINT_AGENT_VERSION}/pinpoint_php \
-    && phpize \
-    && ./Build.sh \
-    && make install \
-    && rm -rf /tmp/v${PINPONINT_AGENT_VERSION}.tar.gz pinpoint-c-agent-${PINPONINT_AGENT_VERSION}
+#RUN \
+#    cd /tmp \
+#    && wget http://github.com/naver/pinpoint-c-agent/archive/v${PINPONINT_AGENT_VERSION}.tar.gz \
+#    && tar xzf v${PINPONINT_AGENT_VERSION}.tar.gz \
+#    && export WITH_BOOST_PATH=/usr/include \
+#    && export WITH_THRIFT_PATH=/usr/local/include \
+#    && export WITH_BOOST_PATH=/usr/lib/x86_64-linux-gnu \
+#    && export WITH_THRIFT_PATH=/usr/local/lib \
+#    && cd pinpoint-c-agent-${PINPONINT_AGENT_VERSION}/pinpoint_common \
+#    && make all -j2 \
+#    && make install \
+#    && cd /tmp/pinpoint-c-agent-${PINPONINT_AGENT_VERSION}/pinpoint_php \
+#    && export LD_LIBRARY_PATH=/usr/local/lib/ \
+#    && phpize \
+#    && ./configure CFLAGS="-Wall -DTEST_SIMULATE" CXXFLAGS="-Wall -DTEST_SIMULATE" --with-thrift-dir=$WITH_THRIFT_PATH --with-boost-dir=$WITH_BOOST_PATH \
+#    && make \
+#    && make install \
+#    && rm -rf /tmp/v${PINPONINT_AGENT_VERSION}.tar.gz /tmp/pinpoint-c-agent-${PINPONINT_AGENT_VERSION}
 
 EXPOSE 9000
 
