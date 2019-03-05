@@ -261,6 +261,22 @@ RUN \
     && rm -rf /tmp/${SKYWALKING_VERSION}.tar.gz /tmp/v${SKYWALKING_PROTOS_VERSION}.tar.gz
 #    /tmp/SkyAPM-php-sdk-${SKYWALKING_VERSION}
 
+# Install pinpoint
+#ENV PINPONINT_AGENT_VERSION=0.1.1
+#
+#RUN \
+#    cd /tmp \
+#    && wget http://github.com/naver/pinpoint-c-agent/archive/v${PINPONINT_AGENT_VERSION}.tar.gz \
+#    && tar xzf v${PINPONINT_AGENT_VERSION}.tar.gz \
+#    && cd pinpoint-c-agent-${PINPONINT_AGENT_VERSION} \
+#    && ./Build.sh \
+#    && export LD_LIBRARY_PATH=$PWD/../thirdlibray/var/:$LD_LIBRARY_PATH
+#    && phpize \
+#    && ./configure \
+#    && make \
+#    && make install \
+#    && rm -rf /tmp/v${PINPONINT_AGENT_VERSION}.tar.gz pinpoint-c-agent-${PINPONINT_AGENT_VERSION}
+
 EXPOSE 9000
 
 CMD ["php-fpm"]
