@@ -198,7 +198,8 @@ RUN \
     && echo 'molten.sampling_rate=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sink_type=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sink_log_path=/var/log/php/tracing' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.sink_http_uri=http://127.0.0.1:9411/api/v1/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.sink_http_uri=http://localhost:9411/api/v1/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && sed -i "s|localhost|`ip route | awk 'NR==1 {print $3}'`|g" /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && rm -rf /tmp/v${MOLTEN_VERSION}.tar.gz /tmp/Molten-${MOLTEN_VERSION}
 
 # Configure PHP-FPM
