@@ -24,6 +24,7 @@ RUN \
     autoconf \
     bash \
     busybox-extras \
+    curl-dev \
     freetype-dev \
     gcc \
     g++ \
@@ -31,6 +32,7 @@ RUN \
     openssh \
     openssl-dev \
     libc-dev \
+    libcurl \
     libjpeg-turbo-dev \
     libmcrypt-dev \
     libpng-dev \
@@ -196,6 +198,7 @@ RUN \
     && docker-php-ext-enable molten \
     && echo 'molten.enable=${MOLTEN_ENABLE}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.report_interval=5' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.tracing_cli=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sampling_type=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sampling_rate=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.span_format=zipkin_v2' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
