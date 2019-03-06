@@ -92,7 +92,8 @@ services:
             docker_php5-fpm_1
         environment:
             MOLTEN_ENABLE: 1
-            MOLTEN_SINK_TYPE: 1
+            MOLTEN_SINK_TYPE: 4
+            MOLTEN_SINK_HOST: 172.18.0.1
         volumes:
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
@@ -115,7 +116,8 @@ services:
             docker_php7-fpm_1
         environment:
             MOLTEN_ENABLE: 1
-            MOLTEN_SINK_TYPE: 1
+            MOLTEN_SINK_TYPE: 4
+            MOLTEN_SINK_HOST: 172.18.0.1
         volumes:
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
