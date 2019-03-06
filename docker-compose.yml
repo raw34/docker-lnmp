@@ -90,6 +90,9 @@ services:
         # image: php:5.6-fpm
         container_name:
             docker_php5-fpm_1
+        environment:
+            MOLTEN_ENABLE: 1
+            MOLTEN_SINK_TYPE: 1
         volumes:
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
@@ -110,6 +113,9 @@ services:
         # image: php:fpm
         container_name:
             docker_php7-fpm_1
+        environment:
+            MOLTEN_ENABLE: 1
+            MOLTEN_SINK_TYPE: 1
         volumes:
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php

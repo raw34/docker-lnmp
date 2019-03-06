@@ -182,6 +182,8 @@ VOLUME /data-php7
 
 # Install molten
 ENV MOLTEN_VERSION=0.1.1
+ENV MOLTEN_ENABLE=${MOLTEN_ENABLE:-1}
+ENV MOLTEN_SINK_TYPE=${MOLTEN_SINK_TYPE:-1}
 
 RUN \
     cd /tmp \
@@ -193,10 +195,11 @@ RUN \
     && make \
     && make install \
     && docker-php-ext-enable molten \
+    && echo 'molten.enable=${MOLTEN_ENABLE}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.report_interval=5' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sampling_type=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sampling_rate=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.sink_type=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.sink_type=${MOLTEN_SINK_TYPE}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sink_log_path=/var/log/php/tracing' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sink_http_uri=http://localhost:9411/api/v1/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && sed -i "s|localhost|`ip route | awk 'NR==1 {print $3}'`|g" /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
