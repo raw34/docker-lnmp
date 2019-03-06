@@ -24,18 +24,18 @@ RUN \
     autoconf \
     bash \
     busybox-extras \
-    python \
-    make \
+    freetype-dev \
     gcc \
     g++ \
     git \
     openssh \
     openssl-dev \
     libc-dev \
-    freetype-dev \
     libjpeg-turbo-dev \
-    libpng-dev \
     libmcrypt-dev \
+    libpng-dev \
+    linux-headers \
+    make \
     re2c \
     supervisor \
     && rm -rf /var/cache/apk/*
@@ -176,6 +176,27 @@ RUN \
     && rm -rf /data-php5/v${XGUI_VERSION}.tar.gz
 
 VOLUME /data-php5
+
+# Install molten
+ENV MOLTEN_VERSION=0.1.1
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/chuan-yun/Molten/archive/v${MOLTEN_VERSION}.tar.gz \
+    && tar xzf v${MOLTEN_VERSION}.tar.gz \
+    && cd Molten-${MOLTEN_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable molten \
+    && echo 'molten.report_interval=5' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.sampling_type=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.sampling_rate=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.sink_type=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.sink_log_path=/var/log/php/tracing' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.sink_http_uri=http://127.0.0.1:9411/api/v1/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && rm -rf /tmp/v${MOLTEN_VERSION}.tar.gz /tmp/Molten-${MOLTEN_VERSION}
 
 # Configure PHP-FPM
 
