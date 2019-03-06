@@ -93,7 +93,8 @@ services:
         environment:
             MOLTEN_ENABLE: 1
             MOLTEN_SINK_TYPE: 4
-            MOLTEN_SINK_HOST: 172.20.0.1
+            MOLTEN_SINK_HOST: zipkin
+            MOLTEN_SINK_PORT: 9411
         volumes:
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
@@ -117,7 +118,8 @@ services:
         environment:
             MOLTEN_ENABLE: 1
             MOLTEN_SINK_TYPE: 4
-            MOLTEN_SINK_HOST: 172.20.0.1
+            MOLTEN_SINK_HOST: zipkin
+            MOLTEN_SINK_PORT: 9411
         volumes:
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
