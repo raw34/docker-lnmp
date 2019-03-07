@@ -201,10 +201,10 @@ RUN \
     && echo 'molten.tracing_cli=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sampling_type=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sampling_rate=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.span_format=zipkin_v2' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.span_format=zipkin' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sink_type=${MOLTEN_SINK_TYPE}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sink_log_path=/var/log/php/tracing' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.sink_http_uri=http://${MOLTEN_SINK_HOST}:${MOLTEN_SINK_PORT}/api/v2/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.sink_http_uri=http://${MOLTEN_SINK_HOST}:${MOLTEN_SINK_PORT}/api/v1/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && rm -rf /tmp/v${MOLTEN_VERSION}.tar.gz /tmp/Molten-${MOLTEN_VERSION}
 
 # Configure PHP-FPM
