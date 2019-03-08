@@ -93,7 +93,7 @@ services:
         environment:
             MOLTEN_SPAN_VERSION: v1
             MOLTEN_SPAN_FORMAT: zipkin
-            MOLTEN_SINK_TYPE: 1
+            MOLTEN_SINK_TYPE: 4
             MOLTEN_SINK_HOST: zipkin
         volumes:
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -106,6 +106,9 @@ services:
             - redis
             - rabbitmq
             - elasticsearch
+        extra_hosts:
+            - "php5-localhost.docker:127.0.0.1"
+            - "php7-localhost.docker:127.0.0.1"
 
 ### php7-fpm
     php7-fpm:
@@ -118,7 +121,7 @@ services:
         environment:
             MOLTEN_SPAN_VERSION: v1
             MOLTEN_SPAN_FORMAT: zipkin
-            MOLTEN_SINK_TYPE: 1
+            MOLTEN_SINK_TYPE: 4
             MOLTEN_SINK_HOST: zipkin
         volumes:
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -131,6 +134,9 @@ services:
             - redis
             - rabbitmq
             - elasticsearch
+        extra_hosts:
+        - "php5-localhost.docker:127.0.0.1"
+        - "php7-localhost.docker:127.0.0.1"
 
 ### nginx
     nginx:
