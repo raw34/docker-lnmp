@@ -107,8 +107,8 @@ services:
             - rabbitmq
             - elasticsearch
         extra_hosts:
-            - "php5-localhost.docker:127.0.0.1"
-            - "php7-localhost.docker:127.0.0.1"
+            - "php5-localhost.docker:172.17.0.1"
+            - "php7-localhost.docker:172.17.0.1"
 
 ### php7-fpm
     php7-fpm:
@@ -135,8 +135,8 @@ services:
             - rabbitmq
             - elasticsearch
         extra_hosts:
-        - "php5-localhost.docker:127.0.0.1"
-        - "php7-localhost.docker:127.0.0.1"
+            - "php5-localhost.docker:172.17.0.1"
+            - "php7-localhost.docker:172.17.0.1"
 
 ### nginx
     nginx:
