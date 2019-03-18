@@ -58,6 +58,7 @@ services:
             - "15672:15672"
         volumes:
             - ~/wwwdata/rabbitmq:/var/lib/rabbitmq
+            - ~/wwwlogs/rabbitmq:/var/log/rabbitmq/log
 
 ### elasticsearch
     elasticsearch:
@@ -93,7 +94,7 @@ services:
         environment:
             MOLTEN_SPAN_VERSION: v1
             MOLTEN_SPAN_FORMAT: zipkin
-            MOLTEN_SINK_TYPE: 4
+            MOLTEN_SINK_TYPE: 1
             MOLTEN_SINK_HOST: zipkin
         volumes:
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -121,7 +122,7 @@ services:
         environment:
             MOLTEN_SPAN_VERSION: v1
             MOLTEN_SPAN_FORMAT: zipkin
-            MOLTEN_SINK_TYPE: 4
+            MOLTEN_SINK_TYPE: 1
             MOLTEN_SINK_HOST: zipkin
         volumes:
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
