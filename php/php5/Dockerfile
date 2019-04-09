@@ -76,7 +76,7 @@ RUN \
     && rm -rf /tmp/v${PHALCON_VERSION}.tar.gz
 
 # Compile librdkafka && php-rdkafka
-ENV LIBRDKAFKA_VERSION=0.9.5
+ENV LIBRDKAFKA_VERSION=0.9.2
 ENV PHP_RDKAFKA_VERSION=1.0.0
 
 RUN \
