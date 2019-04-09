@@ -77,7 +77,7 @@ RUN \
 
 # Compile librdkafka && php-rdkafka
 ENV LIBRDKAFKA_VERSION=0.9.2
-ENV PHP_RDKAFKA_VERSION=1.0.0
+ENV PHP_RDKAFKA_VERSION=3.0.0
 
 RUN \
     cd /tmp \
