@@ -110,7 +110,6 @@ services:
         extra_hosts:
             - "php5-localhost.docker:172.17.0.1"
             - "php7-localhost.docker:172.17.0.1"
-            - "data01.new36kr.sa:192.168.101.237"
 
 ### php7-fpm
     php7-fpm:
