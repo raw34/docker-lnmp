@@ -216,6 +216,8 @@ RUN \
 
 # Configure PHP-FPM
 
+ENV TZ="Asia/Shanghai"
+
 EXPOSE 9000
 
 CMD ["php-fpm"]
