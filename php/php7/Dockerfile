@@ -40,6 +40,7 @@ RUN \
     make \
     re2c \
     supervisor \
+    tzdata \
     && rm -rf /var/cache/apk/*
 
 RUN \
@@ -52,6 +53,10 @@ RUN \
     && docker-php-ext-install zip
     # && pecl install mcrypt-1.0.1 \
     # && docker-php-ext-enable mcrypt
+
+# Set timezone
+RUN \
+    echo "Asia/Shanghai" /etc/timezone
 
 # Compile phalcon
 ENV PHALCON_VERSION=3.4.0
@@ -211,9 +216,6 @@ RUN \
     && echo 'molten.sink_log_path=/var/log/php/tracing' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sink_http_uri=http://${MOLTEN_SINK_HOST}:${MOLTEN_SINK_PORT}/api/${MOLTEN_SPAN_VERSION}/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && rm -rf /tmp/v${MOLTEN_VERSION}.tar.gz /tmp/Molten-${MOLTEN_VERSION}
-
-# Set timezone
-ENV TZ="Asia/Shanghai"
 
 # Configure PHP-FPM
 
