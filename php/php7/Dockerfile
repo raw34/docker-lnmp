@@ -212,6 +212,9 @@ RUN \
     && echo 'molten.sink_http_uri=http://${MOLTEN_SINK_HOST}:${MOLTEN_SINK_PORT}/api/${MOLTEN_SPAN_VERSION}/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && rm -rf /tmp/v${MOLTEN_VERSION}.tar.gz /tmp/Molten-${MOLTEN_VERSION}
 
+# Set timezone
+ENV TZ="Asia/Shanghai"
+
 # Configure PHP-FPM
 
 EXPOSE 9000
