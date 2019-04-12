@@ -55,7 +55,7 @@ RUN \
 
 # Set timezone
 RUN \
-    echo "Asia/Shanghai" /etc/timezone
+    echo "Asia/Shanghai" > /etc/timezone
 
 # Compile phalcon
 ENV PHALCON_VERSION=2.0.13
