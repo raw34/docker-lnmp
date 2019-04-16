@@ -100,6 +100,7 @@ services:
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
             - ~/wwwroot/repo:/www
+            - ~/.composer/cache:/root/.composer/cache
             - ~/.ssh:/root/.ssh
         links:
             - mysql
@@ -128,6 +129,7 @@ services:
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
             - ~/wwwroot/repo:/www
+            - ~/.composer/cache:/root/.composer/cache
             - ~/.ssh:/root/.ssh
         links:
             - mysql
