@@ -27,6 +27,7 @@ RUN \
     curl-dev \
     freetype-dev \
     gcc \
+    gdb \
     g++ \
     git \
     openssh \
