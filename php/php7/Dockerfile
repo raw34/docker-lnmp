@@ -190,6 +190,7 @@ VOLUME /data-php7
 # Install molten
 ENV MOLTEN_VERSION=0.1.1
 ENV MOLTEN_ENABLE=${MOLTEN_ENABLE:-1}
+ENV MOLTEN_TRACING_CLI=${MOLTEN_TRACING_CLI:-1}
 ENV MOLTEN_SPAN_VERSION=${MOLTEN_SPAN_VERSION:-v1}
 ENV MOLTEN_SPAN_FORMAT=${MOLTEN_SPAN_FORMAT:-zipkin}
 ENV MOLTEN_SINK_TYPE=${MOLTEN_SINK_TYPE:-1}
@@ -208,7 +209,7 @@ RUN \
     && docker-php-ext-enable molten \
     && echo 'molten.enable=${MOLTEN_ENABLE}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.report_interval=5' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.tracing_cli=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
+    && echo 'molten.tracing_cli=${MOLTEN_TRACING_CLI}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sampling_type=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sampling_rate=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.span_format=${MOLTEN_SPAN_FORMAT}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \

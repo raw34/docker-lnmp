@@ -92,6 +92,7 @@ services:
         container_name:
             docker_php5-fpm_1
         environment:
+            MOLTEN_TRACING_CLI: 0
             MOLTEN_SPAN_VERSION: v1
             MOLTEN_SPAN_FORMAT: zipkin
             MOLTEN_SINK_TYPE: 1
@@ -121,6 +122,7 @@ services:
         container_name:
             docker_php7-fpm_1
         environment:
+            MOLTEN_TRACING_CLI: 0
             MOLTEN_SPAN_VERSION: v1
             MOLTEN_SPAN_FORMAT: zipkin
             MOLTEN_SINK_TYPE: 1
