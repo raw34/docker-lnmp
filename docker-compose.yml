@@ -98,6 +98,7 @@ services:
             MOLTEN_SINK_TYPE: 1
             MOLTEN_SINK_HOST: zipkin
         volumes:
+            - ./php/php5.ini:/usr/local/etc/php/php.ini
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
             - ~/wwwroot/repo:/www
@@ -128,6 +129,7 @@ services:
             MOLTEN_SINK_TYPE: 1
             MOLTEN_SINK_HOST: zipkin
         volumes:
+            - ./php/php7.ini:/usr/local/etc/php/php.ini
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
             - ~/wwwroot/repo:/www
