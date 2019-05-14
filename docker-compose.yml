@@ -15,6 +15,7 @@ services:
             MYSQL_USER: "root"
             MYSQL_PASSWORD: "123456"
         volumes:
+            - ./aliases.sh:/root/.bashrc
             - ~/wwwdata/mysql:/var/lib/mysql
 
 ### mongo
@@ -26,6 +27,7 @@ services:
             MONGO_INITDB_ROOT_USERNAME: "root"
             MONGO_INITDB_ROOT_PASSWORD: "123456"
         volumes:
+            - ./aliases.sh:/root/.bashrc
             - ~/wwwdata/mongo/db:/data/db
             - ~/wwwdata/mongo/configdb:/data/configdb
 
@@ -39,6 +41,8 @@ services:
 #        environment:
 #            ME_CONFIG_MONGODB_ADMINUSERNAME: "root"
 #            ME_CONFIG_MONGODB_ADMINPASSWORD: "123456"
+#        volumes:
+#            - ./aliases.sh:/root/.bashrc
 #        restart: always
 
 ### redis
@@ -47,6 +51,7 @@ services:
         container_name:
             docker_redis_1
         volumes:
+            - ./aliases.sh:/etc/profile.d/aliases.sh
             - ~/wwwdata/redis:/data
 
 ### rabbitmq
@@ -57,6 +62,7 @@ services:
         ports:
             - "15672:15672"
         volumes:
+            - ./aliases.sh:/etc/profile.d/aliases.sh
             - ~/wwwdata/rabbitmq:/var/lib/rabbitmq
             - ~/wwwlogs/rabbitmq:/var/log/rabbitmq/log
 
@@ -72,6 +78,7 @@ services:
             transport.host: 0.0.0.0
             ES_JAVA_OPTS: "-Xms512m -Xmx512m"
         volumes:
+            - ./aliases.sh:/etc/profile.d/aliases.sh
             - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
             - ~/wwwdata/elasticsearch:/usr/share/elasticsearch/data
             - ~/wwwlogs/elasticsearch:/usr/share/elasticsearch/logs
@@ -81,6 +88,8 @@ services:
 #        image: mobz/elasticsearch-head:5-alpine
 #        container_name:
 #            docker_elastic-head_1
+#        volumes:
+#            - ./aliases.sh:/etc/profile.d/aliases.sh
 #        ports:
 #        - "9100:9100"
 
@@ -98,6 +107,7 @@ services:
             MOLTEN_SINK_TYPE: 1
             MOLTEN_SINK_HOST: zipkin
         volumes:
+            - ./aliases.sh:/etc/profile.d/aliases.sh
             - ./php/php5.ini:/usr/local/etc/php/php.ini
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
@@ -129,6 +139,7 @@ services:
             MOLTEN_SINK_TYPE: 1
             MOLTEN_SINK_HOST: zipkin
         volumes:
+            - ./aliases.sh:/etc/profile.d/aliases.sh
             - ./php/php7.ini:/usr/local/etc/php/php.ini
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
@@ -154,6 +165,7 @@ services:
             - "80:80"
             - "433:433"
         volumes:
+            - ./aliases.sh:/etc/profile.d/aliases.sh
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./nginx/php5-localhost.conf:/etc/nginx/sites-available/php5-localhost.conf
             - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
