@@ -8,9 +8,9 @@
 # 环境依赖
 ## Docker
 
-MacOS：(下载地址1)[https://download.docker.com/mac/stable/Docker.dmg] (下载地址2)[https://dn-dao-github-mirror.qbox.me/docker/install/mac/Docker.dmg]
+MacOS：[下载地址1](https://download.docker.com/mac/stable/Docker.dmg) [下载地址2](https://dn-dao-github-mirror.qbox.me/docker/install/mac/Docker.dmg)
 
-Windows：(下载地址1)[https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe] (下载地址2)[https://dn-dao-github-mirror.qbox.me/docker/install/windows/InstallDocker.msi]
+Windows：[下载地址1](https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe) [下载地址2](https://dn-dao-github-mirror.qbox.me/docker/install/windows/InstallDocker.msi)
 
 Linux：略
 
