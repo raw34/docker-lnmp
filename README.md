@@ -22,6 +22,7 @@ Linux：略
 mkdir -p ~/wwwetc/nginx/sites-available
 mkdir -p ~/wwwroot/repo
 mkdir -p ~/wwwdata/mysql
+mkdir -p ~/wwwdata/mongo
 mkdir -p ~/wwwdata/redis
 mkdir -p ~/wwwdata/rabbitmq
 mkdir -p ~/wwwdata/elasticsearch
