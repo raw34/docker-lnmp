@@ -16,7 +16,7 @@ Linux：略
 
 需要准备一些本地目录（也可以在docker-compose.yaml中调整），创建目录命令如下：
 
-``
+```
 mkdir -p ~/wwwetc/nginx/sites-available
 mkdir -p ~/wwwroot/repo
 mkdir -p ~/wwwdata/mysql
