@@ -42,6 +42,7 @@ docker-compose up -d
 # 项目配置
 ```
 cd ~/wwwroot/repo
+echo "<?php echo phpinfo();?>" > ~/wwwroot/repo/index.php
 git clone 项目地址 项目目录
 cd 项目目录
 cp .env.local .env
