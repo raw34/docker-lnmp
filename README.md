@@ -47,6 +47,7 @@ cd 项目目录
 cp .env.local .env
 cp ~/wwwroot/repo/docker-lnmp/nginx/example-xxx.conf ~/wwwetc/nginx/sites-available/my-project.conf
 // 修改my-project.conf
+cd ~/wwwroot/repo/docker-lnmp
 docker-compose restart
 sudo -- sh -c -e  "echo 127.0.0.1 'php5-localhost.docker php7-localhost.docker php5-xhgui.docker php7-xhgui.docker' >> /etc/hosts"
 ```
