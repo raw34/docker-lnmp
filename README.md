@@ -8,8 +8,10 @@
 # 环境依赖
 ## Docker
 
-MacOS：下载地址1 下载地址2
-Windows：下载地址1 下载地址2
+MacOS：[下载地址1](https://download.docker.com/mac/stable/Docker.dmg) [下载地址2](https://dn-dao-github-mirror.qbox.me/docker/install/mac/Docker.dmg)
+
+Windows：[下载地址1](https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe) [下载地址2](https://dn-dao-github-mirror.qbox.me/docker/install/windows/InstallDocker.msi)
+
 Linux：略
 
 ## 目录
@@ -20,6 +22,7 @@ Linux：略
 mkdir -p ~/wwwetc/nginx/sites-available
 mkdir -p ~/wwwroot/repo
 mkdir -p ~/wwwdata/mysql
+mkdir -p ~/wwwdata/mongo
 mkdir -p ~/wwwdata/redis
 mkdir -p ~/wwwdata/rabbitmq
 mkdir -p ~/wwwdata/elasticsearch
@@ -39,11 +42,13 @@ docker-compose up -d
 # 项目配置
 ```
 cd ~/wwwroot/repo
+echo "<?php echo phpinfo();?>" > ~/wwwroot/repo/index.php
 git clone 项目地址 项目目录
 cd 项目目录
 cp .env.local .env
 cp ~/wwwroot/repo/docker-lnmp/nginx/example-xxx.conf ~/wwwetc/nginx/sites-available/my-project.conf
 // 修改my-project.conf
+cd ~/wwwroot/repo/docker-lnmp
 docker-compose restart
 sudo -- sh -c -e  "echo 127.0.0.1 'php5-localhost.docker php7-localhost.docker php5-xhgui.docker php7-xhgui.docker' >> /etc/hosts"
 ```
@@ -67,6 +72,7 @@ location ~ \.php$ {
 浏览器访问：
 
 http://php5-localhost.docker
+
 http://php7-localhost.docker
 
 ## xhgui后台验证
