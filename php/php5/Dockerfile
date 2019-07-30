@@ -55,6 +55,8 @@ RUN \
     && docker-php-ext-install zip
 
 # Set timezone
+ENV TZ="Asia/Shanghai"
+
 RUN \
     echo "Asia/Shanghai" > /etc/timezone
 
@@ -216,9 +218,22 @@ RUN \
     && echo 'molten.sink_http_uri=http://${MOLTEN_SINK_HOST}:${MOLTEN_SINK_PORT}/api/${MOLTEN_SPAN_VERSION}/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && rm -rf /tmp/v${MOLTEN_VERSION}.tar.gz /tmp/Molten-${MOLTEN_VERSION}
 
-# Configure PHP-FPM
+# Install xdebug
+ENV XDEBUG_VERSION=2.5.5
 
-ENV TZ="Asia/Shanghai"
+RUN \
+    cd /tmp \
+    && wget https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
+    && tar xzf xdebug-${XDEBUG_VERSION}.tgz \
+    && cd xdebug-${XDEBUG_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable xdebug \
+    && rm -rf /tmp/xdebug-${XDEBUG_VERSION}.tgz /tmp/xdebug-${XDEBUG_VERSION}
+
+# Configure PHP-FPM
 
 EXPOSE 9000
 

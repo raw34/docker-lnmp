@@ -157,6 +157,11 @@ services:
         extra_hosts:
             - "php5-localhost.docker:172.17.0.1"
             - "php7-localhost.docker:172.17.0.1"
+#        ulimits:
+#          nproc: 65535
+#          nofile:
+#            soft: 20000
+#            hard: 40000
 
 ### nginx
     nginx:
