@@ -24,7 +24,6 @@ RUN \
     autoconf \
     bash \
     busybox-extras \
-    curl-dev \
     freetype-dev \
     gcc \
     gdb \
@@ -33,7 +32,6 @@ RUN \
     openssh \
     openssl-dev \
     libc-dev \
-    libcurl \
     libjpeg-turbo-dev \
     libmcrypt-dev \
     libpng-dev \
@@ -180,7 +178,7 @@ RUN \
     && sed -i "s|127\.0\.0\.1|mongo|g" /data-php5/xhgui/config/config.php \
     && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data-php5/xhgui/config/config.php \
     && sed -i 's|"phpunit/phpunit": "3.7.x-dev",||g' /data-php5/xhgui/composer.json \
-    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://packagist.phpcomposer.com"}}, "suggest"|g' /data-php5/xhgui/composer.json \
+    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://mirrors.aliyun.com/composer"}}, "suggest"|g' /data-php5/xhgui/composer.json \
     && chmod -R 777 /data-php5/xhgui/cache \
     && composer install --no-dev \
     && rm -rf /data-php5/v${XGUI_VERSION}.tar.gz

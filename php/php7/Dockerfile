@@ -182,7 +182,7 @@ RUN \
     && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data-php7/xhgui/config/config.php \
     && sed -i 's|"pimple/pimple"|"alcaeus/mongo-php-adapter": "^1.0", "pimple/pimple"|g' /data-php7/xhgui/composer.json \
     && sed -i 's|"phpunit/phpunit": "3.7.x-dev",||g' /data-php7/xhgui/composer.json \
-    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://packagist.phpcomposer.com"}}, "suggest"|g' /data-php7/xhgui/composer.json \
+    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://mirrors.aliyun.com/composer"}}, "suggest"|g' /data-php7/xhgui/composer.json \
     && rm /data-php7/xhgui/composer.lock \
     && chmod -R 777 /data-php7/xhgui/cache \
     && composer install --no-dev \
