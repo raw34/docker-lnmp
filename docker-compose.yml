@@ -54,7 +54,9 @@ services:
             - "6379:6379"
         volumes:
             - ./aliases.sh:/etc/profile.d/aliases.sh
+            - ./redis/redis.conf:/etc/redis/redis.conf
             - ~/wwwdata/redis:/data
+        command: redis-server --requirepass 123456
 
 ### rabbitmq
     rabbitmq:
