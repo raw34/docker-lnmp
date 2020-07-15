@@ -95,6 +95,29 @@ services:
 #        ports:
 #        - "9100:9100"
 
+### zookeeper
+    zookeeper:
+        image: zookeeper
+        container_name:
+          docker_zookeeper_1
+        ports:
+            - "2181:2181"
+### kafka
+    kafka:
+        image: wurstmeister/kafka
+        container_name:
+            docker_kafka_1
+        ports:
+            - "9092:9092"
+        environment:
+            KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+            KAFKA_ADVERTISED_PORT: 9092
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        links:
+            - zookeeper
+
 ### php5-fpm
     php5-fpm:
         image: raw34/php5-fpm
@@ -121,6 +144,7 @@ services:
             - mysql
 #            - mongo
             - redis
+            - kafka
             - rabbitmq
             - elasticsearch
         extra_hosts:
@@ -154,6 +178,7 @@ services:
             - mysql
 #            - mongo
             - redis
+            - kafka
             - rabbitmq
             - elasticsearch
         extra_hosts:
