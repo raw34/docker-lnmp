@@ -1,7 +1,7 @@
 # 简介
 本套环境利用docker-compose搭建，安装后可以直接运行php项目。
 
-目前包含mysql、mongo、mongo-express、redis、rabbitmq、elasticsearch、php5、php7、nginx镜像，其中php5和php7镜像集成了xhprof和xhgui，可用于分析php程序性能。
+目前包含mysql、mongo、redis、kafka、rabbitmq、elasticsearch、php5、php7、nginx镜像，其中php5和php7镜像集成了xhprof和xhgui，可用于分析php程序性能。
 
 
 
