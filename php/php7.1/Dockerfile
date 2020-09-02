@@ -41,6 +41,7 @@ RUN \
     linux-headers \
     make \
     re2c \
+    sshpass \
     supervisor \
     tzdata \
     && rm -rf /var/cache/apk/*
