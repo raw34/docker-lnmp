@@ -63,9 +63,8 @@ ENV TZ="Asia/Shanghai"
 RUN \
     echo "Asia/Shanghai" > /etc/timezone
 
-# Compile librdkafka && php-rdkafka
-ENV LIBRDKAFKA_VERSION=0.9.5
-ENV PHP_RDKAFKA_VERSION=3.0.5
+# Compile librdkafka
+ENV LIBRDKAFKA_VERSION=1.5.0
 
 RUN \
     cd /tmp \
@@ -75,7 +74,12 @@ RUN \
     && ./configure \
     && make \
     && make install \
-    && cd /tmp \
+    && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION}
+
+# Compile php-rdkafka
+ENV PHP_RDKAFKA_VERSION=4.0.3
+RUN \
+    cd /tmp \
     && wget https://github.com/arnaud-lb/php-rdkafka/archive/${PHP_RDKAFKA_VERSION}.tar.gz \
     && tar xzf ${PHP_RDKAFKA_VERSION}.tar.gz \
     && cd php-rdkafka-${PHP_RDKAFKA_VERSION} \
@@ -84,7 +88,7 @@ RUN \
     && make all -j 5 \
     && make install \
     && docker-php-ext-enable rdkafka \
-    && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION} /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
+    && rm -rf /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
 
 # Compile mongodb
 ENV PHP_MONGO_VERSION=1.5.3
