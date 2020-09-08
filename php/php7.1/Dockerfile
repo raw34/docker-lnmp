@@ -139,7 +139,7 @@ RUN \
     && rm -rf /tmp/xdebug-${XDEBUG_VERSION}.tgz /tmp/xdebug-${XDEBUG_VERSION}
 
 # Compile phpredis
-ENV PHP_REDIS_VERSION=4.3.0
+ENV PHP_REDIS_VERSION=3.1.6
 
 RUN \
     cd /tmp \
