@@ -138,6 +138,21 @@ RUN \
     && docker-php-ext-enable xdebug \
     && rm -rf /tmp/xdebug-${XDEBUG_VERSION}.tgz /tmp/xdebug-${XDEBUG_VERSION}
 
+# Compile phpredis
+ENV PHP_REDIS_VERSION=4.3.0
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/phpredis/phpredis/archive/${PHP_REDIS_VERSION}.tar.gz \
+    && tar xzf ${PHP_REDIS_VERSION}.tar.gz \
+    && cd phpredis-${PHP_REDIS_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable redis \
+    && rm -rf /tmp/${PHP_REDIS_VERSION}.tar.gz /tmp/phpredis-${PHP_REDIS_VERSION}
+
 # Install phpunit
 ENV PHPUNIT_VERSION=7.1.5
 
@@ -181,7 +196,7 @@ RUN \
     && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data-php7/xhgui/config/config.php \
     && sed -i 's|"pimple/pimple"|"alcaeus/mongo-php-adapter": "^1.0", "pimple/pimple"|g' /data-php7/xhgui/composer.json \
     && sed -i 's|"phpunit/phpunit": "3.7.x-dev",||g' /data-php7/xhgui/composer.json \
-    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://mirrors.aliyun.com/composer"}}, "suggest"|g' /data-php7/xhgui/composer.json \
+#    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://mirrors.aliyun.com/composer"}}, "suggest"|g' /data-php7/xhgui/composer.json \
     && rm /data-php7/xhgui/composer.lock \
     && chmod -R 777 /data-php7/xhgui/cache \
     && composer install -vvv --no-dev \
