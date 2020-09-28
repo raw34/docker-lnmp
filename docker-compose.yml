@@ -122,6 +122,17 @@ services:
         links:
             - zookeeper
 
+### etcd
+#    etcd:
+#        image: bitnami/etcd:3
+#        container_name:
+#            docker_etcd_1
+#        ports:
+#            - "2379:2379"
+#            - "2380:2380"
+#        environment:
+#            - ALLOW_NONE_AUTHENTICATION=yes
+
 ### php5-fpm
     php5-fpm:
         image: raw34/php5-fpm
@@ -220,14 +231,3 @@ services:
         links:
             - php5-fpm
             - php7-fpm
-
-### etcd
-    etcd:
-        image: bitnami/etcd:3
-        container_name:
-            docker_etcd_1
-        ports:
-          - "2379:2379"
-          - "2380:2380"
-        environment:
-            - ALLOW_NONE_AUTHENTICATION=yes
