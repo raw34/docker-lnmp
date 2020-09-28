@@ -142,6 +142,7 @@ services:
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
             - ~/wwwroot/repo:/www
+            - ~/data:/alidata
             - ~/.composer/cache:/root/.composer/cache
             - ~/.ssh:/root/.ssh
         links:
@@ -177,6 +178,7 @@ services:
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
             - ~/wwwlogs/php:/var/log/php
             - ~/wwwroot/repo:/www
+            - ~/data:/alidata
             - ~/.composer/cache:/root/.composer/cache
             - ~/.ssh:/root/.ssh
         links:
@@ -218,3 +220,14 @@ services:
         links:
             - php5-fpm
             - php7-fpm
+
+### etcd
+    etcd:
+        image: bitnami/etcd:3
+        container_name:
+            docker_etcd_1
+        ports:
+          - "2379:2379"
+          - "2380:2380"
+        environment:
+            - ALLOW_NONE_AUTHENTICATION=yes
