@@ -23,6 +23,8 @@ services:
         image: mongo:3.6-stretch
         container_name:
             docker_mongo_1
+        ports:
+            - "27017:27017"
         environment:
             MONGO_INITDB_ROOT_USERNAME: "root"
             MONGO_INITDB_ROOT_PASSWORD: "123456"
