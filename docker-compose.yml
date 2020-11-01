@@ -79,6 +79,7 @@ services:
             docker_elastic_1
         ports:
             - "9200:9200"
+            - "9300:9300"
         environment:
             http.host: 0.0.0.0
             transport.host: 0.0.0.0
