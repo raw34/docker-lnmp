@@ -123,6 +123,18 @@ services:
         links:
             - zookeeper
 
+## hbase
+    hbase:
+        image: dajobe/hbase
+        container_name:
+            docker_hbase_1
+        ports:
+            - "16001:8080"
+            - "16002:9090"
+            - "16010:16010"
+        volumes:
+            - ~/wwwdata/hbase:/data
+
 ### etcd
 #    etcd:
 #        image: bitnami/etcd:3
