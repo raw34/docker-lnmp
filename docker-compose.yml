@@ -32,8 +32,10 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: "123456"
         volumes:
             - ./aliases.sh:/root/.bashrc
+            - ./mongo/mongod.conf:/etc/mongod.conf.orig
             - ~/wwwdata/mongo/db:/data/db
             - ~/wwwdata/mongo/configdb:/data/configdb
+            - ~/wwwlogs/mongodb:/var/log/mongodb
 
 ### mongo-express
 #    mongo-express:
@@ -71,6 +73,7 @@ services:
             - "15672:15672"
         volumes:
             - ./aliases.sh:/etc/profile.d/aliases.sh
+            - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
             - ~/wwwdata/rabbitmq:/var/lib/rabbitmq
             - ~/wwwlogs/rabbitmq:/var/log/rabbitmq/log
 
