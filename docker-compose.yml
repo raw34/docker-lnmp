@@ -16,7 +16,9 @@ services:
             MYSQL_PASSWORD: "123456"
         volumes:
             - ./aliases.sh:/root/.bashrc
+            - ./mysql/my.cnf:/etc/mysql/my.cnf
             - ~/wwwdata/mysql:/var/lib/mysql
+            - ~/wwwlogs/mysql:/var/log/mysql
 
 ## mongo
     mongo:
