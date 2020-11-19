@@ -3,8 +3,6 @@
 
 目前包含mysql、mongo、redis、kafka、rabbitmq、elasticsearch、php5、php7、nginx镜像，其中php5和php7镜像集成了xhprof和xhgui，可用于分析php程序性能。
 
-
-
 # 环境依赖
 ## Docker
 
@@ -38,34 +36,10 @@ cd docker-lnmp
 docker-compose up -d
 ```
 
-
-# 项目配置
+# Hosts配置
 ```
-cd ~/wwwroot/repo
-echo "<?php echo phpinfo();?>" > ~/wwwroot/repo/index.php
-git clone 项目地址 项目目录
-cd 项目目录
-cp .env.local .env
-cp ~/wwwroot/repo/docker-lnmp/nginx/example-xxx.conf ~/wwwetc/nginx/sites-available/my-project.conf
-// 修改my-project.conf
-cd ~/wwwroot/repo/docker-lnmp
-docker-compose restart
 sudo -- sh -c -e  "echo 127.0.0.1 'php5-localhost.docker php7-localhost.docker php5-xhgui.docker php7-xhgui.docker' >> /etc/hosts"
 ```
-
-
-
-# 项目XHGUI配置
-如果项目需要利用xhgui分析性能，需要在nginx配置文件中加一行配置，如下示例 :
-
-```
-location ~ \.php$ {
-    ......
-    fastcgi_param PHP_VALUE "auto_prepend_file=/data-php5/xhgui/external/header.php";#php5项目
-    #fastcgi_param PHP_VALUE "auto_prepend_file=/data-php7/xhgui/external/header.php";#php7项目
-}
-```
-
 
 # 验证环境安装结果
 ## phpinfo验证
@@ -80,7 +54,40 @@ http://php7-localhost.docker
 
 http://php7-xhgui.docker
 
+# 自定义项目安装
+## 代码安装
+```
+cd ~/wwwroot/repo
+echo "<?php echo phpinfo();?>" > ~/wwwroot/repo/index.php
+git clone 项目地址 项目目录
+cd 项目目录
+cp .env.local .env
+composer install
+```
 
+## Nginx配置
+```
+cp ~/wwwroot/repo/docker-lnmp/nginx/example-xxx.conf ~/wwwetc/nginx/sites-available/my-project.conf
+// 针对项目修改my-project.conf
+cd ~/wwwroot/repo/docker-lnmp
+docker-compose restart
+```
+
+## Hosts配置
+```
+sudo -- sh -c -e  "echo 127.0.0.1 'exmpale-xxx.docker.xxx.com' >> /etc/hosts"
+```
+
+## Xhgui配置
+如果项目需要利用xhgui分析性能，需要在nginx配置文件中加一行配置，如下示例 :
+
+```
+location ~ \.php$ {
+    ......
+    fastcgi_param PHP_VALUE "auto_prepend_file=/data-php5/xhgui/external/header.php";#php5项目
+    #fastcgi_param PHP_VALUE "auto_prepend_file=/data-php7/xhgui/external/header.php";#php7项目
+}
+```
 
 # 常用命令
 ## 命令别名导入
@@ -89,6 +96,7 @@ echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> ~/.bash_profil
 && echo 'alias dmongo="docker exec -it docker_mongo_1 /bin/bash"' >> ~/.bash_profile \
 && echo 'alias dmongoex="docker exec -it docker_mongo-express_1 /bin/ash"' >> ~/.bash_profile \
 && echo 'alias dredis="docker exec -it docker_redis_1 /bin/ash"' >> ~/.bash_profile \
+&& echo 'alias dkafka="docker exec -it docker_kafka_1 /bin/ash"' >> ~/.bash_profile \
 && echo 'alias drabbitmq="docker exec -it docker_rabbitmq_1 /bin/ash"' >> ~/.bash_profile \
 && echo 'alias delastic="docker exec -it docker_elastic_1 /bin/ash"' >> ~/.bash_profile \
 && echo 'alias dphp5="docker exec -it docker_php5-fpm_1 /bin/ash"' >> ~/.bash_profile \
@@ -103,13 +111,12 @@ echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> ~/.bash_profil
 - 重启环境：docker-compose restart
 - 登录mysql容器：dmysql
 - 登录redis容器：dredis
+- 登录kafaka容器：dkafka
 - 登录rabbitmq容器：drabbitmq
 - 登录elasticsearch容器：delastic
 - 登录php5容器：dphp5
 - 登录php7容器：dphp7
 - 登录nginx容器：dnginx
-
-
 
 # Q&A
 如何查看nginx访问日志
