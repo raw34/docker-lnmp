@@ -22,7 +22,7 @@ SHELL_PROFILE=~/.zshrc
 ```
 
 ## 目录创建
-需要准备一些本地目录（可以在.env中的常量声明中调整），创建目录命令如下：
+需要准备一些本地目录，创建目录命令如下：
 
 ```
 mkdir -p ${PATH_WWW_ETC}/nginx/sites-available \
@@ -36,6 +36,8 @@ mkdir -p ${PATH_WWW_LOG}/php \
 mkdir -p ${PATH_WWW_LOG}/nginx 
 ```
 
+可以在.env中的常量声明中调整目录，要确.env文件中的常量声明和当前文档中的声明一致。
+
 # 环境安装
 ```
 cd ${PATH_WWW_ROOT}/repo
@@ -43,6 +45,36 @@ git clone git@github.com:raw34/docker-lnmp.git
 cd docker-lnmp
 docker-compose up -d
 ```
+
+# 快捷命令
+## 命令导入
+```
+echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> SHELL_PROFILE \
+&& echo 'alias dmongo="docker exec -it docker_mongo_1 /bin/bash"' >> SHELL_PROFILE \
+&& echo 'alias dmongoex="docker exec -it docker_mongo-express_1 /bin/ash"' >> SHELL_PROFILE \
+&& echo 'alias dredis="docker exec -it docker_redis_1 /bin/ash"' >> SHELL_PROFILE \
+&& echo 'alias dkafka="docker exec -it docker_kafka_1 /bin/ash"' >> SHELL_PROFILE \
+&& echo 'alias drabbitmq="docker exec -it docker_rabbitmq_1 /bin/ash"' >> SHELL_PROFILE \
+&& echo 'alias delastic="docker exec -it docker_elastic_1 /bin/ash"' >> SHELL_PROFILE \
+&& echo 'alias dphp5="docker exec -it docker_php5-fpm_1 /bin/ash"' >> SHELL_PROFILE \
+&& echo 'alias dphp7="docker exec -it docker_php7-fpm_1 /bin/ash"' >> SHELL_PROFILE \
+&& echo 'alias dnginx="docker exec -it docker_nginx_1 /bin/ash"' >> SHELL_PROFILE \
+&& source SHELL_PROFILE
+```
+
+## 命令列表
+- 启动环境：docker-compose up -d
+- 停止环境：docker-compose down
+- 重启环境：docker-compose restart
+- 登录mysql容器：dmysql
+- 登录redis容器：dredis
+- 登录kafka容器：dkafka
+- 登录rabbitmq容器：drabbitmq
+- 登录elasticsearch容器：delastic
+- 登录php5容器：dphp5
+- 登录php7容器：dphp7
+- 登录nginx容器：dnginx
+
 
 # demo项目安装
 ## 代码安装
@@ -61,17 +93,18 @@ sudo -- sh -c -e  "echo 127.0.0.1 'php5-localhost.docker php7-localhost.docker p
 ```
 
 ## 安装结果验证
-### phpinfo验证
+### phpinfo方式验证
 浏览器访问：
 
 http://php5-localhost.docker
 
 http://php7-localhost.docker
 
-### xhgui验证
+### xhgui方式验证
 浏览器访问：
 
 http://php7-xhgui.docker
+
 
 # 自定义项目安装
 ## 代码安装
@@ -108,35 +141,6 @@ location ~ \.php$ {
 ```
 
 ## 安装结果验证
-
-# 常用命令
-## 命令别名导入
-```
-echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> SH_PROFILE \
-&& echo 'alias dmongo="docker exec -it docker_mongo_1 /bin/bash"' >> SH_PROFILE \
-&& echo 'alias dmongoex="docker exec -it docker_mongo-express_1 /bin/ash"' >> SH_PROFILE \
-&& echo 'alias dredis="docker exec -it docker_redis_1 /bin/ash"' >> SH_PROFILE \
-&& echo 'alias dkafka="docker exec -it docker_kafka_1 /bin/ash"' >> SH_PROFILE \
-&& echo 'alias drabbitmq="docker exec -it docker_rabbitmq_1 /bin/ash"' >> SH_PROFILE \
-&& echo 'alias delastic="docker exec -it docker_elastic_1 /bin/ash"' >> SH_PROFILE \
-&& echo 'alias dphp5="docker exec -it docker_php5-fpm_1 /bin/ash"' >> SH_PROFILE \
-&& echo 'alias dphp7="docker exec -it docker_php7-fpm_1 /bin/ash"' >> SH_PROFILE \
-&& echo 'alias dnginx="docker exec -it docker_nginx_1 /bin/ash"' >> SH_PROFILE \
-&& source SHELL_PROFILE
-```
-
-## 命令列表
-- 启动环境：docker-compose up -d
-- 停止环境：docker-compose down
-- 重启环境：docker-compose restart
-- 登录mysql容器：dmysql
-- 登录redis容器：dredis
-- 登录kafka容器：dkafka
-- 登录rabbitmq容器：drabbitmq
-- 登录elasticsearch容器：delastic
-- 登录php5容器：dphp5
-- 登录php7容器：dphp7
-- 登录nginx容器：dnginx
 
 # Q&A
 - 如何修改默认目录
