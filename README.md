@@ -131,7 +131,7 @@ echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> SH_PROFILE \
 - 重启环境：docker-compose restart
 - 登录mysql容器：dmysql
 - 登录redis容器：dredis
-- 登录kafaka容器：dkafka
+- 登录kafka容器：dkafka
 - 登录rabbitmq容器：drabbitmq
 - 登录elasticsearch容器：delastic
 - 登录php5容器：dphp5
@@ -139,6 +139,7 @@ echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> SH_PROFILE \
 - 登录nginx容器：dnginx
 
 # Q&A
+- 如何修改默认目录
 - 如何查看nginx访问日志
 ```
 tail -f ~/wwwlogs/nginx/access.log
