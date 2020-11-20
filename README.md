@@ -12,6 +12,9 @@ Windows：[下载地址1](https://download.docker.com/win/stable/Docker%20for%20
 
 Linux：略
 
+## git
+## ssh
+
 ## 常量声明
 ```
 PATH_WWW_ETC=~/wwwetc \
@@ -46,8 +49,7 @@ cd docker-lnmp
 docker-compose up -d
 ```
 
-# 快捷命令
-## 命令导入
+# 常用命令导入
 ```
 echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> SHELL_PROFILE \
 && echo 'alias dmongo="docker exec -it docker_mongo_1 /bin/bash"' >> SHELL_PROFILE \
@@ -62,26 +64,7 @@ echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> SHELL_PROFILE 
 && source SHELL_PROFILE
 ```
 
-## 命令列表
-- 启动环境：docker-compose up -d
-- 停止环境：docker-compose down
-- 重启环境：docker-compose restart
-- 登录mysql容器：dmysql
-- 登录redis容器：dredis
-- 登录kafka容器：dkafka
-- 登录rabbitmq容器：drabbitmq
-- 登录elasticsearch容器：delastic
-- 登录php5容器：dphp5
-- 登录php7容器：dphp7
-- 登录nginx容器：dnginx
-
-
 # demo项目安装
-## 代码安装
-```
-echo "<?php echo phpinfo();?>" > ${PATH_WWW_ROOT}/repo/index.php
-```
-
 ## nginx配置
 ```
 cp ${PATH_WWW_ROOT}/repo/docker-lnmp/nginx/php*.conf ${PATH_WWW_ETC}/nginx/sites-available/
@@ -90,6 +73,11 @@ cp ${PATH_WWW_ROOT}/repo/docker-lnmp/nginx/php*.conf ${PATH_WWW_ETC}/nginx/sites
 ## hosts配置
 ```
 sudo -- sh -c -e  "echo 127.0.0.1 'php5-localhost.docker php7-localhost.docker php5-xhgui.docker php7-xhgui.docker' >> /etc/hosts"
+```
+
+## 代码安装
+```
+echo "<?php echo phpinfo();?>" > ${PATH_WWW_ROOT}/repo/index.php
 ```
 
 ## 安装结果验证
@@ -106,27 +94,29 @@ http://php7-localhost.docker
 http://php7-xhgui.docker
 
 
-# 自定义项目安装
-## 代码安装
-```
-cd ${PATH_WWW_ROOT}/repo
-git clone 项目地址 项目目录
-cd 项目目录
-cp .env.local .env
-composer install
-```
-
+# 自定义项目安装（Laravel）
 ## nginx配置
 ```
-cp ${PATH_WWW_ROOT}/repo/docker-lnmp/nginx/example-xxx.conf ${PATH_WWW_ETC}/nginx/sites-available/my-project.conf
-// 针对项目修改my-project.conf
 cd ${PATH_WWW_ROOT}/repo/docker-lnmp
+cp ./nginx/example-laravel.conf ${PATH_WWW_ETC}/nginx/sites-available/laravel-basic.conf
+sed -i "s|exmaple-laravel|laravel-basic|g" ${PATH_WWW_ETC}/nginx/sites-available/laravel-basic.conf
+sed -i "s|.docker.raw34.xyz|.docker.mydomain.com|g" ${PATH_WWW_ETC}/nginx/sites-available/laravel-basic.conf
 docker-compose restart
 ```
 
 ## hosts配置
 ```
-sudo -- sh -c -e  "echo 127.0.0.1 'exmpale-xxx.docker.xxx.com' >> /etc/hosts"
+sudo -- sh -c -e  "echo 127.0.0.1 'laravel-basic.docker.mydomain.com' >> /etc/hosts"
+```
+
+## 代码安装
+```
+cd ${PATH_WWW_ROOT}/repo
+git clone git@github.com:raw34/laravel-basic.git
+cp .env.exmpale .env
+dphp7
+cd /www/laravel-basic
+composer install -vvv
 ```
 
 ## xhgui配置
@@ -142,8 +132,22 @@ location ~ \.php$ {
 
 ## 安装结果验证
 
+# 常用命令列表
+- 启动环境：docker-compose up -d
+- 停止环境：docker-compose down
+- 重启环境：docker-compose restart
+- 登录mysql容器：dmysql
+- 登录redis容器：dredis
+- 登录kafka容器：dkafka
+- 登录rabbitmq容器：drabbitmq
+- 登录elasticsearch容器：delastic
+- 登录php5容器：dphp5
+- 登录php7容器：dphp7
+- 登录nginx容器：dnginx
+
 # Q&A
 - 如何修改默认目录
+
 - 如何查看nginx访问日志
 ```
 tail -f ~/wwwlogs/nginx/access.log
