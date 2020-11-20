@@ -16,8 +16,8 @@ services:
             MYSQL_PASSWORD: "123456"
         volumes:
             - ./mysql/my.cnf:/etc/mysql/my.cnf
-            - ~/wwwdata/mysql:/var/lib/mysql
-            - ~/wwwlogs/mysql:/var/log/mysql
+            - $PATH_WWW_DATA/mysql:/var/lib/mysql
+            - $PATH_WWW_LOG/mysql:/var/log/mysql
 
 ## mongo
     mongo:
@@ -31,9 +31,9 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: "123456"
         volumes:
             - ./mongo/mongod.conf:/etc/mongod.conf.orig
-            - ~/wwwdata/mongo/db:/data/db
-            - ~/wwwdata/mongo/configdb:/data/configdb
-            - ~/wwwlogs/mongodb:/var/log/mongodb
+            - $PATH_WWW_DATA/mongo/db:/data/db
+            - $PATH_WWW_DATA/mongo/configdb:/data/configdb
+            - $PATH_WWW_LOG/mongodb:/var/log/mongodb
 
 ### mongo-express
 #    mongo-express:
@@ -56,7 +56,7 @@ services:
             - "6379:6379"
         volumes:
             - ./redis/redis.conf:/etc/redis/redis.conf
-            - ~/wwwdata/redis:/data
+            - $PATH_WWW_DATA/redis:/data
         command: redis-server --requirepass 123456
 
 ### rabbitmq
@@ -68,8 +68,8 @@ services:
             - "15672:15672"
         volumes:
             - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-            - ~/wwwdata/rabbitmq:/var/lib/rabbitmq
-            - ~/wwwlogs/rabbitmq:/var/log/rabbitmq/log
+            - $PATH_WWW_DATA/rabbitmq:/var/lib/rabbitmq
+            - $PATH_WWW_LOG/rabbitmq:/var/log/rabbitmq/log
 
 ### elasticsearch
     elasticsearch:
@@ -85,8 +85,8 @@ services:
             ES_JAVA_OPTS: "-Xms512m -Xmx512m"
         volumes:
             - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-            - ~/wwwdata/elasticsearch:/usr/share/elasticsearch/data
-            - ~/wwwlogs/elasticsearch:/usr/share/elasticsearch/logs
+            - $PATH_WWW_DATA/elasticsearch:/usr/share/elasticsearch/data
+            - $PATH_WWW_LOG/elasticsearch:/usr/share/elasticsearch/logs
 
 ### elasticsearch-head
 #    elasticsearch-head:
@@ -136,9 +136,9 @@ services:
         volumes:
             - ./php/php5.ini:/usr/local/etc/php/php.ini
             - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
-            - ~/wwwlogs/php:/var/log/php
-            - ~/wwwroot/repo:/www
-            - ~/data:/alidata
+            - $PATH_WWW_LOG/php:/var/log/php
+            - $PATH_WWW_ROOT/repo:/www
+            - $PATH_WWW_DATA/alidata:/alidata
             - ~/.composer/cache:/root/.composer/cache
             - ~/.ssh:/root/.ssh
         links:
@@ -171,9 +171,9 @@ services:
         volumes:
             - ./php/php7.ini:/usr/local/etc/php/php.ini
             - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
-            - ~/wwwlogs/php:/var/log/php
-            - ~/wwwroot/repo:/www
-            - ~/data:/alidata
+            - $PATH_WWW_LOG/php:/var/log/php
+            - $PATH_WWW_ROOT/repo:/www
+            - $PATH_WWW_DATA/alidata:/alidata
             - ~/.composer/cache:/root/.composer/cache
             - ~/.ssh:/root/.ssh
         links:
@@ -201,8 +201,8 @@ services:
             - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
             - ./nginx/php5-xhgui.conf:/etc/nginx/sites-available/php5-xhgui.conf
             - ./nginx/php7-xhgui.conf:/etc/nginx/sites-available/php7-xhgui.conf
-            - ~/wwwetc/nginx/sites-available:/etc/nginx/sites-available
-            - ~/wwwlogs/nginx:/var/log/nginx
+            - $PATH_WWW_ETC/nginx/sites-available:/etc/nginx/sites-available
+            - $PATH_WWW_LOG/nginx:/var/log/nginx
         volumes_from:
             - php5-fpm
             - php7-fpm
