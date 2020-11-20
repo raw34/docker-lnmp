@@ -140,19 +140,46 @@ echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> SH_PROFILE \
 
 # Q&A
 - 如何查看nginx访问日志
+```
+tail -f ~/wwwlogs/nginx/access.log
+```
 
 - 如何查看nginx错误日志
+```
+tail -f ~/wwwlogs/nginx/error.log
+```
 
-- 如何查看php错误日志
-
-- 如何查看php项目日志
+- 如何查看php日志 
+```
+ tail -f ~/wwwlogs/php/php*.log
+```
 
 - 如何连接redis
+```
+dredis
+redis-cli -a 123456
+```
 
 - 如何连接mongo
+```
+dmongo
+mongo 127.0.0.1
+```
 
 - 如何连接mysql
+```
+dmysql
+mysql -p123456
+```
 
 - 如何查看elasticsearch状态
+```
+地址：http://localhost:9200
+```
 
 - 如何查看rabbitmq状态
+```
+后台地址：http://localhost:15672
+用户名：guest
+密码：guest
+```
