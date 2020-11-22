@@ -119,6 +119,7 @@ git clone git@github.com:raw34/laravel-basic.git
 dphp7
 cd /www/laravel-basic
 cp .env.example .env
+composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 composer install -vvv
 ```
 
@@ -150,6 +151,7 @@ git clone git@github.com:raw34/yii2-basic.git
 dphp7
 cd /www/yii2-basic
 cp .env.example .env
+composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 composer install -vvv
 ```
 

@@ -139,7 +139,7 @@ services:
             - $PATH_WWW_LOG/php:/var/log/php
             - $PATH_WWW_ROOT/repo:/www
             - $PATH_WWW_DATA/alidata:/alidata
-            - ~/.composer/cache:/root/.composer/cache
+            - ~/.composer:/root/.composer
             - ~/.ssh:/root/.ssh
         links:
             - mysql
@@ -174,7 +174,7 @@ services:
             - $PATH_WWW_LOG/php:/var/log/php
             - $PATH_WWW_ROOT/repo:/www
             - $PATH_WWW_DATA/alidata:/alidata
-            - ~/.composer/cache:/root/.composer/cache
+            - ~/.composer:/root/.composer
             - ~/.ssh:/root/.ssh
         links:
             - mysql
