@@ -63,7 +63,7 @@ echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> ${SHELL_PROFIL
 && source ${SHELL_PROFILE}
 ```
 
-# demo项目安装
+# Demo项目安装
 ## nginx配置
 ```
 cp ${PATH_WWW_ROOT}/repo/docker-lnmp/nginx/php*.conf ${PATH_WWW_ETC}/nginx/sites-available/
