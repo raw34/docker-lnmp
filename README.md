@@ -54,17 +54,17 @@ docker-compose up -d
 
 # 常用命令导入
 ```
-echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> SHELL_PROFILE \
-&& echo 'alias dmongo="docker exec -it docker_mongo_1 /bin/bash"' >> SHELL_PROFILE \
-&& echo 'alias dmongoex="docker exec -it docker_mongo-express_1 /bin/ash"' >> SHELL_PROFILE \
-&& echo 'alias dredis="docker exec -it docker_redis_1 /bin/ash"' >> SHELL_PROFILE \
-&& echo 'alias dkafka="docker exec -it docker_kafka_1 /bin/ash"' >> SHELL_PROFILE \
-&& echo 'alias drabbitmq="docker exec -it docker_rabbitmq_1 /bin/ash"' >> SHELL_PROFILE \
-&& echo 'alias delastic="docker exec -it docker_elastic_1 /bin/ash"' >> SHELL_PROFILE \
-&& echo 'alias dphp5="docker exec -it docker_php5-fpm_1 /bin/ash"' >> SHELL_PROFILE \
-&& echo 'alias dphp7="docker exec -it docker_php7-fpm_1 /bin/ash"' >> SHELL_PROFILE \
-&& echo 'alias dnginx="docker exec -it docker_nginx_1 /bin/ash"' >> SHELL_PROFILE \
-&& source SHELL_PROFILE
+echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> ${SHELL_PROFILE} \
+&& echo 'alias dmongo="docker exec -it docker_mongo_1 /bin/bash"' >> ${SHELL_PROFILE} \
+&& echo 'alias dmongoex="docker exec -it docker_mongo-express_1 /bin/ash"' >> ${SHELL_PROFILE} \
+&& echo 'alias dredis="docker exec -it docker_redis_1 /bin/ash"' >> ${SHELL_PROFILE} \
+&& echo 'alias dkafka="docker exec -it docker_kafka_1 /bin/ash"' >> ${SHELL_PROFILE} \
+&& echo 'alias drabbitmq="docker exec -it docker_rabbitmq_1 /bin/ash"' >> ${SHELL_PROFILE} \
+&& echo 'alias delastic="docker exec -it docker_elastic_1 /bin/ash"' >> ${SHELL_PROFILE} \
+&& echo 'alias dphp5="docker exec -it docker_php5-fpm_1 /bin/ash"' >> ${SHELL_PROFILE} \
+&& echo 'alias dphp7="docker exec -it docker_php7-fpm_1 /bin/ash"' >> ${SHELL_PROFILE} \
+&& echo 'alias dnginx="docker exec -it docker_nginx_1 /bin/ash"' >> ${SHELL_PROFILE} \
+&& source ${SHELL_PROFILE}
 ```
 
 # demo项目安装
@@ -102,8 +102,8 @@ http://php7-xhgui.docker
 ```
 cd ${PATH_WWW_ROOT}/repo/docker-lnmp
 cp ./nginx/example-laravel.conf ${PATH_WWW_ETC}/nginx/sites-available/laravel-basic.conf
-sed -i "s|exmaple-laravel|laravel-basic|g" ${PATH_WWW_ETC}/nginx/sites-available/laravel-basic.conf
-sed -i "s|.docker.raw34.xyz|.docker.mydomain.com|g" ${PATH_WWW_ETC}/nginx/sites-available/laravel-basic.conf
+sed -i "" "s|exmaple-laravel|laravel-basic|g" ${PATH_WWW_ETC}/nginx/sites-available/laravel-basic.conf
+sed -i "" "s|.docker.raw34.xyz|.docker.mydomain.com|g" ${PATH_WWW_ETC}/nginx/sites-available/laravel-basic.conf
 docker-compose restart
 ```
 
@@ -116,9 +116,9 @@ sudo -- sh -c -e  "echo 127.0.0.1 'laravel-basic.docker.mydomain.com' >> /etc/ho
 ```
 cd ${PATH_WWW_ROOT}/repo
 git clone git@github.com:raw34/laravel-basic.git
-cp .env.example .env
 dphp7
 cd /www/laravel-basic
+cp .env.example .env
 composer install -vvv
 ```
 
