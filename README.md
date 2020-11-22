@@ -133,7 +133,7 @@ http://laravel-basic.docker.mydomain.com
 ```
 cd ${PATH_WWW_ROOT}/repo/docker-lnmp
 cp ./nginx/example-yii2.conf ${PATH_WWW_ETC}/nginx/sites-available/yii2-basic.conf
-sed -i "" "s|exmaple-yii2|yii2-basic|g" ${PATH_WWW_ETC}/nginx/sites-available/yii2-basic.conf
+sed -i "" "s|example-yii2|yii2-basic|g" ${PATH_WWW_ETC}/nginx/sites-available/yii2-basic.conf
 sed -i "" "s|.docker.raw34.xyz|.docker.mydomain.com|g" ${PATH_WWW_ETC}/nginx/sites-available/yii2-basic.conf
 docker-compose restart
 ```
