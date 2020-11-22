@@ -5,17 +5,20 @@
 
 # 环境依赖
 ## Docker
-
-MacOS：[下载地址1](https://download.docker.com/mac/stable/Docker.dmg) [下载地址2](https://dn-dao-github-mirror.qbox.me/docker/install/mac/Docker.dmg)
+OSX：[下载地址1](https://download.docker.com/mac/stable/Docker.dmg) [下载地址2](https://dn-dao-github-mirror.qbox.me/docker/install/mac/Docker.dmg)
 
 Windows：[下载地址1](https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe) [下载地址2](https://dn-dao-github-mirror.qbox.me/docker/install/windows/InstallDocker.msi)
 
 Linux：略
 
-## git
-## ssh
+## Git
+OSX：[下载地址](https://git-scm.com/download/mac)
 
-## 常量声明
+Windows：[下载地址](https://git-scm.com/download/win)
+
+Linux：略
+
+## 变量声明
 ```
 PATH_WWW_ETC=~/wwwetc \
 PATH_WWW_ROOT=~/wwwroot \
@@ -39,7 +42,7 @@ mkdir -p ${PATH_WWW_LOG}/php \
 mkdir -p ${PATH_WWW_LOG}/nginx 
 ```
 
-可以在.env中的常量声明中调整目录，要确.env文件中的常量声明和当前文档中的声明一致。
+可以通过修改变量声明调整目录，要确保.env文件中的变量声明和README文档中的声明一致。
 
 # 环境安装
 ```
@@ -113,7 +116,7 @@ sudo -- sh -c -e  "echo 127.0.0.1 'laravel-basic.docker.mydomain.com' >> /etc/ho
 ```
 cd ${PATH_WWW_ROOT}/repo
 git clone git@github.com:raw34/laravel-basic.git
-cp .env.exmpale .env
+cp .env.example .env
 dphp7
 cd /www/laravel-basic
 composer install -vvv
@@ -131,6 +134,9 @@ location ~ \.php$ {
 ```
 
 ## 安装结果验证
+浏览器访问：
+
+http://laravel-basic.docker.mydomain.com
 
 # 常用命令列表
 - 启动环境：docker-compose up -d
