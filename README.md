@@ -48,6 +48,11 @@ cd ${PATH_WWW_ROOT}/repo/docker-lnmp
 docker-compose up -d
 ```
 
+## 安装结果验证
+```
+docker ps
+```
+
 # 常用命令导入
 ```
 echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> ${SHELL_PROFILE} \
