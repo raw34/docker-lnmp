@@ -96,7 +96,6 @@ http://php7-localhost.docker
 
 http://php7-xhgui.docker
 
-
 # 自定义项目安装（Laravel）
 ## nginx配置
 ```
@@ -122,7 +121,44 @@ cp .env.example .env
 composer install -vvv
 ```
 
-## xhgui配置
+## 安装结果验证
+浏览器访问：
+
+http://laravel-basic.docker.mydomain.com
+
+
+# 自定义项目安装（Yii2）
+## nginx配置
+```
+cd ${PATH_WWW_ROOT}/repo/docker-lnmp
+cp ./nginx/example-yii2.conf ${PATH_WWW_ETC}/nginx/sites-available/yii2-basic.conf
+sed -i "" "s|exmaple-yii2|yii2-basic|g" ${PATH_WWW_ETC}/nginx/sites-available/yii2-basic.conf
+sed -i "" "s|.docker.raw34.xyz|.docker.mydomain.com|g" ${PATH_WWW_ETC}/nginx/sites-available/yii2-basic.conf
+docker-compose restart
+```
+
+## hosts配置
+```
+sudo -- sh -c -e  "echo 127.0.0.1 'yii2-basic.docker.mydomain.com' >> /etc/hosts"
+```
+
+## 代码安装
+```
+cd ${PATH_WWW_ROOT}/repo
+git clone git@github.com:raw34/yii2-basic.git
+dphp7
+cd /www/yii2-basic
+cp .env.example .env
+composer install -vvv
+```
+
+## 安装结果验证
+浏览器访问：
+
+http://yii2-basic.docker.mydomain.com
+
+
+# Xhgui配置
 如果项目需要利用xhgui分析性能，需要在nginx配置文件中加一行配置，如下示例 :
 
 ```
@@ -132,11 +168,6 @@ location ~ \.php$ {
     #fastcgi_param PHP_VALUE "auto_prepend_file=/data-php7/xhgui/external/header.php";#php7项目
 }
 ```
-
-## 安装结果验证
-浏览器访问：
-
-http://laravel-basic.docker.mydomain.com
 
 # 常用命令列表
 - 启动环境：docker-compose up -d
