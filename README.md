@@ -198,7 +198,7 @@ tail -f ~/wwwlogs/nginx/error.log
 
 - 如何查看php日志 
 ```
- tail -f ~/wwwlogs/php/php*.log
+tail -f ~/wwwlogs/php/php*.log
 ```
 
 - 如何连接redis
