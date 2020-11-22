@@ -18,21 +18,20 @@ Windows：[下载地址](https://git-scm.com/download/win)
 
 Linux：略
 
-## 变量声明
+# 环境安装
+## 代码下载
 ```
-PATH_WWW_ETC=~/wwwetc \
-PATH_WWW_ROOT=~/wwwroot \
-PATH_WWW_DATA=~/wwwdata \
-PATH_WWW_LOG=~/wwwlogs \
-SHELL_PROFILE=~/.zshrc
+cd /tmp
+git clone git@github.com:raw34/docker-lnmp.git
+cd docker-lnmp
+source .env
 ```
 
 ## 目录创建
-需要准备一些本地目录，创建目录命令如下：
-
+需要准备一些本地目录，可以通过修改.env文件中的变量声明调整目录。
 ```
-mkdir -p ${PATH_WWW_ETC}/nginx/sites-available \
 mkdir -p ${PATH_WWW_ROOT}/repo \
+mkdir -p ${PATH_WWW_ETC}/nginx/sites-available \
 mkdir -p ${PATH_WWW_DATA}/mysql \
 mkdir -p ${PATH_WWW_DATA}/mongo \
 mkdir -p ${PATH_WWW_DATA}/redis \
@@ -42,13 +41,10 @@ mkdir -p ${PATH_WWW_LOG}/php \
 mkdir -p ${PATH_WWW_LOG}/nginx 
 ```
 
-可以通过修改变量声明调整目录，要确保.env文件中的变量声明和README文档中的声明一致。
-
-# 环境安装
+## 环境启动
 ```
-cd ${PATH_WWW_ROOT}/repo
-git clone git@github.com:raw34/docker-lnmp.git
-cd docker-lnmp
+mv /tmp/docker-lnmp ${PATH_WWW_ROOT}/repo
+cd ${PATH_WWW_ROOT}/repo/docker-lnmp
 docker-compose up -d
 ```
 
