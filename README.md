@@ -19,7 +19,7 @@ Windows：[下载地址](https://git-scm.com/download/win)
 Linux：略
 
 # 环境安装
-## 代码下载
+## 环境准备
 ```
 cd /tmp
 git clone git@github.com:raw34/docker-lnmp.git
