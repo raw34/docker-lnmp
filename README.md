@@ -149,7 +149,6 @@ cd ${PATH_WWW_ROOT}/repo
 git clone git@github.com:raw34/yii2-basic.git
 dphp7
 cd /www/yii2-basic
-cp .env.example .env
 composer install -vvv
 ```
 
