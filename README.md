@@ -1,6 +1,8 @@
 # 简介
 本套环境利用docker-compose搭建，安装后可以直接运行php项目。
 
+可用于快速搭建本地环境、解决个人开发者多台电脑环境不一致、开发团队中开发者间环境不一致，以及开发、测试、生成环境不一致等问题。
+
 目前包含mysql、mongo、redis、kafka、rabbitmq、elasticsearch、php5、php7、nginx镜像，其中php5和php7镜像集成了xhprof和xhgui，可用于分析php程序性能。
 
 # 环境依赖
