@@ -141,6 +141,7 @@ services:
             - $PATH_WWW_DATA/alidata:/alidata
             - ~/.composer:/root/.composer
             - ~/.ssh:/root/.ssh
+            - /tmp:/tmp
         links:
             - mysql
             - mongo
@@ -176,6 +177,7 @@ services:
             - $PATH_WWW_DATA/alidata:/alidata
             - ~/.composer:/root/.composer
             - ~/.ssh:/root/.ssh
+            - /tmp:/tmp
         links:
             - mysql
             - mongo
