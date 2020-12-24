@@ -37,7 +37,6 @@ RUN \
     libc-dev \
     libcurl \
     libjpeg-turbo-dev \
-    libmcrypt-dev \
     libpng-dev \
     linux-headers \
     make \
@@ -55,8 +54,6 @@ RUN \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip
-    # && pecl install mcrypt-1.0.1 \
-    # && docker-php-ext-enable mcrypt
 
 # Set timezone
 ENV TZ="Asia/Shanghai"
