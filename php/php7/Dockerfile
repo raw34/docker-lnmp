@@ -134,7 +134,7 @@ RUN \
     && rm -rf /tmp/${PHP_REDIS_VERSION}.tar.gz /tmp/phpredis-${PHP_REDIS_VERSION}
 
 # Install phpunit
-ENV PHPUNIT_VERSION=8.0.0
+ENV PHPUNIT_VERSION=9.5.0
 
 RUN \
     cd /tmp \
