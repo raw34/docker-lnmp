@@ -3,7 +3,7 @@
 #
 #
 
-FROM php:7.2-fpm-alpine
+FROM php:7-fpm-alpine
 
 MAINTAINER raw34 <raw34@sina.com>
 
@@ -37,26 +37,23 @@ RUN \
     libc-dev \
     libcurl \
     libjpeg-turbo-dev \
-    libmcrypt-dev \
     libpng-dev \
     linux-headers \
     make \
     re2c \
+    sshpass \
     supervisor \
     tzdata \
     && rm -rf /var/cache/apk/*
 
 RUN \
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-install gmp \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install pdo \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install zip
-    # && pecl install mcrypt-1.0.1 \
-    # && docker-php-ext-enable mcrypt
+    && docker-php-ext-install pdo_mysql
 
 # Set timezone
 ENV TZ="Asia/Shanghai"
@@ -64,32 +61,8 @@ ENV TZ="Asia/Shanghai"
 RUN \
     echo "Asia/Shanghai" > /etc/timezone
 
-# Compile phalcon
-ENV PHALCON_VERSION=3.4.0
-
-RUN \
-    cd /tmp \
-    && wget https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz \
-    && tar xzf v${PHALCON_VERSION}.tar.gz \
-    && cd cphalcon-${PHALCON_VERSION}/build \
-    && sh install \
-    && docker-php-ext-enable phalcon \
-    && rm -rf /tmp/v${PHALCON_VERSION}.tar.gz /tmp/cphalcon-${PHALCON_VERSION}
-
-# Install phalcon-devtools
-RUN \
-    cd /tmp \
-    && wget https://github.com/phalcon/phalcon-devtools/archive/v${PHALCON_VERSION}.tar.gz \
-    && tar xzf v${PHALCON_VERSION}.tar.gz \
-    && cd phalcon-devtools-${PHALCON_VERSION} \
-    && sh ./phalcon.sh \
-    && ln -s /tmp/phalcon-devtools-${PHALCON_VERSION}/phalcon.php /usr/bin/phalcon \
-    && chmod ugo+x /usr/bin/phalcon \
-    && rm -rf /tmp/v${PHALCON_VERSION}.tar.gz
-
-# Compile librdkafka && php-rdkafka
-ENV LIBRDKAFKA_VERSION=0.9.5
-ENV PHP_RDKAFKA_VERSION=3.0.5
+# Compile librdkafka
+ENV LIBRDKAFKA_VERSION=1.5.0
 
 RUN \
     cd /tmp \
@@ -99,7 +72,12 @@ RUN \
     && ./configure \
     && make \
     && make install \
-    && cd /tmp \
+    && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION}
+
+# Compile php-rdkafka
+ENV PHP_RDKAFKA_VERSION=4.0.3
+RUN \
+    cd /tmp \
     && wget https://github.com/arnaud-lb/php-rdkafka/archive/${PHP_RDKAFKA_VERSION}.tar.gz \
     && tar xzf ${PHP_RDKAFKA_VERSION}.tar.gz \
     && cd php-rdkafka-${PHP_RDKAFKA_VERSION} \
@@ -108,7 +86,7 @@ RUN \
     && make all -j 5 \
     && make install \
     && docker-php-ext-enable rdkafka \
-    && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION} /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
+    && rm -rf /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
 
 # Compile mongodb
 ENV PHP_MONGO_VERSION=1.5.3
@@ -125,36 +103,38 @@ RUN \
     && docker-php-ext-enable mongodb \
     && rm -rf /tmp/mongodb-${PHP_MONGO_VERSION}.tgz /tmp/mongodb-${PHP_MONGO_VERSION}
 
-# Compile php-xhprof
-ENV PHP_XHPROF_VERSION=4.1.7
+# Install xdebug
+ENV XDEBUG_VERSION=3.0.1
 
 RUN \
     cd /tmp \
-    && wget https://github.com/tideways/php-xhprof-extension/archive/v${PHP_XHPROF_VERSION}.tar.gz \
-    && tar xzf v${PHP_XHPROF_VERSION}.tar.gz \
-    && cd php-xhprof-extension-${PHP_XHPROF_VERSION} \
+    && wget https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
+    && tar xzf xdebug-${XDEBUG_VERSION}.tgz \
+    && cd xdebug-${XDEBUG_VERSION} \
     && phpize \
     && ./configure \
     && make \
     && make install \
-    && docker-php-ext-enable tideways \
-    && echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
-    && echo 'tideways.sample_rate=100' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
-    && rm -rf /tmp/v${PHP_XHPROF_VERSION}.tar.gz /tmp/php-xhprof-extension-${PHP_XHPROF_VERSION}
+    && docker-php-ext-enable xdebug \
+    && rm -rf /tmp/xdebug-${XDEBUG_VERSION}.tgz /tmp/xdebug-${XDEBUG_VERSION}
 
-# Install php-composer
-ENV COMPOSER_VERSION=1.7.3
+# Compile phpredis
+ENV PHP_REDIS_VERSION=3.1.6
 
 RUN \
     cd /tmp \
-    && wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/download/${COMPOSER_VERSION}/composer.phar \
-    && chmod 777 composer.phar \
-    && mv composer.phar /usr/local/bin/composer \
-    && mkdir /root/.composer \
-    && echo '{}' > /root/.composer/composer.json
+    && wget https://github.com/phpredis/phpredis/archive/${PHP_REDIS_VERSION}.tar.gz \
+    && tar xzf ${PHP_REDIS_VERSION}.tar.gz \
+    && cd phpredis-${PHP_REDIS_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable redis \
+    && rm -rf /tmp/${PHP_REDIS_VERSION}.tar.gz /tmp/phpredis-${PHP_REDIS_VERSION}
 
 # Install phpunit
-ENV PHPUNIT_VERSION=7.1.5
+ENV PHPUNIT_VERSION=8.0.0
 
 RUN \
     cd /tmp \
@@ -168,6 +148,34 @@ RUN \
     && wget https://phar.phpunit.de/phpunit-skelgen.phar \
     && chmod +x phpunit-skelgen.phar \
     && mv phpunit-skelgen.phar /usr/local/bin/phpunit-skelgen
+
+# Install php-composer
+ENV COMPOSER_VERSION=2.0.0
+
+RUN \
+    cd /tmp \
+    && wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/download/${COMPOSER_VERSION}/composer.phar \
+    && chmod 777 composer.phar \
+    && mv composer.phar /usr/local/bin/composer \
+    && mkdir /root/.composer \
+    && echo '{}' > /root/.composer/composer.json
+
+# Compile php-xhprof
+ENV PHP_XHPROF_VERSION=5.0.4
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/tideways/php-xhprof-extension/archive/v${PHP_XHPROF_VERSION}.tar.gz \
+    && tar xzf v${PHP_XHPROF_VERSION}.tar.gz \
+    && cd php-xhprof-extension-${PHP_XHPROF_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable tideways_xhprof \
+    && echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways_xhprof.ini \
+    && echo 'tideways.sample_rate=100' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways_xhprof.ini \
+    && rm -rf /tmp/v${PHP_XHPROF_VERSION}.tar.gz /tmp/php-xhprof-extension-${PHP_XHPROF_VERSION}
 
 # Install xhgui
 ENV XGUI_VERSION=1.0.4
@@ -185,59 +193,13 @@ RUN \
     && sed -i "s|array()|array('username' => 'root', 'password' => '123456')|g" /data-php7/xhgui/config/config.php \
     && sed -i 's|"pimple/pimple"|"alcaeus/mongo-php-adapter": "^1.0", "pimple/pimple"|g' /data-php7/xhgui/composer.json \
     && sed -i 's|"phpunit/phpunit": "3.7.x-dev",||g' /data-php7/xhgui/composer.json \
-    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://mirrors.aliyun.com/composer"}}, "suggest"|g' /data-php7/xhgui/composer.json \
+#    && sed -i 's|"suggest"|"repositories": {"packagist": {"type": "composer", "url": "https://mirrors.aliyun.com/composer"}}, "suggest"|g' /data-php7/xhgui/composer.json \
     && rm /data-php7/xhgui/composer.lock \
     && chmod -R 777 /data-php7/xhgui/cache \
-    && composer install --no-dev \
+    && composer install -vvv --no-dev \
     && rm -rf /data-php7/v${XGUI_VERSION}.tar.gz
 
 VOLUME /data-php7
-
-# Install molten
-ENV MOLTEN_VERSION=0.1.1
-ENV MOLTEN_ENABLE=${MOLTEN_ENABLE:-1}
-ENV MOLTEN_TRACING_CLI=${MOLTEN_TRACING_CLI:-0}
-ENV MOLTEN_SPAN_VERSION=${MOLTEN_SPAN_VERSION:-v1}
-ENV MOLTEN_SPAN_FORMAT=${MOLTEN_SPAN_FORMAT:-zipkin}
-ENV MOLTEN_SINK_TYPE=${MOLTEN_SINK_TYPE:-1}
-ENV MOLTEN_SINK_HOST=${MOLTEN_SINK_HOST:-172.17.0.1}
-ENV MOLTEN_SINK_PORT=${MOLTEN_SINK_PORT:-9411}
-
-RUN \
-    cd /tmp \
-    && wget https://github.com/chuan-yun/Molten/archive/v${MOLTEN_VERSION}.tar.gz \
-    && tar xzf v${MOLTEN_VERSION}.tar.gz \
-    && cd Molten-${MOLTEN_VERSION} \
-    && phpize \
-    && ./configure \
-    && make \
-    && make install \
-    && docker-php-ext-enable molten \
-    && echo 'molten.enable=${MOLTEN_ENABLE}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.report_interval=5' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.tracing_cli=${MOLTEN_TRACING_CLI}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.sampling_type=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.sampling_rate=1' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.span_format=${MOLTEN_SPAN_FORMAT}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.sink_type=${MOLTEN_SINK_TYPE}' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.sink_log_path=/var/log/php/tracing' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && echo 'molten.sink_http_uri=http://${MOLTEN_SINK_HOST}:${MOLTEN_SINK_PORT}/api/${MOLTEN_SPAN_VERSION}/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
-    && rm -rf /tmp/v${MOLTEN_VERSION}.tar.gz /tmp/Molten-${MOLTEN_VERSION}
-
-# Install xdebug
-ENV XDEBUG_VERSION=2.7.2
-
-RUN \
-    cd /tmp \
-    && wget https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
-    && tar xzf xdebug-${XDEBUG_VERSION}.tgz \
-    && cd xdebug-${XDEBUG_VERSION} \
-    && phpize \
-    && ./configure \
-    && make \
-    && make install \
-    && docker-php-ext-enable xdebug \
-    && rm -rf /tmp/xdebug-${XDEBUG_VERSION}.tgz /tmp/xdebug-${XDEBUG_VERSION}
 
 # Configure PHP-FPM
 
