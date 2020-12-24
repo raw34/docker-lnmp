@@ -106,23 +106,6 @@ RUN \
     && docker-php-ext-enable mongodb \
     && rm -rf /tmp/mongodb-${PHP_MONGO_VERSION}.tgz /tmp/mongodb-${PHP_MONGO_VERSION}
 
-# Compile php-xhprof
-ENV PHP_XHPROF_VERSION=4.1.7
-
-RUN \
-    cd /tmp \
-    && wget https://github.com/tideways/php-xhprof-extension/archive/v${PHP_XHPROF_VERSION}.tar.gz \
-    && tar xzf v${PHP_XHPROF_VERSION}.tar.gz \
-    && cd php-xhprof-extension-${PHP_XHPROF_VERSION} \
-    && phpize \
-    && ./configure \
-    && make \
-    && make install \
-    && docker-php-ext-enable tideways \
-    && echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
-    && echo 'tideways.sample_rate=100' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
-    && rm -rf /tmp/v${PHP_XHPROF_VERSION}.tar.gz /tmp/php-xhprof-extension-${PHP_XHPROF_VERSION}
-
 # Install xdebug
 ENV XDEBUG_VERSION=2.7.2
 
@@ -179,6 +162,23 @@ RUN \
     && mv composer.phar /usr/local/bin/composer \
     && mkdir /root/.composer \
     && echo '{}' > /root/.composer/composer.json
+
+# Compile php-xhprof
+ENV PHP_XHPROF_VERSION=4.1.7
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/tideways/php-xhprof-extension/archive/v${PHP_XHPROF_VERSION}.tar.gz \
+    && tar xzf v${PHP_XHPROF_VERSION}.tar.gz \
+    && cd php-xhprof-extension-${PHP_XHPROF_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable tideways \
+    && echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
+    && echo 'tideways.sample_rate=100' >> /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini \
+    && rm -rf /tmp/v${PHP_XHPROF_VERSION}.tar.gz /tmp/php-xhprof-extension-${PHP_XHPROF_VERSION}
 
 # Install xhgui
 ENV XGUI_VERSION=1.0.4
