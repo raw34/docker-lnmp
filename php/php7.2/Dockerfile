@@ -61,32 +61,8 @@ ENV TZ="Asia/Shanghai"
 RUN \
     echo "Asia/Shanghai" > /etc/timezone
 
-# Compile phalcon
-ENV PHALCON_VERSION=3.4.0
-
-RUN \
-    cd /tmp \
-    && wget https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz \
-    && tar xzf v${PHALCON_VERSION}.tar.gz \
-    && cd cphalcon-${PHALCON_VERSION}/build \
-    && sh install \
-    && docker-php-ext-enable phalcon \
-    && rm -rf /tmp/v${PHALCON_VERSION}.tar.gz /tmp/cphalcon-${PHALCON_VERSION}
-
-# Install phalcon-devtools
-RUN \
-    cd /tmp \
-    && wget https://github.com/phalcon/phalcon-devtools/archive/v${PHALCON_VERSION}.tar.gz \
-    && tar xzf v${PHALCON_VERSION}.tar.gz \
-    && cd phalcon-devtools-${PHALCON_VERSION} \
-    && sh ./phalcon.sh \
-    && ln -s /tmp/phalcon-devtools-${PHALCON_VERSION}/phalcon.php /usr/bin/phalcon \
-    && chmod ugo+x /usr/bin/phalcon \
-    && rm -rf /tmp/v${PHALCON_VERSION}.tar.gz
-
-# Compile librdkafka && php-rdkafka
-ENV LIBRDKAFKA_VERSION=0.9.5
-ENV PHP_RDKAFKA_VERSION=3.0.5
+# Compile librdkafka
+ENV LIBRDKAFKA_VERSION=1.5.0
 
 RUN \
     cd /tmp \
@@ -96,7 +72,12 @@ RUN \
     && ./configure \
     && make \
     && make install \
-    && cd /tmp \
+    && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION}
+
+# Compile php-rdkafka
+ENV PHP_RDKAFKA_VERSION=4.0.3
+RUN \
+    cd /tmp \
     && wget https://github.com/arnaud-lb/php-rdkafka/archive/${PHP_RDKAFKA_VERSION}.tar.gz \
     && tar xzf ${PHP_RDKAFKA_VERSION}.tar.gz \
     && cd php-rdkafka-${PHP_RDKAFKA_VERSION} \
@@ -105,7 +86,7 @@ RUN \
     && make all -j 5 \
     && make install \
     && docker-php-ext-enable rdkafka \
-    && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION} /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
+    && rm -rf /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
 
 # Compile mongodb
 ENV PHP_MONGO_VERSION=1.5.3
@@ -122,8 +103,23 @@ RUN \
     && docker-php-ext-enable mongodb \
     && rm -rf /tmp/mongodb-${PHP_MONGO_VERSION}.tgz /tmp/mongodb-${PHP_MONGO_VERSION}
 
+# Install xdebug
+ENV XDEBUG_VERSION=2.7.2
+
+RUN \
+    cd /tmp \
+    && wget https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
+    && tar xzf xdebug-${XDEBUG_VERSION}.tgz \
+    && cd xdebug-${XDEBUG_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable xdebug \
+    && rm -rf /tmp/xdebug-${XDEBUG_VERSION}.tgz /tmp/xdebug-${XDEBUG_VERSION}
+
 # Install php-composer
-ENV COMPOSER_VERSION=1.7.3
+ENV COMPOSER_VERSION=2.0.0
 
 RUN \
     cd /tmp \
@@ -134,7 +130,7 @@ RUN \
     && echo '{}' > /root/.composer/composer.json
 
 # Install phpunit
-ENV PHPUNIT_VERSION=7.1.5
+ENV PHPUNIT_VERSION=7.5.20
 
 RUN \
     cd /tmp \
@@ -220,21 +216,6 @@ RUN \
     && echo 'molten.sink_log_path=/var/log/php/tracing' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && echo 'molten.sink_http_uri=http://${MOLTEN_SINK_HOST}:${MOLTEN_SINK_PORT}/api/${MOLTEN_SPAN_VERSION}/spans' >> /usr/local/etc/php/conf.d/docker-php-ext-molten.ini \
     && rm -rf /tmp/v${MOLTEN_VERSION}.tar.gz /tmp/Molten-${MOLTEN_VERSION}
-
-# Install xdebug
-ENV XDEBUG_VERSION=2.7.2
-
-RUN \
-    cd /tmp \
-    && wget https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
-    && tar xzf xdebug-${XDEBUG_VERSION}.tgz \
-    && cd xdebug-${XDEBUG_VERSION} \
-    && phpize \
-    && ./configure \
-    && make \
-    && make install \
-    && docker-php-ext-enable xdebug \
-    && rm -rf /tmp/xdebug-${XDEBUG_VERSION}.tgz /tmp/xdebug-${XDEBUG_VERSION}
 
 # Configure PHP-FPM
 
