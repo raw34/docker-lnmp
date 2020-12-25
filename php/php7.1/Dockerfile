@@ -55,8 +55,6 @@ RUN \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip
-    # && pecl install mcrypt-1.0.1 \
-    # && docker-php-ext-enable mcrypt
 
 # Set timezone
 ENV TZ="Asia/Shanghai"
@@ -106,21 +104,6 @@ RUN \
     && docker-php-ext-enable mongodb \
     && rm -rf /tmp/mongodb-${PHP_MONGO_VERSION}.tgz /tmp/mongodb-${PHP_MONGO_VERSION}
 
-# Install xdebug
-ENV XDEBUG_VERSION=2.7.2
-
-RUN \
-    cd /tmp \
-    && wget https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
-    && tar xzf xdebug-${XDEBUG_VERSION}.tgz \
-    && cd xdebug-${XDEBUG_VERSION} \
-    && phpize \
-    && ./configure \
-    && make \
-    && make install \
-    && docker-php-ext-enable xdebug \
-    && rm -rf /tmp/xdebug-${XDEBUG_VERSION}.tgz /tmp/xdebug-${XDEBUG_VERSION}
-
 # Compile phpredis
 ENV PHP_REDIS_VERSION=3.1.6
 
@@ -137,7 +120,7 @@ RUN \
     && rm -rf /tmp/${PHP_REDIS_VERSION}.tar.gz /tmp/phpredis-${PHP_REDIS_VERSION}
 
 # Install phpunit
-ENV PHPUNIT_VERSION=7.1.5
+ENV PHPUNIT_VERSION=7.5.0
 
 RUN \
     cd /tmp \
@@ -153,7 +136,7 @@ RUN \
     && mv phpunit-skelgen.phar /usr/local/bin/phpunit-skelgen
 
 # Install php-composer
-ENV COMPOSER_VERSION=1.7.3
+ENV COMPOSER_VERSION=2.0.0
 
 RUN \
     cd /tmp \
@@ -162,6 +145,21 @@ RUN \
     && mv composer.phar /usr/local/bin/composer \
     && mkdir /root/.composer \
     && echo '{}' > /root/.composer/composer.json
+
+# Install xdebug
+ENV XDEBUG_VERSION=2.7.2
+
+RUN \
+    cd /tmp \
+    && wget https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
+    && tar xzf xdebug-${XDEBUG_VERSION}.tgz \
+    && cd xdebug-${XDEBUG_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable xdebug \
+    && rm -rf /tmp/xdebug-${XDEBUG_VERSION}.tgz /tmp/xdebug-${XDEBUG_VERSION}
 
 # Compile php-xhprof
 ENV PHP_XHPROF_VERSION=4.1.7
