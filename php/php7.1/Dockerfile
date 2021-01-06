@@ -52,6 +52,7 @@ RUN \
     && docker-php-ext-install gmp \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install mysqli \
+    && docker-php-ext-install pcntl \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip
