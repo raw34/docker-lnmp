@@ -35,17 +35,17 @@ services:
             - $PATH_WWW_DATA/mongo/configdb:/data/configdb
             - $PATH_WWW_LOG/mongodb:/var/log/mongodb
 
-## mongo-express
-    mongo-express:
-        image: mongo-express:latest
-        container_name:
-            docker_mongo-express_1
-        ports:
-            - "8081:8081"
-        environment:
-            ME_CONFIG_MONGODB_ADMINUSERNAME: "root"
-            ME_CONFIG_MONGODB_ADMINPASSWORD: "123456"
-        restart: always
+### mongo-express
+#    mongo-express:
+#        image: mongo-express:latest
+#        container_name:
+#            docker_mongo-express_1
+#        ports:
+#            - "8081:8081"
+#        environment:
+#            ME_CONFIG_MONGODB_ADMINUSERNAME: "root"
+#            ME_CONFIG_MONGODB_ADMINPASSWORD: "123456"
+#        restart: always
 
 ### redis
     redis:
@@ -119,39 +119,39 @@ services:
         links:
             - zookeeper
 
-## php5-fpm
-    php5-fpm:
-        image: raw34/php5-fpm
-        # build: ./php/php5
-        # image: php:5.6-fpm
-        container_name:
-            docker_php5-fpm_1
-        environment:
-            MOLTEN_ENABLE: 0
-            MOLTEN_TRACING_CLI: 0
-            MOLTEN_SPAN_VERSION: v1
-            MOLTEN_SPAN_FORMAT: zipkin
-            MOLTEN_SINK_TYPE: 1
-            MOLTEN_SINK_HOST: zipkin
-        volumes:
-            - ./php/php5.ini:/usr/local/etc/php/php.ini
-            - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
-            - $PATH_WWW_LOG/php:/var/log/php
-            - $PATH_WWW_ROOT/repo:/www
-            - $PATH_WWW_DATA/alidata:/alidata
-            - ~/.composer:/root/.composer
-            - ~/.ssh:/root/.ssh
-            - /tmp:/tmp
-        links:
-            - mysql
-            - mongo
-            - redis
-            - kafka
-            - rabbitmq
-            - elasticsearch
-        extra_hosts:
-            - "php5-localhost.docker:172.17.0.1"
-            - "php7-localhost.docker:172.17.0.1"
+### php5-fpm
+#    php5-fpm:
+#        image: raw34/php5-fpm
+#        # build: ./php/php5
+#        # image: php:5.6-fpm
+#        container_name:
+#            docker_php5-fpm_1
+#        environment:
+#            molten_enable: 0
+#            molten_tracing_cli: 0
+#            molten_span_version: v1
+#            molten_span_format: zipkin
+#            molten_sink_type: 1
+#            molten_sink_host: zipkin
+#        volumes:
+#            - ./php/php5.ini:/usr/local/etc/php/php.ini
+#            - ./php/php5-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
+#            - $path_www_log/php:/var/log/php
+#            - $path_www_root/repo:/www
+#            - $path_www_data/alidata:/alidata
+#            - ~/.composer:/root/.composer
+#            - ~/.ssh:/root/.ssh
+#            - /tmp:/tmp
+#        links:
+#            - mysql
+#            - mongo
+#            - redis
+#            - kafka
+#            - rabbitmq
+#            - elasticsearch
+#        extra_hosts:
+#            - "php5-localhost.docker:172.17.0.1"
+#            - "php7-localhost.docker:172.17.0.1"
 
 ### php7-fpm
     php7-fpm:
@@ -199,15 +199,15 @@ services:
             - "433:433"
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-            - ./nginx/php5-localhost.conf:/etc/nginx/sites-available/php5-localhost.conf
+#            - ./nginx/php5-localhost.conf:/etc/nginx/sites-available/php5-localhost.conf
             - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
-            - ./nginx/php5-xhgui.conf:/etc/nginx/sites-available/php5-xhgui.conf
+#            - ./nginx/php5-xhgui.conf:/etc/nginx/sites-available/php5-xhgui.conf
             - ./nginx/php7-xhgui.conf:/etc/nginx/sites-available/php7-xhgui.conf
             - $PATH_WWW_ETC/nginx/sites-available:/etc/nginx/sites-available
             - $PATH_WWW_LOG/nginx:/var/log/nginx
         volumes_from:
-            - php5-fpm
+#            - php5-fpm
             - php7-fpm
         links:
-            - php5-fpm
+#            - php5-fpm
             - php7-fpm
