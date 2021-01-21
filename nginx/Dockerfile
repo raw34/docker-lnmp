@@ -16,7 +16,7 @@ RUN \
 RUN \
     echo 'nameserver 8.8.8.8' >> /etc/resolv.conf \
     echo 'nameserver 8.8.4.4' >> /etc/resolv.conf \
-    echo 'codeload.github.com 13.250.162.133' >> /etc/hosts
+    echo '13.250.162.133 codeload.github.com' >> /etc/hosts
 
 RUN apk add --update \
     git \
@@ -58,7 +58,7 @@ RUN \
         --with-http_realip_module \
         --with-http_gzip_static_module \
         --with-http_stub_status_module \
-#        --add-module=/tmp/nginx-http-concat-${NGINX_HTTP_CONCAT_VERSION} \
+        --add-module=/tmp/nginx-http-concat-${NGINX_HTTP_CONCAT_VERSION} \
     && make \
     && make install \
     && rm -rf /tmp/${NGINX_VERSION}.tar.gz /tmp/${NGINX_VERSION} /tmp/${NGINX_HTTP_CONCAT_VERSION}.tar.gz /tmp/nginx-http-concat-${NGINX_HTTP_CONCAT_VERSION}
