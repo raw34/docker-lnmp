@@ -3,7 +3,9 @@
 #
 #
 
-FROM nginx:1.18.0-alpine AS builder
+FROM alpine:3.12.0
+
+MAINTAINER raw34 <raw34@sina.com>
 
 RUN \
     mv /etc/apk/repositories /etc/apk/repositories.bak \
@@ -11,48 +13,51 @@ RUN \
     # echo "http://mirrors.ustc.edu.cn/alpine/latest-stable/main/" >> /etc/apk/repositories && \
     && echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" >> /etc/apk/repositories
 
-RUN apk add --no-cache --virtual .build-deps \
+RUN apk add --update \
+    wget \
     gcc \
-    libc-dev \
+    g++ \
+    git \
     make \
-    openssl-dev \
     pcre-dev \
+    perl \
+    openssl-dev \
+    tzdata \
     zlib-dev \
-    linux-headers \
-    curl \
-    gnupg \
-    libxslt-dev \
-    gd-dev \
-    geoip-dev
+    && rm -rf /var/cache/apk/*
 
-# Our version
-ENV NGINX_VERSION=nginx-1.18.0
+# Set timezone
+RUN echo "Asia/Shanghai" > /etc/timezone
+
+# Install Nginx
+ENV OPENRESTY_VERSION=1.15.8.2
 ENV NGINX_HTTP_CONCAT_VERSION=1.2.2
 
 RUN \
     cd /tmp \
-    && wget https://github.com/alibaba/nginx-http-concat/archive/${NGINX_HTTP_CONCAT_VERSION}.tar.gz \
-    && tar xzf ${NGINX_HTTP_CONCAT_VERSION}.tar.gz
+    && git clone git://github.com/alibaba/nginx-http-concat.git \
+    && cd nginx-http-concat \
+    && git checkout ${NGINX_HTTP_CONCAT_VERSION}
 
 RUN \
     cd /tmp \
-    CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') \
-    && wget https://nginx.org/download/${NGINX_VERSION}.tar.gz \
-    && tar xzf ${NGINX_VERSION}.tar.gz \
-    && cd ${NGINX_VERSION} \
-    && ./configure --with-compat $CONFARGS --add-dynamic-module=/tmp/nginx-http-concat-${NGINX_HTTP_CONCAT_VERSION} \
+    && wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz \
+    && tar xfz openresty-${OPENRESTY_VERSION}.tar.gz \
+    && cd openresty-${OPENRESTY_VERSION} \
+    && ./configure --prefix=/usr/local/openresty \
+        --with-luajit \
+        --with-http_ssl_module \
+        --with-http_iconv_module  \
+        --with-http_realip_module \
+        --with-http_gzip_static_module \
+        --with-http_stub_status_module \
+        --add-module=/tmp/nginx-http-concat/ \
     && make \
-    && make install
+    && make install \
+    && rm -rf /tmp/openresty-${OPENRESTY_VERSION}.tar.gz /tmp/openresty-${OPENRESTY_VERSION} /tmp/nginx-http-concat
 
-FROM nginx:1.18.0-alpine
-# Extract the dynamic module NCHAN from the builder image
-COPY --from=builder /usr/local/nginx/modules/ngx_nchan_module.so /usr/local/nginx/modules/ngx_nchan_module.so
+ENV PATH=/usr/local/openresty/nginx/sbin/:$PATH
 
-RUN \
-    echo 'load_module /usr/local/nginx/modules/ngx_nchan_module.so;' > /etc/nginx/conf.d/modules.conf
-
-EXPOSE 80
-
-STOPSIGNAL SIGTERM
+EXPOSE 80 433
 
 CMD ["nginx", "-g", "daemon off;"]
