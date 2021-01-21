@@ -30,31 +30,35 @@ RUN apk add --update \
 RUN echo "Asia/Shanghai" > /etc/timezone
 
 # Install Nginx
+ENV OPENRESTY_DIR=/usr/local/openresty
 ENV OPENRESTY_VERSION=1.15.8.2
 ENV NGINX_HTTP_CONCAT_VERSION=1.2.2
 
+# Downdload
 RUN \
-    cd /tmp \
+    mkdir -p ${OPENRESTY_DIR}/modules \
+    && cd ${OPENRESTY_DIR}/modules \
     && git clone git://github.com/alibaba/nginx-http-concat.git \
     && cd nginx-http-concat \
     && git checkout ${NGINX_HTTP_CONCAT_VERSION}
 
+## Install
 RUN \
     cd /tmp \
     && wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz \
     && tar xfz openresty-${OPENRESTY_VERSION}.tar.gz \
     && cd openresty-${OPENRESTY_VERSION} \
-    && ./configure --prefix=/usr/local/openresty \
+    && ./configure --prefix=${OPENRESTY_DIR} \
         --with-luajit \
         --with-http_ssl_module \
         --with-http_iconv_module  \
         --with-http_realip_module \
         --with-http_gzip_static_module \
         --with-http_stub_status_module \
-        --add-module=/tmp/nginx-http-concat/ \
+        --add-module=${OPENRESTY_DIR}/modules/nginx-http-concat/ \
     && make \
     && make install \
-    && rm -rf /tmp/openresty-${OPENRESTY_VERSION}.tar.gz /tmp/openresty-${OPENRESTY_VERSION} /tmp/nginx-http-concat
+    && rm -rf /tmp/openresty-${OPENRESTY_VERSION}.tar.gz /tmp/openresty-${OPENRESTY_VERSION}
 
 ENV PATH=/usr/local/openresty/nginx/sbin/:$PATH
 
