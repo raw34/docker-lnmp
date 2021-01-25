@@ -22,6 +22,7 @@ RUN \
 RUN \
     apk add --update \
     autoconf \
+    automake \
     bash \
     busybox-extras \
     curl-dev \
@@ -58,10 +59,19 @@ RUN \
     && docker-php-ext-install zip
 
 # Set timezone
-ENV TZ="Asia/Shanghai"
-
 RUN \
     echo "Asia/Shanghai" > /etc/timezone
+
+# Install php-composer
+ENV COMPOSER_VERSION=2.0.0
+
+RUN \
+    cd /tmp \
+    && wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/download/${COMPOSER_VERSION}/composer.phar \
+    && chmod 777 composer.phar \
+    && mv composer.phar /usr/local/bin/composer \
+    && mkdir /root/.composer \
+    && echo '{}' > /root/.composer/composer.json
 
 # Compile librdkafka
 ENV LIBRDKAFKA_VERSION=1.5.0
@@ -77,7 +87,7 @@ RUN \
     && rm -rf /tmp/v${LIBRDKAFKA_VERSION}.tar.gz /tmp/librdkafka-${LIBRDKAFKA_VERSION}
 
 # Compile php-rdkafka
-ENV PHP_RDKAFKA_VERSION=4.0.3
+ENV PHP_RDKAFKA_VERSION=4.0.4
 RUN \
     cd /tmp \
     && wget https://github.com/arnaud-lb/php-rdkafka/archive/${PHP_RDKAFKA_VERSION}.tar.gz \
@@ -91,7 +101,7 @@ RUN \
     && rm -rf /tmp/${PHP_RDKAFKA_VERSION}.tar.gz /tmp/php-rdkafka-${PHP_RDKAFKA_VERSION}
 
 # Compile mongodb
-ENV PHP_MONGO_VERSION=1.5.3
+ENV PHP_MONGO_VERSION=1.4.1
 
 RUN \
     cd /tmp \
@@ -106,7 +116,7 @@ RUN \
     && rm -rf /tmp/mongodb-${PHP_MONGO_VERSION}.tgz /tmp/mongodb-${PHP_MONGO_VERSION}
 
 # Compile phpredis
-ENV PHP_REDIS_VERSION=3.1.6
+ENV PHP_REDIS_VERSION=3.1.3
 
 RUN \
     cd /tmp \
@@ -119,33 +129,6 @@ RUN \
     && make install \
     && docker-php-ext-enable redis \
     && rm -rf /tmp/${PHP_REDIS_VERSION}.tar.gz /tmp/phpredis-${PHP_REDIS_VERSION}
-
-# Install phpunit
-ENV PHPUNIT_VERSION=7.5.0
-
-RUN \
-    cd /tmp \
-    && wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar \
-    && chmod +x phpunit-${PHPUNIT_VERSION}.phar \
-    && mv phpunit-${PHPUNIT_VERSION}.phar /usr/local/bin/phpunit
-
-# Install phpunit-skelgen
-RUN \
-    cd /tmp \
-    && wget https://phar.phpunit.de/phpunit-skelgen.phar \
-    && chmod +x phpunit-skelgen.phar \
-    && mv phpunit-skelgen.phar /usr/local/bin/phpunit-skelgen
-
-# Install php-composer
-ENV COMPOSER_VERSION=2.0.0
-
-RUN \
-    cd /tmp \
-    && wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/download/${COMPOSER_VERSION}/composer.phar \
-    && chmod 777 composer.phar \
-    && mv composer.phar /usr/local/bin/composer \
-    && mkdir /root/.composer \
-    && echo '{}' > /root/.composer/composer.json
 
 # Install xdebug
 ENV XDEBUG_VERSION=2.7.2
@@ -250,6 +233,22 @@ RUN \
     && docker-php-ext-enable ip2region \
     && echo 'ip2region.db_file=/usr/local/lib/php/extensions/ip2region.db' >> /usr/local/etc/php/conf.d/docker-php-ext-ip2region.ini \
     && rm -rf /tmp/v${IP2REGION_VERSION}.tar.gz /tmp/ip2region-${IP2REGION_VERSION}
+
+# Install nghttp2
+ENV NGHTTP2_VERSION=1.42.0
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/tatsuhiro-t/nghttp2/archive/v${NGHTTP2_VERSION}.tar.gz \
+    && tar xzf v${NGHTTP2_VERSION}.tar.gz \
+    && cd nghttp2-${NGHTTP2_VERSION} \
+    && autoreconf -i \
+    && automake \
+    && autoconf \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -rf /tmp/v${NGHTTP2_VERSION}.tar.gz /tmp/nhttp2-${NGHTTP2_VERSION}
 
 VOLUME /data-php7
 
