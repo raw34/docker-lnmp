@@ -15,12 +15,12 @@ RUN \
 # Install PHP-FPM extensions
 RUN \
     mv /etc/apk/repositories /etc/apk/repositories.bak \
-    # echo "http://mirror.tuna.tsinghua.edu.cn/alpine/latest-stable/main/" >> /etc/apk/repositories && \
-    # echo "http://mirrors.ustc.edu.cn/alpine/latest-stable/main/" >> /etc/apk/repositories && \
-    && echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" >> /etc/apk/repositories
+     && echo "http://mirror.tuna.tsinghua.edu.cn/alpine/latest-stable/main/" >> /etc/apk/repositories
+#    && echo "http://mirrors.ustc.edu.cn/alpine/latest-stable/main/" >> /etc/apk/repositories
+#    && echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" >> /etc/apk/repositories
 
 RUN \
-    apk add --update \
+    apk add --update --no-cache \
     autoconf \
     automake \
     bash \
@@ -44,8 +44,7 @@ RUN \
     re2c \
     sshpass \
     supervisor \
-    tzdata \
-    && rm -rf /var/cache/apk/*
+    tzdata
 
 RUN \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
