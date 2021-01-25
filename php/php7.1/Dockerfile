@@ -25,7 +25,6 @@ RUN \
     automake \
     bash \
     busybox-extras \
-    curl-dev \
     freetype-dev \
     gcc \
     gdb \
@@ -36,9 +35,9 @@ RUN \
     openssh \
     openssl-dev \
     libc-dev \
-    libcurl \
     libjpeg-turbo-dev \
     libpng-dev \
+    libtool \
     linux-headers \
     make \
     re2c \
@@ -60,6 +59,35 @@ RUN \
 # Set timezone
 RUN \
     echo "Asia/Shanghai" > /etc/timezone
+
+# Install nghttp2
+ENV NGHTTP2_VERSION=1.42.0
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/tatsuhiro-t/nghttp2/archive/v${NGHTTP2_VERSION}.tar.gz \
+    && tar xzf v${NGHTTP2_VERSION}.tar.gz \
+    && cd nghttp2-${NGHTTP2_VERSION} \
+    && autoreconf -i \
+    && automake \
+    && autoconf \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -rf /tmp/v${NGHTTP2_VERSION}.tar.gz /tmp/nhttp2-${NGHTTP2_VERSION}
+
+#Install curl
+ENV CURL_VERSION=7.72.0
+
+RUN \
+    cd /tmp \
+    && wget https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz \
+    && tar xvfz curl-${CURL_VERSION}.tar.gz \
+    && cd curl-${CURL_VERSION} \
+    && ./configure --with-nghttp2=/usr/local --with-ssl \
+    && make \
+    && make install \
+    && rm -rf /tmp/v${CURL_VERSION}.tar.gz /tmp/curl-${CURL_VERSION}
 
 # Install php-composer
 ENV COMPOSER_VERSION=2.0.0
@@ -232,22 +260,6 @@ RUN \
     && docker-php-ext-enable ip2region \
     && echo 'ip2region.db_file=/usr/local/lib/php/extensions/ip2region.db' >> /usr/local/etc/php/conf.d/docker-php-ext-ip2region.ini \
     && rm -rf /tmp/v${IP2REGION_VERSION}.tar.gz /tmp/ip2region-${IP2REGION_VERSION}
-
-# Install nghttp2
-ENV NGHTTP2_VERSION=1.42.0
-
-RUN \
-    cd /tmp \
-    && wget https://github.com/tatsuhiro-t/nghttp2/archive/v${NGHTTP2_VERSION}.tar.gz \
-    && tar xzf v${NGHTTP2_VERSION}.tar.gz \
-    && cd nghttp2-${NGHTTP2_VERSION} \
-    && autoreconf -i \
-    && automake \
-    && autoconf \
-    && ./configure \
-    && make \
-    && make install \
-    && rm -rf /tmp/v${NGHTTP2_VERSION}.tar.gz /tmp/nhttp2-${NGHTTP2_VERSION}
 
 VOLUME /data-php7
 
