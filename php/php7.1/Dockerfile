@@ -201,6 +201,56 @@ RUN \
     && composer install -vvv --no-dev \
     && rm -rf /data-php7/v${XGUI_VERSION}.tar.gz
 
+# Install yac
+ENV YAC_VERSION=2.2.1
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/laruence/yac/archive/yac-${YAC_VERSION}.tar.gz \
+    && tar xzf yac-${YAC_VERSION}.tar.gz \
+    && cd yac-yac-${YAC_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable yac \
+    && rm -rf /tmp/yac-${YAC_VERSION}.tar.gz /tmp/yac-yac-${YAC_VERSION}
+
+# Install zookeeper
+ENV ZOOKEEPER_VERSION=0.6.4
+
+RUN \
+    cd /tmp \
+    && echo "http://mirrors.tuna.tsinghua.edu.cn/alpine/edge/testing" >> /etc/apk/repositories \
+    && apk add libzookeeper-dev \
+    && wget https://github.com/php-zookeeper/php-zookeeper/archive/v${ZOOKEEPER_VERSION}.tar.gz \
+    && tar xzf v${ZOOKEEPER_VERSION}.tar.gz \
+    && cd php-zookeeper-${ZOOKEEPER_VERSION} \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable zookeeper \
+    && rm -rf /tmp/v${ZOOKEEPER_VERSION}.tar.gz /tmp/php-zookeeper-${ZOOKEEPER_VERSION}
+
+# Install ip2region
+ENV IP2REGION_VERSION=2.2.0-release
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/lionsoul2014/ip2region/archive/v${IP2REGION_VERSION}.tar.gz \
+    && tar xzf v${IP2REGION_VERSION}.tar.gz \
+    && cp ip2region-${IP2REGION_VERSION}/data/ip2region.db /usr/local/lib/php/extensions \
+    && cp ip2region-${IP2REGION_VERSION}/binding/c/* ip2region-${IP2REGION_VERSION}/binding/php7_ext/lib \
+    && cd ip2region-${IP2REGION_VERSION}/binding/php7_ext \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable ip2region \
+    && echo 'ip2region.db_file=/usr/local/lib/php/extensions/ip2region.db' >> /usr/local/etc/php/conf.d/docker-php-ext-ip2region.ini \
+    && rm -rf /tmp/v${IP2REGION_VERSION}.tar.gz /tmp/ip2region-${IP2REGION_VERSION}
+
 VOLUME /data-php7
 
 # Configure PHP-FPM
