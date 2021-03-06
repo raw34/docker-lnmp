@@ -175,3 +175,16 @@ services:
             - php7-fpm
         links:
             - php7-fpm
+
+### sonarqube
+    sonarqube:
+        image: raw34/sonarqube
+        container_name:
+            docker_sonarqube_1
+        ports:
+            - "9000:9000"
+        environment:
+            SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: 1
+        volumes:
+            - $PATH_WWW_LOG/sonarqube:/opt/sonarqube/logs
+            - $PATH_WWW_DATA/sonarqube:/opt/sonarqube/data
