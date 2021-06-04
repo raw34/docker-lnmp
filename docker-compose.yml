@@ -19,21 +19,21 @@ services:
             - $PATH_WWW_DATA/mysql:/var/lib/mysql
             - $PATH_WWW_LOG/mysql:/var/log/mysql
 
-### mongo
-#    mongo:
-#        image: mongo:3.6-stretch
-#        container_name:
-#            docker_mongo_1
-#        ports:
-#            - "27017:27017"
-#        environment:
-#            MONGO_INITDB_ROOT_USERNAME: "root"
-#            MONGO_INITDB_ROOT_PASSWORD: "123456"
-#        volumes:
-#            - ./mongo/mongod.conf:/etc/mongod.conf.orig
-#            - $PATH_WWW_DATA/mongo/db:/data/db
-#            - $PATH_WWW_DATA/mongo/configdb:/data/configdb
-#            - $PATH_WWW_LOG/mongodb:/var/log/mongodb
+## mongo
+    mongo:
+        image: mongo:3.6-stretch
+        container_name:
+            docker_mongo_1
+        ports:
+            - "27017:27017"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: "root"
+            MONGO_INITDB_ROOT_PASSWORD: "123456"
+        volumes:
+            - ./mongo/mongod.conf:/etc/mongod.conf.orig
+            - $PATH_WWW_DATA/mongo/db:/data/db
+            - $PATH_WWW_DATA/mongo/configdb:/data/configdb
+            - $PATH_WWW_LOG/mongodb:/var/log/mongodb
 
 ### mongo-express
 #    mongo-express:
