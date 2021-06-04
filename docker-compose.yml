@@ -146,7 +146,7 @@ services:
             - /tmp:/tmp
         links:
             - mysql
-#            - mongo
+            - mongo
             - redis
 #            - kafka
 #            - rabbitmq
