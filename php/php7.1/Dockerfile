@@ -38,6 +38,7 @@ RUN \
     libjpeg-turbo-dev \
     libpng-dev \
     libtool \
+    libxml2-dev \
     linux-headers \
     make \
     re2c \
@@ -54,6 +55,7 @@ RUN \
     && docker-php-ext-install pcntl \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install soap \
     && docker-php-ext-install zip
 
 # Set timezone
