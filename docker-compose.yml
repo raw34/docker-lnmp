@@ -171,7 +171,8 @@ services:
             - ./nginx/php7-xhgui.conf:/usr/local/openresty/nginx/conf/vhost.d/php7-xhgui.conf
             - $PATH_WWW_ETC/nginx/sites-available:/usr/local/openresty/nginx/conf/vhost.d
             - $PATH_WWW_LOG/nginx:/var/log/nginx
-        volumes_from:
-            - php7-fpm
+            - $PATH_WWW_ROOT/repo:/www
+#        volumes_from:
+#            - php7-fpm
         links:
             - php7-fpm
