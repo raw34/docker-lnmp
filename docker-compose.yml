@@ -46,6 +46,16 @@ services:
 #            ME_CONFIG_MONGODB_ADMINUSERNAME: "root"
 #            ME_CONFIG_MONGODB_ADMINPASSWORD: "123456"
 #        restart: always
+## cassandra
+    cassandra:
+        image: cassandra:4.0
+        container_name:
+            docker_cassandra_1
+        ports:
+            - "9042:9042"
+        volumes:
+            - $PATH_WWW_DATA/cassandra:/var/lib/cassandra
+            - $PATH_WWW_LOG/cassandra:/var/log/cassandra
 
 ### redis
     redis:
