@@ -67,7 +67,7 @@ services:
         volumes:
             - ./redis/redis.conf:/etc/redis/redis.conf
             - $PATH_WWW_DATA/redis:/data
-        command: redis-server --requirepass 123456
+        command: redis-server /etc/redis/redis.conf
 
 ### rabbitmq
     rabbitmq:
