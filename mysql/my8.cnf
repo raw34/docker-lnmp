@@ -20,6 +20,7 @@
 # http://dev.mysql.com/doc/mysql/en/server-system-variables.html
 
 [mysqld]
+default_authentication_plugin=mysql_native_password
 bind-address=0.0.0.0
 character_set_server=utf8mb4
 character_set_filesystem=utf8
@@ -43,3 +44,4 @@ secure-file-priv= NULL
 
 # Custom config should go here
 !includedir /etc/mysql/conf.d/
+
