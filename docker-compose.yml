@@ -132,60 +132,60 @@ services:
 #        links:
 #            - zookeeper
 
-#### php7-fpm
-#    php7-fpm:
-##        image: raw34/php7-fpm
-#        image: raw34/php7.1-fpm
-##        image: raw34/php7.2-fpm
-#        # build: ./php/php7
-#        # image: php:fpm
-#        container_name:
-#            docker_php7-fpm_1
-#        environment:
-#            MOLTEN_ENABLE: 0
-#            MOLTEN_TRACING_CLI: 0
-#            MOLTEN_SPAN_VERSION: v1
-#            MOLTEN_SPAN_FORMAT: zipkin
-#            MOLTEN_SINK_TYPE: 1
-#            MOLTEN_SINK_HOST: zipkin
-#        volumes:
-#            - ./php/php7.ini:/usr/local/etc/php/php.ini
-#            - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
-#            - $PATH_WWW_LOG/php:/var/log/php
-#            - $PATH_WWW_ROOT/repo:/www
-#            - $PATH_WWW_DATA/alidata:/alidata
-#            - ~/.composer:/root/.composer
-#            - ~/.ssh:/root/.ssh
-#            - /tmp:/tmp
-#        links:
-#            - mysql
+### php7-fpm
+    php7-fpm:
+#        image: raw34/php7-fpm
+        image: raw34/php7.1-fpm
+#        image: raw34/php7.2-fpm
+        # build: ./php/php7
+        # image: php:fpm
+        container_name:
+            docker_php7-fpm_1
+        environment:
+            MOLTEN_ENABLE: 0
+            MOLTEN_TRACING_CLI: 0
+            MOLTEN_SPAN_VERSION: v1
+            MOLTEN_SPAN_FORMAT: zipkin
+            MOLTEN_SINK_TYPE: 1
+            MOLTEN_SINK_HOST: zipkin
+        volumes:
+            - ./php/php7.ini:/usr/local/etc/php/php.ini
+            - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
+            - $PATH_WWW_LOG/php:/var/log/php
+            - $PATH_WWW_ROOT/repo:/www
+            - $PATH_WWW_DATA/alidata:/alidata
+            - ~/.composer:/root/.composer
+            - ~/.ssh:/root/.ssh
+            - /tmp:/tmp
+        links:
+            - mysql
 #            - mongo
-#            - redis
-##            - kafka
-##            - rabbitmq
-##            - elasticsearch
-#
-#### nginx
-#    nginx:
-##        image: nginx:alpine
-#        image: raw34/nginx
-#        container_name:
-#            docker_nginx_1
-#        ports:
-#            - "80:80"
-#            - "433:433"
-#        volumes:
-##            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-##            - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
-##            - ./nginx/php7-xhgui.conf:/etc/nginx/sites-available/php7-xhgui.conf
-##            - $PATH_WWW_ETC/nginx/sites-available:/etc/nginx/sites-available
-#            - ./nginx/openresty.conf:/usr/local/openresty/nginx/conf/nginx.conf
-#            - ./nginx/php7-localhost.conf:/usr/local/openresty/nginx/conf/vhost.d/php7-localhost.conf
-#            - ./nginx/php7-xhgui.conf:/usr/local/openresty/nginx/conf/vhost.d/php7-xhgui.conf
-#            - $PATH_WWW_ETC/nginx/sites-available:/usr/local/openresty/nginx/conf/vhost.d
-#            - $PATH_WWW_LOG/nginx:/var/log/nginx
-#            - $PATH_WWW_ROOT/repo:/www
-##        volumes_from:
-##            - php7-fpm
-#        links:
+            - redis
+#            - kafka
+#            - rabbitmq
+#            - elasticsearch
+
+### nginx
+    nginx:
+#        image: nginx:alpine
+        image: raw34/nginx
+        container_name:
+            docker_nginx_1
+        ports:
+            - "80:80"
+            - "433:433"
+        volumes:
+#            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+#            - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
+#            - ./nginx/php7-xhgui.conf:/etc/nginx/sites-available/php7-xhgui.conf
+#            - $PATH_WWW_ETC/nginx/sites-available:/etc/nginx/sites-available
+            - ./nginx/openresty.conf:/usr/local/openresty/nginx/conf/nginx.conf
+            - ./nginx/php7-localhost.conf:/usr/local/openresty/nginx/conf/vhost.d/php7-localhost.conf
+            - ./nginx/php7-xhgui.conf:/usr/local/openresty/nginx/conf/vhost.d/php7-xhgui.conf
+            - $PATH_WWW_ETC/nginx/sites-available:/usr/local/openresty/nginx/conf/vhost.d
+            - $PATH_WWW_LOG/nginx:/var/log/nginx
+            - $PATH_WWW_ROOT/repo:/www
+#        volumes_from:
 #            - php7-fpm
+        links:
+            - php7-fpm
