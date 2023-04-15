@@ -5,3 +5,4 @@ cscope.*
 ncscope.*
 tags
 .idea/
+.env
