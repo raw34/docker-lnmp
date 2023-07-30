@@ -70,6 +70,19 @@ echo 'alias dmysql="docker exec -it docker_mysql_1 /bin/bash"' >> ${SHELL_PROFIL
 && source ${SHELL_PROFILE}
 ```
 
+# 常用命令使用
+- 启动环境：docker-compose up -d
+- 停止环境：docker-compose down
+- 重启环境：docker-compose restart
+- 登录mysql容器：dmysql
+- 登录redis容器：dredis
+- 登录kafka容器：dkafka
+- 登录rabbitmq容器：drabbitmq
+- 登录elasticsearch容器：delastic
+- 登录php5容器：dphp5
+- 登录php7容器：dphp7
+- 登录nginx容器：dnginx
+
 # Demo项目安装
 ## nginx配置
 ```
@@ -170,19 +183,6 @@ location ~ \.php$ {
     #fastcgi_param PHP_VALUE "auto_prepend_file=/data-php7/xhgui/external/header.php";#php7项目
 }
 ```
-
-# 常用命令列表
-- 启动环境：docker-compose up -d
-- 停止环境：docker-compose down
-- 重启环境：docker-compose restart
-- 登录mysql容器：dmysql
-- 登录redis容器：dredis
-- 登录kafka容器：dkafka
-- 登录rabbitmq容器：drabbitmq
-- 登录elasticsearch容器：delastic
-- 登录php5容器：dphp5
-- 登录php7容器：dphp7
-- 登录nginx容器：dnginx
 
 # Q&A
 - 如何修改默认目录
