@@ -116,7 +116,7 @@ services:
 
 ## clickhouse
     clickhouse-server:
-        image: clickhouse/clickhouse-server:alpine
+        image: clickhouse/clickhouse-server:23-alpine
         container_name:
             docker_clickhouse_1
         restart: always
