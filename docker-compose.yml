@@ -122,7 +122,6 @@ services:
         restart: always
         environment:
             CLICKHOUSE_USER: "root"
-            CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "${CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT}"
             CLICKHOUSE_PASSWORD: $PASSWORD
         ports:
             - "8123:8123"
