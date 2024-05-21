@@ -56,7 +56,7 @@ services:
 #            - "9042:9042"
 #        environment:
 #            CASSANDRA_USER: "cassandra"
-#            CASSANDRA_PASSWORD: "cassandra"
+#            CASSANDRA_PASSWORD: $PASSWORD
 #        volumes:
 #            - ./cassandra/cassandra.yaml:/etc/cassandra/cassandra.yaml
 #            - $PATH_WWW_DATA/cassandra:/var/lib/cassandra
@@ -114,6 +114,23 @@ services:
 #        ports:
 #        - "9100:9100"
 
+## clickhouse
+    clickhouse-server:
+        image: clickhouse/clickhouse-server:alpine
+        container_name:
+            docker_clickhouse_1
+        restart: always
+        environment:
+            CLICKHOUSE_USER: "root"
+            CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "${CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT}"
+            CLICKHOUSE_PASSWORD: $PASSWORD
+        ports:
+            - "8123:8123"
+            - "9000:9000"
+            - "9004:9004"
+        volumes:
+            - $PATH_WWW_DATA/clickhouse/data:/var/lib/clickhouse
+
 ## zookeeper
     zookeeper:
         image: zookeeper
@@ -136,6 +153,35 @@ services:
 #            - $PATH_WWW_lOG/kafka:/opt/kafka/logs
         depends_on:
             - zookeeper
+
+## nsq
+    nsqlookupd:
+        image: nsqio/nsq
+        container_name:
+            docker_nsqlookup_1
+        command: /nsqlookupd
+        ports:
+            - "4160:4160"
+            - "4161:4161"
+    nsqd:
+        image: nsqio/nsq
+        container_name:
+            docker_nsqd_1
+        command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+        depends_on:
+            - nsqlookupd
+        ports:
+            - "4150:4150"
+            - "4151:4151"
+    nsqadmin:
+        image: nsqio/nsq
+        container_name:
+            docker_nsqadmin_1
+        command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+        depends_on:
+            - nsqlookupd
+        ports:
+            - "4171:4171"
 
 ### php7-fpm
 #    php7-fpm:
