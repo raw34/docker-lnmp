@@ -4,36 +4,38 @@ services:
 
 ### mysql
     mysql:
-        image: mysql:5.6
+#        image: amd64/mysql:5.6
+#        image: amd64/mysql
+#        image: arm64v8/mysql
+        image: mysql:8.0
         container_name:
             docker_mysql_1
         ports:
             - "3306:3306"
         environment:
-            MYSQL_ROOT_PASSWORD: "123456"
+            MYSQL_ROOT_PASSWORD: $PASSWORD
             MYSQL_DATABASE: "test"
-#            MYSQL_USER: "root"
-#            MYSQL_PASSWORD: "123456"
         volumes:
-            - ./mysql/my.cnf:/etc/mysql/my.cnf
+#            - ./mysql/my5.cnf:/etc/mysql/my.cnf
+            - ./mysql/my8.cnf:/etc/mysql/my.cnf
             - $PATH_WWW_DATA/mysql:/var/lib/mysql
             - $PATH_WWW_LOG/mysql:/var/log/mysql
 
-## mongo
-    mongo:
-        image: mongo:3.6-stretch
-        container_name:
-            docker_mongo_1
-        ports:
-            - "27017:27017"
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: "root"
-            MONGO_INITDB_ROOT_PASSWORD: "123456"
-        volumes:
-            - ./mongo/mongod.conf:/etc/mongod.conf.orig
-            - $PATH_WWW_DATA/mongo/db:/data/db
-            - $PATH_WWW_DATA/mongo/configdb:/data/configdb
-            - $PATH_WWW_LOG/mongodb:/var/log/mongodb
+### mongo
+#    mongo:
+#        image: mongo:latest
+#        container_name:
+#            docker_mongo_1
+#        ports:
+#            - "27017:27017"
+#        environment:
+#            MONGO_INITDB_ROOT_USERNAME: "root"
+#            MONGO_INITDB_ROOT_PASSWORD: $PASSWORD
+#        volumes:
+#            - ./mongo/mongod.conf:/etc/mongod.conf.orig
+#            - $PATH_WWW_DATA/mongo/db:/data/db
+#            - $PATH_WWW_DATA/mongo/configdb:/data/configdb
+#            - $PATH_WWW_LOG/mongodb:/var/log/mongodb
 
 ### mongo-express
 #    mongo-express:
@@ -44,18 +46,22 @@ services:
 #            - "8081:8081"
 #        environment:
 #            ME_CONFIG_MONGODB_ADMINUSERNAME: "root"
-#            ME_CONFIG_MONGODB_ADMINPASSWORD: "123456"
+#            ME_CONFIG_MONGODB_ADMINPASSWORD: $PASSWORD
 #        restart: always
-## cassandra
-    cassandra:
-        image: cassandra:4.0
-        container_name:
-            docker_cassandra_1
-        ports:
-            - "9042:9042"
-        volumes:
-            - $PATH_WWW_DATA/cassandra:/var/lib/cassandra
-            - $PATH_WWW_LOG/cassandra:/var/log/cassandra
+### cassandra
+#    cassandra:
+#        image: cassandra:latest
+#        container_name:
+#            docker_cassandra_1
+#        ports:
+#            - "9042:9042"
+#        environment:
+#            CASSANDRA_USER: "cassandra"
+#            CASSANDRA_PASSWORD: $PASSWORD
+#        volumes:
+#            - ./cassandra/cassandra.yaml:/etc/cassandra/cassandra.yaml
+#            - $PATH_WWW_DATA/cassandra:/var/lib/cassandra
+#            - $PATH_WWW_LOG/cassandra:/var/log/cassandra
 
 ### redis
     redis:
@@ -67,14 +73,17 @@ services:
         volumes:
             - ./redis/redis.conf:/etc/redis/redis.conf
             - $PATH_WWW_DATA/redis:/data
-        command: redis-server --requirepass 123456
+        command: redis-server /etc/redis/redis.conf
 
-#### rabbitmq
+### rabbitmq
 #    rabbitmq:
 #        image: rabbitmq:management-alpine
 #        container_name:
 #            docker_rabbitmq_1
 #        ports:
+#            - "5671:5671"
+#            - "5672:5672"
+#            - "15671:15671"
 #            - "15672:15672"
 #        volumes:
 #            - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
@@ -106,83 +115,128 @@ services:
 #        ports:
 #        - "9100:9100"
 
-#### zookeeper
-#    zookeeper:
-#        image: zookeeper
-#        container_name:
-#          docker_zookeeper_1
-#        ports:
-#            - "2181:2181"
-#### kafka
-#    kafka:
-#        image: wurstmeister/kafka
-#        container_name:
-#            docker_kafka_1
-#        ports:
-#            - "9092:9092"
-#        environment:
-#            KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
-#            KAFKA_ADVERTISED_PORT: 9092
-#            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+## clickhouse
+    clickhouse-server:
+        image: clickhouse/clickhouse-server:23-alpine
+        container_name:
+            docker_clickhouse_1
+        restart: always
+        environment:
+            CLICKHOUSE_USER: "root"
+            CLICKHOUSE_PASSWORD: $PASSWORD
+        ports:
+            - "8123:8123"
+            - "9000:9000"
+            - "9004:9004"
+        volumes:
+            - $PATH_WWW_DATA/clickhouse/data:/var/lib/clickhouse
+
+## zookeeper
+    zookeeper:
+        image: zookeeper
+        container_name:
+          docker_zookeeper_1
+        ports:
+            - "2181:2181"
+## kafka
+    kafka:
+        image: ubuntu/kafka
+        container_name:
+            docker_kafka_1
+        ports:
+            - "9092:9092"
+        environment:
+            ZOOKEEPER_HOST: zookeeper
+            ZOOKEEPER_PORT: 2181
 #        volumes:
-#            - /var/run/docker.sock:/var/run/docker.sock
-#        links:
-#            - zookeeper
+#            - $PATH_WWW_DATA/kafka:/tmp/kafka-logs
+#            - $PATH_WWW_lOG/kafka:/opt/kafka/logs
+        depends_on:
+            - zookeeper
+
+## nsq
+    nsqlookupd:
+        image: nsqio/nsq
+        container_name:
+            docker_nsqlookup_1
+        command: /nsqlookupd
+        ports:
+            - "4160:4160"
+            - "4161:4161"
+    nsqd:
+        image: nsqio/nsq
+        container_name:
+            docker_nsqd_1
+        command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+        depends_on:
+            - nsqlookupd
+        ports:
+            - "4150:4150"
+            - "4151:4151"
+    nsqadmin:
+        image: nsqio/nsq
+        container_name:
+            docker_nsqadmin_1
+        command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+        depends_on:
+            - nsqlookupd
+        ports:
+            - "4171:4171"
 
 ### php7-fpm
-    php7-fpm:
-#        image: raw34/php7-fpm
-        image: raw34/php7.1-fpm
-#        image: raw34/php7.2-fpm
-        # build: ./php/php7
-        # image: php:fpm
-        container_name:
-            docker_php7-fpm_1
-        environment:
-            MOLTEN_ENABLE: 0
-            MOLTEN_TRACING_CLI: 0
-            MOLTEN_SPAN_VERSION: v1
-            MOLTEN_SPAN_FORMAT: zipkin
-            MOLTEN_SINK_TYPE: 1
-            MOLTEN_SINK_HOST: zipkin
-        volumes:
-            - ./php/php7.ini:/usr/local/etc/php/php.ini
-            - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
-            - $PATH_WWW_LOG/php:/var/log/php
-            - $PATH_WWW_ROOT/repo:/www
-            - $PATH_WWW_DATA/alidata:/alidata
-            - ~/.composer:/root/.composer
-            - ~/.ssh:/root/.ssh
-            - /tmp:/tmp
-        links:
-            - mysql
-            - mongo
-            - redis
-#            - kafka
-#            - rabbitmq
-#            - elasticsearch
+#    php7-fpm:
+##        image: raw34/php7-fpm
+#        image: raw34/php7.1-fpm
+##        image: raw34/php7.2-fpm
+#        # build: ./php/php7
+#        # image: php:fpm
+#        container_name:
+#            docker_php7-fpm_1
+#        environment:
+#            MOLTEN_ENABLE: 0
+#            MOLTEN_TRACING_CLI: 0
+#            MOLTEN_SPAN_VERSION: v1
+#            MOLTEN_SPAN_FORMAT: zipkin
+#            MOLTEN_SINK_TYPE: 1
+#            MOLTEN_SINK_HOST: zipkin
+#        volumes:
+#            - ./php/php7.ini:/usr/local/etc/php/php.ini
+#            - ./php/php7-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
+#            - $PATH_WWW_LOG/php:/var/log/php
+#            - $PATH_WWW_ROOT/repo:/www
+#            - $PATH_WWW_DATA/alidata:/alidata
+#            - ~/.composer:/root/.composer
+#            - ~/.ssh:/root/.ssh
+#            - /tmp:/tmp
+#        links:
+#            - mysql
+##            - mongo
+#            - redis
+##            - kafka
+##            - rabbitmq
+##            - elasticsearch
 
 ### nginx
-    nginx:
-#        image: nginx:alpine
-        image: raw34/nginx
-        container_name:
-            docker_nginx_1
-        ports:
-            - "80:80"
-            - "433:433"
-        volumes:
-#            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-#            - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
-#            - ./nginx/php7-xhgui.conf:/etc/nginx/sites-available/php7-xhgui.conf
-#            - $PATH_WWW_ETC/nginx/sites-available:/etc/nginx/sites-available
-            - ./nginx/openresty.conf:/usr/local/openresty/nginx/conf/nginx.conf
-            - ./nginx/php7-localhost.conf:/usr/local/openresty/nginx/conf/vhost.d/php7-localhost.conf
-            - ./nginx/php7-xhgui.conf:/usr/local/openresty/nginx/conf/vhost.d/php7-xhgui.conf
-            - $PATH_WWW_ETC/nginx/sites-available:/usr/local/openresty/nginx/conf/vhost.d
-            - $PATH_WWW_LOG/nginx:/var/log/nginx
-            - $PATH_WWW_ROOT/repo:/www
-#        volumes_from:
+#    nginx:
+##        image: nginx:alpine
+#        image: raw34/nginx
+#        container_name:
+#            docker_nginx_1
+#        ports:
+#            - "80:80"
+#            - "433:433"
+#        volumes:
+##            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+##            - ./nginx/php7-localhost.conf:/etc/nginx/sites-available/php7-localhost.conf
+##            - ./nginx/php7-xhgui.conf:/etc/nginx/sites-available/php7-xhgui.conf
+##            - $PATH_WWW_ETC/nginx/sites-available:/etc/nginx/sites-available
+#            - ./nginx/openresty.conf:/usr/local/openresty/nginx/conf/nginx.conf
+#            - ./nginx/php7-localhost.conf:/usr/local/openresty/nginx/conf/vhost.d/php7-localhost.conf
+#            - ./nginx/php7-xhgui.conf:/usr/local/openresty/nginx/conf/vhost.d/php7-xhgui.conf
+#            - $PATH_WWW_ETC/nginx/sites-available:/usr/local/openresty/nginx/conf/vhost.d
+#            - $PATH_WWW_LOG/nginx:/var/log/nginx
+#            - $PATH_WWW_ROOT/repo:/www
+##        volumes_from:
+##            - php7-fpm
+#        links:
 #            - php7-fpm
-        links:
-            - php7-fpm
